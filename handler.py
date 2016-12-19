@@ -3,6 +3,7 @@
 
 import tornado.web
 import json
+import requests
 
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
