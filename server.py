@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import tornado.ioloop
-import json
 from handler import WebHookHandler
 
 application = tornado.web.Application([

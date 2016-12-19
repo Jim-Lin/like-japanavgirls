@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tornado.web
+import json
 
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
