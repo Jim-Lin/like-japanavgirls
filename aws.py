@@ -41,8 +41,22 @@ class AWS:
                     },
                     ExternalImageId = actress.get("id")
                 )
-
                 print response
+
+    def search_face(self, img_bytes):
+        response = self.rekognition.search_faces_by_image(
+            CollectionId = self.collection,
+            Image = {'Bytes': img_bytes},
+            MaxFaces = 1,
+            FaceMatchThreshold = 0.5
+        )
+        print response
+
+        if len(response["FaceMatches"]) != 0:
+            external_image_id = response["FaceMatches"][0]["Face"]["ExternalImageId"]
+            confidence = response["FaceMatches"][0]["Face"]["Confidence"]
+            print external_image_id
+            print confidence
 
     def __contains_face(self, list, filter):
         for x in list:
