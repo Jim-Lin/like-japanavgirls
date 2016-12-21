@@ -4,10 +4,15 @@
 import tornado.web
 import json
 import requests
+import re
+import urllib2
+from aws import AWS
 
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
     page_access_token = <PAGE_ACCESS_TOKEN>
+
+    aws = AWS()
 
     def get(self):
         if self.get_argument("hub.verify_token", "") == self.verify_token:
@@ -32,9 +37,20 @@ class WebHookHandler(tornado.web.RequestHandler):
             if ("message" in event and "attachments" in event["message"]):
                 attachments = event["message"]["attachments"];
                 print attachments
-                
+
                 if attachments[0]["type"] == "image":
                     print attachments[0]["payload"]["url"]
+
+                    pattern = re.compile("https://(.*)/(.*)\?(.*)")
+                    match = pattern.search(attachments[0]["payload"]["url"])
+                    img_name = match.group(2)
+                    print img_name
+
+                    img_bytes = urllib2.urlopen(attachments[0]["payload"]["url"])
+                    self.aws.search_face(img_bytes)
+                    f = open(r"/var/www/like-av.xyz/images/" + img_name,'wb')
+                    f.write(img_bytes).read())
+                    f.close()
 
     def sendTextMessage(self, sender, text):
         if len(text) <= 0:
