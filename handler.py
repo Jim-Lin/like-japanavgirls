@@ -17,8 +17,10 @@ class WebHookHandler(tornado.web.RequestHandler):
 
     def post(self):
         print "receive!"
+
         data = json.loads(self.request.body)
         print data
+
         messaging_events = data["entry"][0]["messaging"]
         text = ""
         for event in messaging_events:
@@ -26,6 +28,13 @@ class WebHookHandler(tornado.web.RequestHandler):
             if ("message" in event and "text" in event["message"]):
                 text = event["message"]["text"];
                 self.sendTextMessage(sender, text)
+
+            if ("message" in event and "attachments" in event["message"]):
+                attachments = event["message"]["attachments"];
+                print attachments
+                
+                if attachments[0]["type"] == "image":
+                    print attachments[0]["payload"]["url"]
 
     def sendTextMessage(self, sender, text):
         if len(text) <= 0:
@@ -35,7 +44,7 @@ class WebHookHandler(tornado.web.RequestHandler):
         headers = {'content-type': 'application/json'}
         data = {
             "recipient": {"id": sender},
-            "message": {"text": "echo: " + text}
+            "message": {"text": "給我正妹圖片"}
         }
         params = {"access_token": self.page_access_token}
 
