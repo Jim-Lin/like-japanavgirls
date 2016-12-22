@@ -48,7 +48,7 @@ class WebHookHandler(tornado.web.RequestHandler):
 
                     img_bytes = urllib2.urlopen(img_url).read()
                     result = self.aws.search_face(img_bytes)
-                    if result is not None:
+                    if result is None:
                         self.sendTextMessage(sender, "不是正妹所以找不到")
                     else:
                         pattern = re.compile("https://(.*)/(.*)\?(.*)")
@@ -72,7 +72,7 @@ class WebHookHandler(tornado.web.RequestHandler):
         }
         params = {"access_token": self.page_access_token}
 
-        r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.headers)
+        r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.api_headers)
 
     def sendImageMessage(self, sender, result):
         actress = self.dao.get_actress_by_id(result.get("id"))
@@ -113,4 +113,4 @@ class WebHookHandler(tornado.web.RequestHandler):
         }
         params = {"access_token": self.page_access_token}
 
-        r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.headers)
+        r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.api_headers)
