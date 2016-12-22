@@ -56,7 +56,7 @@ class AWS:
             similarity = response["FaceMatches"][0]["Similarity"]
             print external_image_id
             print confidence
-            return {"id": external_image_id, "similarity", similarity}
+            return {"id": external_image_id, "similarity": similarity}
 
 
     def __contains_face(self, list, filter):
