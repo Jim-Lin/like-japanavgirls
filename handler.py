@@ -95,7 +95,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                     {
                         "title": actress.get("name"),
                         "image_url": actress.get("img"),
-                        "subtitle": "↑↑↑ 壓我 ↑↑↑\n　\n相似度: " + str(round(face.get("similarity"), 2)) + "%",
+                        "subtitle": "相似度: " + str(round(face.get("similarity"), 2)) + "%",
                         "default_action": {
                           "type": "web_url",
                           "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
@@ -103,6 +103,11 @@ class WebHookHandler(tornado.web.RequestHandler):
                           "webview_height_ratio": "compact"
                         },
                         "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
+                                "title": "去買片"
+                            },
                             {
                                 "type": "postback",
                                 "title": "O 覺得像",
