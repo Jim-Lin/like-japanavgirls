@@ -47,16 +47,17 @@ class AWS:
         response = self.rekognition.search_faces_by_image(
             CollectionId = self.collection,
             Image = {'Bytes': img_bytes},
-            MaxFaces = 1,
-            FaceMatchThreshold = 0.5
+            MaxFaces = 1
         )
         print response
 
         if len(response["FaceMatches"]) != 0:
             external_image_id = response["FaceMatches"][0]["Face"]["ExternalImageId"]
-            confidence = response["FaceMatches"][0]["Face"]["Confidence"]
+            similarity = response["FaceMatches"][0]["Similarity"]
             print external_image_id
             print confidence
+            return {"id": external_image_id, "similarity", similarity}
+
 
     def __contains_face(self, list, filter):
         for x in list:
