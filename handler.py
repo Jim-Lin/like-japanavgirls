@@ -60,6 +60,8 @@ class WebHookHandler(tornado.web.RequestHandler):
                         f.write(img_bytes)
                         f.close()
 
+                        self.sendImageMessage(sender, result)
+
     def sendTextMessage(self, sender, text):
         if len(text) <= 0:
           return
