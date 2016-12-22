@@ -65,7 +65,12 @@ class WebHookHandler(tornado.web.RequestHandler):
             if ("postback" in event and "payload" in event["postback"]):
                 payload = event["postback"]["payload"];
                 feedback = payload.split("_")
-                self.dao.update_one_actress_by_id(feedback[1], {feedback[0]: feedback[2]})
+                if feedback[0] == "O":
+                    ox = "like"
+                else:
+                    ox = "unlike"
+
+                self.dao.update_one_actress_by_id(feedback[1], ox, feedback[2])
                 self.sendTextMessage(sender, "感謝回饋")
 
     def sendTextMessage(self, sender, text):
@@ -81,7 +86,7 @@ class WebHookHandler(tornado.web.RequestHandler):
         r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.api_headers)
 
     def sendImageMessage(self, sender, face, img_name):
-        actress = self.dao.hgetall_actress_by_id(result.get("id"))
+        actress = self.dao.hgetall_actress_by_id(face.get("id"))
         attachment = {
             "type": "template",
             "payload": {
@@ -93,7 +98,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                         "subtitle": "↑↑↑ 壓我 ↑↑↑\n\n相似度: " + str(round(face.get("similarity"), 2)) + "%",
                         "default_action": {
                           "type": "web_url",
-                          # "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + result.get("id") + "/sort=date/",
+                          # "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
                           "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
                           "webview_height_ratio": "compact"
                         },
