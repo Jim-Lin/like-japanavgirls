@@ -17,3 +17,6 @@ class DAO:
         for actress in actresses:
             if not self.r.exists(actress.get("id")):
                 self.r.hmset(actress.get("id"), actress)
+
+    def get_actress_by_id(self, id):
+        return self.r.hget(id)
