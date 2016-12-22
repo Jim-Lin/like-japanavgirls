@@ -47,7 +47,8 @@ class AWS:
         response = self.rekognition.search_faces_by_image(
             CollectionId = self.collection,
             Image = {'Bytes': img_bytes},
-            MaxFaces = 1
+            MaxFaces = 1,
+            FaceMatchThreshold = 0.5
         )
         print response
 
@@ -55,7 +56,7 @@ class AWS:
             external_image_id = response["FaceMatches"][0]["Face"]["ExternalImageId"]
             similarity = response["FaceMatches"][0]["Similarity"]
             print external_image_id
-            print confidence
+            print similarity
             return {"id": external_image_id, "similarity": similarity}
 
 
