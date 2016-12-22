@@ -20,9 +20,9 @@ class WebHookHandler(tornado.web.RequestHandler):
 
     def get(self):
         if self.get_argument("hub.verify_token", "") == self.verify_token:
-            self.write(self.get_argument("hub.challenge", ""));
+            self.write(self.get_argument("hub.challenge", ""))
         else:
-            self.write('Error, wrong validation token');
+            self.write('Error, wrong validation token')
 
     def post(self):
         print "receive!"
@@ -33,13 +33,13 @@ class WebHookHandler(tornado.web.RequestHandler):
         messaging_events = data["entry"][0]["messaging"]
         text = ""
         for event in messaging_events:
-            sender = event["sender"]["id"];
+            sender = event["sender"]["id"]
             if ("message" in event and "text" in event["message"]):
-                text = event["message"]["text"];
+                text = event["message"]["text"]
                 self.sendTextMessage(sender, "給我正妹圖片")
 
             if ("message" in event and "attachments" in event["message"]):
-                attachments = event["message"]["attachments"];
+                attachments = event["message"]["attachments"]
                 print attachments
 
                 if attachments[0]["type"] == "image":
@@ -63,7 +63,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                         self.sendImageMessage(sender, result, img_name)
 
             if ("postback" in event and "payload" in event["postback"]):
-                payload = event["postback"]["payload"];
+                payload = event["postback"]["payload"]
                 feedback = payload.split("_")
                 if feedback[0] == "O":
                     ox = "like"
@@ -98,8 +98,8 @@ class WebHookHandler(tornado.web.RequestHandler):
                         "subtitle": "↑↑↑ 壓我 ↑↑↑\n\n相似度: " + str(round(face.get("similarity"), 2)) + "%",
                         "default_action": {
                           "type": "web_url",
-                          # "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
-                          "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
+                          "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
+                          # "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
                           "webview_height_ratio": "compact"
                         },
                         "buttons": [
