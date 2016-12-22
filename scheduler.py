@@ -10,7 +10,7 @@ if __name__ == "__main__":
     actresses = etl.get_monthly_ranking()
 
     dao = DAO()
-    dao.insert_actresses(actresses)
+    dao.hmset_actresses(actresses)
 
     aws = AWS()
     aws.insert_index_faces(actresses)
