@@ -7,12 +7,16 @@ import requests
 import re
 import urllib2
 from aws import AWS
+from dao import DAO
 
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
     page_access_token = <PAGE_ACCESS_TOKEN>
+    api_url = 'https://graph.facebook.com/v2.6/me/messages'
+    api_headers = {'content-type': 'application/json'}
 
     aws = AWS()
+    dao = DAO()
 
     def get(self):
         if self.get_argument("hub.verify_token", "") == self.verify_token:
@@ -32,36 +36,79 @@ class WebHookHandler(tornado.web.RequestHandler):
             sender = event["sender"]["id"];
             if ("message" in event and "text" in event["message"]):
                 text = event["message"]["text"];
-                self.sendTextMessage(sender, text)
+                self.sendTextMessage(sender, "給我正妹圖片")
 
             if ("message" in event and "attachments" in event["message"]):
                 attachments = event["message"]["attachments"];
                 print attachments
 
                 if attachments[0]["type"] == "image":
-                    print attachments[0]["payload"]["url"]
+                    img_url = attachments[0]["payload"]["url"]
+                    print img_url
 
-                    pattern = re.compile("https://(.*)/(.*)\?(.*)")
-                    match = pattern.search(attachments[0]["payload"]["url"])
-                    img_name = match.group(2)
-                    print img_name
+                    img_bytes = urllib2.urlopen(img_url).read()
+                    result = self.aws.search_face(img_bytes)
+                    if result is not None:
+                        self.sendTextMessage(sender, "不是正妹所以找不到")
+                    else:
+                        pattern = re.compile("https://(.*)/(.*)\?(.*)")
+                        match = pattern.search(img_url)
+                        img_name = match.group(2)
+                        print img_name
 
-                    img_bytes = urllib2.urlopen(attachments[0]["payload"]["url"])
-                    self.aws.search_face(img_bytes)
-                    f = open(r"/var/www/like-av.xyz/images/" + img_name,'wb')
-                    f.write(img_bytes).read())
-                    f.close()
+                        f = open(r"/var/www/like-av.xyz/images/" + img_name,'wb')
+                        f.write(img_bytes)
+                        f.close()
 
     def sendTextMessage(self, sender, text):
         if len(text) <= 0:
           return
-        
-        url = 'https://graph.facebook.com/v2.6/me/messages'
-        headers = {'content-type': 'application/json'}
+
         data = {
             "recipient": {"id": sender},
-            "message": {"text": "給我正妹圖片"}
+            "message": {"text": text}
         }
         params = {"access_token": self.page_access_token}
 
-        r = requests.post(url, params=params, data=json.dumps(data), headers=headers)
+        r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.headers)
+
+    def sendImageMessage(self, sender, result):
+        actress = self.dao.get_actress_by_id(result["id"])
+        attachment = {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [
+                    {
+                        "title": actress["name"],
+                        "image_url": actress["img"],
+                        "subtitle": "相似度: " + result["similarity"],
+                        "default_action": {
+                          "type": "web_url",
+                          "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + result["id"] + "/sort=date/",
+                          "webview_height_ratio": "tall"
+                        },
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "https://petersfancybrownhats.com",
+                                "title": "O"
+                            },
+                            {
+                                "type": "postback",
+                                "title": "X",
+                                "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                            }         
+                        ]      
+                    }
+                ]
+            }
+        }
+
+        data = {
+            "recipient": {"id": sender},
+            "message": {"attachment": attachment}
+        }
+        params = {"access_token": self.page_access_token}
+
+        r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.headers)
