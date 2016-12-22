@@ -33,7 +33,7 @@ class DAO:
     def hgetall_actress_by_id(self, id):
         return self.r.hgetall(id)
 
-    def update_one_actress_by_id(self, id, item):
+    def update_one_actress_by_id(self, id, ox, image):
         collection = self.mongo_db['actress']
-        result = collection.update_one({"id": id}, {'$inc': {'count': 1}, '$push': {'images': item}}, upsert=True)
+        result = collection.update_one({"id": id}, {'$inc': {'count': 1}, '$push': {ox: image}}, upsert=True)
         print result
