@@ -60,7 +60,13 @@ class WebHookHandler(tornado.web.RequestHandler):
                         f.write(img_bytes)
                         f.close()
 
-                        self.sendImageMessage(sender, result)
+                        self.sendImageMessage(sender, result, img_name)
+
+            if ("postback" in event and "payload" in event["postback"]):
+                payload = event["postback"]["payload"];
+                feedback = payload.split("_")
+                self.dao.update_one_actress_by_id(feedback[1], {feedback[0]: feedback[2]})
+                self.sendTextMessage(sender, "感謝回饋")
 
     def sendTextMessage(self, sender, text):
         if len(text) <= 0:
@@ -74,8 +80,8 @@ class WebHookHandler(tornado.web.RequestHandler):
 
         r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.api_headers)
 
-    def sendImageMessage(self, sender, result):
-        actress = self.dao.get_actress_by_id(result.get("id"))
+    def sendImageMessage(self, sender, face, img_name):
+        actress = self.dao.hgetall_actress_by_id(result.get("id"))
         attachment = {
             "type": "template",
             "payload": {
@@ -84,22 +90,23 @@ class WebHookHandler(tornado.web.RequestHandler):
                     {
                         "title": actress.get("name"),
                         "image_url": actress.get("img"),
-                        "subtitle": "相似度: " + result.get("similarity"),
+                        "subtitle": "↑↑↑ 壓我 ↑↑↑\n\n相似度: " + str(round(face.get("similarity"), 2)) + "%",
                         "default_action": {
                           "type": "web_url",
-                          "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + result.get("id") + "/sort=date/",
-                          "webview_height_ratio": "tall"
+                          # "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + result.get("id") + "/sort=date/",
+                          "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
+                          "webview_height_ratio": "compact"
                         },
                         "buttons": [
                             {
-                                "type": "web_url",
-                                "url": "https://petersfancybrownhats.com",
-                                "title": "O"
+                                "type": "postback",
+                                "title": "O 覺得像",
+                                "payload": "O_" + face.get("id") + "_" + img_name
                             },
                             {
                                 "type": "postback",
-                                "title": "X",
-                                "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                "title": "X 差很多",
+                                "payload": "X_" + face.get("id") + "_" + img_name
                             }         
                         ]      
                     }
