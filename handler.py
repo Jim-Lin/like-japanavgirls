@@ -75,19 +75,19 @@ class WebHookHandler(tornado.web.RequestHandler):
         r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.headers)
 
     def sendImageMessage(self, sender, result):
-        actress = self.dao.get_actress_by_id(result["id"])
+        actress = self.dao.get_actress_by_id(result.get("id"))
         attachment = {
             "type": "template",
             "payload": {
                 "template_type": "generic",
                 "elements": [
                     {
-                        "title": actress["name"],
-                        "image_url": actress["img"],
-                        "subtitle": "相似度: " + result["similarity"],
+                        "title": actress.get("name"),
+                        "image_url": actress.get("img"),
+                        "subtitle": "相似度: " + result.get("similarity"),
                         "default_action": {
                           "type": "web_url",
-                          "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + result["id"] + "/sort=date/",
+                          "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + result.get("id") + "/sort=date/",
                           "webview_height_ratio": "tall"
                         },
                         "buttons": [
