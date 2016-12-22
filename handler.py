@@ -64,7 +64,7 @@ class WebHookHandler(tornado.web.RequestHandler):
 
             if ("postback" in event and "payload" in event["postback"]):
                 payload = event["postback"]["payload"]
-                feedback = payload.split("_")
+                feedback = payload.split(",")
                 if feedback[0] == "O":
                     ox = "like"
                 else:
@@ -95,7 +95,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                     {
                         "title": actress.get("name"),
                         "image_url": actress.get("img"),
-                        "subtitle": "↑↑↑ 壓我 ↑↑↑\n\n相似度: " + str(round(face.get("similarity"), 2)) + "%",
+                        "subtitle": "↑↑↑ 壓我 ↑↑↑\n　\n相似度: " + str(round(face.get("similarity"), 2)) + "%",
                         "default_action": {
                           "type": "web_url",
                           "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
@@ -106,12 +106,12 @@ class WebHookHandler(tornado.web.RequestHandler):
                             {
                                 "type": "postback",
                                 "title": "O 覺得像",
-                                "payload": "O_" + face.get("id") + "_" + img_name
+                                "payload": "O," + face.get("id") + "," + img_name
                             },
                             {
                                 "type": "postback",
                                 "title": "X 差很多",
-                                "payload": "X_" + face.get("id") + "_" + img_name
+                                "payload": "X," + face.get("id") + "," + img_name
                             }         
                         ]      
                     }
