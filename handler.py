@@ -46,8 +46,10 @@ class WebHookHandler(tornado.web.RequestHandler):
                     img_url = attachments[0]["payload"]["url"]
                     print img_url
 
+                    self.sendTypingMessage(sender, "typing_on")
                     img_bytes = urllib2.urlopen(img_url).read()
                     result = self.aws.search_face(img_bytes)
+                    self.sendTypingMessage(sender, "typing_off")
                     if result is None:
                         self.sendTextMessage(sender, "不是正妹所以找不到")
                     else:
