@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import re
 from dao import DAO
+import datetime
 
 class ETL:
 
@@ -71,17 +72,6 @@ class ETL:
 
         return new_works
 
-    def get_actress_id(self, url, name):
-        pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
-        match = pattern.search(url)
-        id = match.group(1)
-        actress = self.dao.find_actress_by_id(id)
-        if actress is None:
-            data = {'id': id, 'name': name, 'url': "http://www.dmm.co.jp" + url}
-            self.dao.insert_actress(data)
-
-        return id
-
     def get_works_detail(self, url):
         r = requests.get(url)
         soup = bs(r.text)
@@ -95,21 +85,27 @@ class ETL:
         if a_tag is None:
             return
 
+        print a_tag.get('href')
+
         performer = soup.find("span", {"id": "performer"})
         performer_a_tag = performer.find_all("a")
         if len(performer_a_tag) == 1:
             actress_url = performer_a_tag[0].get("href")
-            actress_id = self.get_actress_id(actress_url, performer_a_tag[0].text)
+            pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
+            match = pattern.search(actress_url)
+            actress_id = match.group(1)
+            print actress_id
+            
             if self.dao.is_actress_exists_by_id(actress_id):
                 pattern = re.compile("/mono/dvd/-/detail/=/cid=(.*)/")
                 match = pattern.search(url)
                 cid = match.group(1)
                 print cid
-                
+
                 works = self.dao.find_one_works_by_id(actress_id)
                 print works
 
-                if cid in works:
+                if works is not None and cid in works:
                     return
                 else:
                     self.dao.update_one_works_by_id(actress_id, cid)
