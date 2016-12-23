@@ -30,9 +30,20 @@ class DAO:
             if not self.r.exists(actress.get("id")):
                 self.r.hmset(actress.get("id"), actress)
 
+    def is_actress_exists_by_id(self, id):
+        return self.r.exists(id)
+
     def hgetall_actress_by_id(self, id):
         return self.r.hgetall(id)
 
-    def update_one_actress_by_id(self, id, ox, image):
+    def update_one_feedback_by_id(self, id, ox, image):
         collection = self.mongo_db['actress']
         result = collection.update_one({"id": id}, {'$inc': {'count': 1}, '$push': {ox: image}}, upsert=True)
+
+    def update_one_works_by_id(self, id, no):
+        collection = self.mongo_db['actress']
+        result = collection.update_one({"id": id}, {'$push': {"works": no}}, upsert=True)
+
+    def find_one_works_by_id(self, id):
+        collection = self.mongo_db['actress']
+        return collection.find_one({"id": id}, {"works": True, "_id": False})
