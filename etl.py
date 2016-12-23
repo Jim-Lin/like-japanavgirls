@@ -4,8 +4,12 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import re
+from dao import DAO
 
 class ETL:
+
+    def __init__(self):
+        self.dao = DAO()
 
     def get_monthly_ranking(self):
         count = 0
@@ -30,4 +34,87 @@ class ETL:
                 ranking.append({"id": actress_id, "name": actress_name, "img": actress_img})
                 count += 1
 
+        self.dao.hmset_actresses(ranking)
         return ranking
+
+    def get_new_works(self):
+        day = str(datetime.datetime.now().day)
+        url = "http://www.dmm.co.jp/mono/dvd/-/calendar/=/day=" + day + "-" + day + "/"
+        r = requests.get(url)
+        soup = bs(r.text)
+        
+        cal = soup.find("table", {"id": "monocal"})
+        works_list = cal.find_all("tr")
+        if len(works_list) == 0:
+            return
+
+        new_works = list()
+        for works in works_list:
+            actress_tag  = works.find("td", {"class": "info-01"})
+            if actress_tag is None or actress_tag.text == "----":
+                continue
+
+            title_tag  = works.find("td", {"class": "title-monocal"})
+            title = title_tag.find("a")
+            title_name = title.text
+            pattern = re.compile(ur"(^(【数量限定】|【DMM限定】|【アウトレット】)|（ブルーレイディスク）$)", re.UNICODE)
+            match = re.search(pattern, title_name)
+            if match:
+                continue
+
+            title_url = "http://www.dmm.co.jp" + title.get("href")
+            detail = self.get_works_detail(title_url)
+            if detail is None:
+                continue
+            else:
+                new_works.append(detail)
+
+        return new_works
+
+    def get_actress_id(self, url, name):
+        pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
+        match = pattern.search(url)
+        id = match.group(1)
+        actress = self.dao.find_actress_by_id(id)
+        if actress is None:
+            data = {'id': id, 'name': name, 'url': "http://www.dmm.co.jp" + url}
+            self.dao.insert_actress(data)
+
+        return id
+
+    def get_works_detail(self, url):
+        r = requests.get(url)
+        soup = bs(r.text)
+        
+        sample = soup.find("div", {"class": "tx10 pd-3 lh4"})
+        if sample is None:
+            return
+        
+        # No Image
+        a_tag = sample.find("a")
+        if a_tag is None:
+            return
+
+        performer = soup.find("span", {"id": "performer"})
+        performer_a_tag = performer.find_all("a")
+        if len(performer_a_tag) == 1:
+            actress_url = performer_a_tag[0].get("href")
+            actress_id = self.get_actress_id(actress_url, performer_a_tag[0].text)
+            if self.dao.is_actress_exists_by_id(actress_id):
+                pattern = re.compile("/mono/dvd/-/detail/=/cid=(.*)/")
+                match = pattern.search(url)
+                cid = match.group(1)
+                print cid
+                
+                works = self.dao.find_one_works_by_id(actress_id)
+                print works
+
+                if cid in works:
+                    return
+                else:
+                    self.dao.update_one_works_by_id(actress_id, cid)
+                    return {"id": actress_id, "img": a_tag.get('href')}
+            else:
+                return
+        else:
+            return
