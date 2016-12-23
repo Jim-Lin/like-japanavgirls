@@ -36,4 +36,3 @@ class DAO:
     def update_one_actress_by_id(self, id, ox, image):
         collection = self.mongo_db['actress']
         result = collection.update_one({"id": id}, {'$inc': {'count': 1}, '$push': {ox: image}}, upsert=True)
-        print result
