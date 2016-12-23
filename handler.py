@@ -8,6 +8,7 @@ import re
 import urllib2
 from aws import AWS
 from dao import DAO
+import os
 
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
@@ -58,7 +59,11 @@ class WebHookHandler(tornado.web.RequestHandler):
                         img_name = match.group(2)
                         print img_name
 
-                        f = open(r"/var/www/like-av.xyz/images/" + img_name,'wb')
+                        directory = "/var/www/like-av.xyz/images/" + result.get("id") + "/"
+                        if not os.path.exists(directory):
+                            os.makedirs(directory)
+
+                        f = open(directory + img_name,'wb')
                         f.write(img_bytes)
                         f.close()
 
