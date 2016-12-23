@@ -16,7 +16,7 @@ class AWS:
         self.rekognition = boto3.client('rekognition')
         self.s3 = boto3.client('s3')
 
-    def insert_index_faces(self, actresses):
+    def insert_index_faces_actresses(self, actresses):
         for actress in actresses:
             print actress.get("img")
 
@@ -29,8 +29,8 @@ class AWS:
             except:
                 self.s3.upload_fileobj(urllib2.urlopen(actress.get("img")), self.bucket, img_name)
 
-            response = self.rekognition.list_faces(CollectionId=self.collection)
-            if not self.__contains_face(response.get("Faces"), lambda x: x.get("ExternalImageId") == actress.get("id")):
+            # response = self.rekognition.list_faces(CollectionId=self.collection)
+            # if not self.__contains_face(response.get("Faces"), lambda x: x.get("ExternalImageId") == actress.get("id")):
                 response = self.rekognition.index_faces(
                     CollectionId = self.collection,
                     Image = {
@@ -42,6 +42,15 @@ class AWS:
                     ExternalImageId = actress.get("id")
                 )
                 print response
+
+    def insert_index_faces_works(self, works):
+        for detail in works:
+            response = self.rekognition.index_faces(
+                CollectionId = self.collection,
+                Image = {'Bytes': urllib2.urlopen(detail.get("img")).read()},
+                ExternalImageId = detail.get("id")
+            )
+            print response
 
     def search_face(self, img_bytes):
         try:
@@ -64,8 +73,8 @@ class AWS:
             return {"id": external_image_id, "similarity": similarity}
 
 
-    def __contains_face(self, list, filter):
-        for x in list:
-            if filter(x):
-                return True
-        return False
+    # def __contains_face(self, list, filter):
+    #     for x in list:
+    #         if filter(x):
+    #             return True
+    #     return False
