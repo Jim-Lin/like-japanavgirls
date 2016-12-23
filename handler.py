@@ -46,10 +46,8 @@ class WebHookHandler(tornado.web.RequestHandler):
                     img_url = attachments[0]["payload"]["url"]
                     print img_url
 
-                    self.sendTypingMessage(sender, "typing_on")
                     img_bytes = urllib2.urlopen(img_url).read()
                     result = self.aws.search_face(img_bytes)
-                    self.sendTypingMessage(sender, "typing_off")
                     if result is None:
                         self.sendTextMessage(sender, "不是正妹所以找不到")
                     else:
@@ -105,11 +103,6 @@ class WebHookHandler(tornado.web.RequestHandler):
                           "webview_height_ratio": "compact"
                         },
                         "buttons": [
-                            {
-                                "type": "web_url",
-                                "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
-                                "title": "去買片"
-                            },
                             {
                                 "type": "postback",
                                 "title": "O 覺得像",
