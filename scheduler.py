@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from etl import ETL
-from dao import DAO
 from aws import AWS
 
 if __name__ == "__main__":
     etl = ETL()
-    actresses = etl.get_monthly_ranking()
-
-    dao = DAO()
-    dao.hmset_actresses(actresses)
-
     aws = AWS()
-    aws.insert_index_faces(actresses)
+
+    # monthly
+    actresses = etl.get_monthly_ranking()
+    aws.insert_index_faces_actresses(actresses)
+
+    works = etl.get_new_works()
+    aws.insert_index_faces_works(works)
