@@ -100,11 +100,17 @@ class WebHookHandler(tornado.web.RequestHandler):
                         "subtitle": "相似度: " + str(round(face.get("similarity"), 2)) + "%",
                         "default_action": {
                           "type": "web_url",
-                          "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
+                          # "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
+                          "url": "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + face.get("id") + "/sort/date",
                           # "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
                           "webview_height_ratio": "compact"
                         },
                         "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": "http://sukebei.nyaa.se/?page=search&term=" + actress.get("name"),
+                                "title": "去找片"
+                            },
                             {
                                 "type": "postback",
                                 "title": "O 覺得像",
