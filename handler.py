@@ -77,7 +77,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                 else:
                     ox = "unlike"
 
-                self.dao.update_one_actress_by_id(feedback[1], ox, feedback[2])
+                self.dao.update_one_feedback_by_id(feedback[1], ox, feedback[2])
                 self.sendTextMessage(sender, "感謝回饋")
 
     def sendTextMessage(self, sender, text):
