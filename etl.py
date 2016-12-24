@@ -64,7 +64,7 @@ class ETL:
             title_tag  = works.find("td", {"class": "title-monocal"})
             title = title_tag.find("a")
             title_name = title.text
-            pattern = re.compile(ur"(^(【数量限定】|【DMM限定】|【アウトレット】)|（ブルーレイディスク）$)", re.UNICODE)
+            pattern = re.compile(ur"(^(【数量限定】|【DMM限定】|【DMM限定販売】|【アウトレット】)|（ブルーレイディスク）$)", re.UNICODE)
             match = re.search(pattern, title_name)
             if match:
                 continue
