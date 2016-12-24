@@ -70,15 +70,15 @@ class ETL:
                 continue
 
             title_url = "http://www.dmm.co.jp" + title.get("href")
-            cover_url = self.get_works_cover(title_url)
-            if cover_url is None:
+            detail = self.get_works_detail(title_url, actress_id)
+            if detail is None:
                 continue
             else:
-                new_works.append({"id": actress_id, "img": cover_url})
+                new_works.append(detail)
 
         return new_works
 
-    def get_works_cover(self, url):
+    def get_works_detail(self, url, actress_id):
         r = requests.get(url)
         soup = bs(r.text)
         
@@ -108,6 +108,6 @@ class ETL:
                 return
             else:
                 self.dao.update_one_works_by_id(actress_id, cid)
-                return a_tag.get('href')
+                return {"id": actress_id, "img": a_tag.get('href')}
         else:
             return
