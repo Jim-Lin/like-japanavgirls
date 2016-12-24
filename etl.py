@@ -70,15 +70,15 @@ class ETL:
                 continue
 
             title_url = "http://www.dmm.co.jp" + title.get("href")
-            detail = self.get_works_detail(title_url)
-            if detail is None:
+            cover_url = self.get_works_cover(title_url)
+            if cover_url is None:
                 continue
             else:
-                new_works.append(detail)
+                new_works.append({"id": actress_id, "img": cover_url})
 
         return new_works
 
-    def get_works_detail(self, url):
+    def get_works_cover(self, url):
         r = requests.get(url)
         soup = bs(r.text)
         
@@ -96,27 +96,18 @@ class ETL:
         performer = soup.find("span", {"id": "performer"})
         performer_a_tag = performer.find_all("a")
         if len(performer_a_tag) == 1:
-            actress_url = performer_a_tag[0].get("href")
-            pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
-            match = pattern.search(actress_url)
-            actress_id = match.group(1)
-            print actress_id
+            pattern = re.compile("/mono/dvd/-/detail/=/cid=(.*)/")
+            match = pattern.search(url)
+            cid = match.group(1)
+            print cid
 
-            if self.dao.is_actress_exists_by_id(actress_id):
-                pattern = re.compile("/mono/dvd/-/detail/=/cid=(.*)/")
-                match = pattern.search(url)
-                cid = match.group(1)
-                print cid
+            works = self.dao.find_one_works_by_id(actress_id)
+            print works
 
-                works = self.dao.find_one_works_by_id(actress_id)
-                print works
-
-                if works is not None and cid in works:
-                    return
-                else:
-                    self.dao.update_one_works_by_id(actress_id, cid)
-                    return {"id": actress_id, "img": a_tag.get('href')}
-            else:
+            if works is not None and cid in works:
                 return
+            else:
+                self.dao.update_one_works_by_id(actress_id, cid)
+                return a_tag.get('href')
         else:
             return
