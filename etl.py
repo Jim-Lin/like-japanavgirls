@@ -55,6 +55,12 @@ class ETL:
             if actress_tag is None or actress_tag.text == "----":
                 continue
 
+            pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
+            match = pattern.search(actress_tag.find("a").get("href"))
+            actress_id = match.group(1)
+            if not self.dao.is_actress_exists_by_id(actress_id):
+                continue
+
             title_tag  = works.find("td", {"class": "title-monocal"})
             title = title_tag.find("a")
             title_name = title.text
@@ -95,7 +101,7 @@ class ETL:
             match = pattern.search(actress_url)
             actress_id = match.group(1)
             print actress_id
-            
+
             if self.dao.is_actress_exists_by_id(actress_id):
                 pattern = re.compile("/mono/dvd/-/detail/=/cid=(.*)/")
                 match = pattern.search(url)
