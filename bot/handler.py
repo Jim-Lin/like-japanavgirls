@@ -68,7 +68,11 @@ class WebHookHandler(tornado.web.RequestHandler):
                         f.write(img_bytes)
                         f.close()
 
-                        self.sendImageMessage(sender, result, img_name)
+                        actress = self.dao.hgetall_actress_by_id(result.get("id"))
+                        if actress is None:
+                            self.sendTextMessage(sender, "不是正妹所以找不到")
+                        else:
+                            self.sendImageMessage(sender, result, img_name, actress)
 
             if ("postback" in event and "payload" in event["postback"]):
                 payload = event["postback"]["payload"]
@@ -93,8 +97,7 @@ class WebHookHandler(tornado.web.RequestHandler):
 
         r = requests.post(self.api_url, params=params, data=json.dumps(data), headers=self.api_headers)
 
-    def sendImageMessage(self, sender, face, img_name):
-        actress = self.dao.hgetall_actress_by_id(face.get("id"))
+    def sendImageMessage(self, sender, face, img_name, actress):
         attachment = {
             "type": "template",
             "payload": {
