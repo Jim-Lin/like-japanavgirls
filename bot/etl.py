@@ -35,7 +35,10 @@ class ETL:
                 ranking.append({"id": actress_id, "name": actress_name, "img": actress_img})
                 count += 1
 
-        self.dao.hmset_actresses(ranking)
+        for actress in ranking:
+            if not self.dao.is_actress_exists_by_id(actress.get("id")):
+                self.dao.hmset_actress(actress)
+
         return ranking
 
     def get_new_works(self):

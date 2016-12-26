@@ -15,6 +15,7 @@ class WebHookHandler(tornado.web.RequestHandler):
     page_access_token = <PAGE_ACCESS_TOKEN>
     api_url = 'https://graph.facebook.com/v2.6/me/messages'
     api_headers = {'content-type': 'application/json'}
+    images_root = "/var/www/like-av.xyz/images/"
 
     aws = AWS()
     dao = DAO()
@@ -59,7 +60,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                         img_name = match.group(2)
                         print img_name
 
-                        directory = "/var/www/like-av.xyz/images/" + result.get("id") + "/"
+                        directory = self.images_root + result.get("id") + "/"
                         if not os.path.exists(directory):
                             os.makedirs(directory)
 

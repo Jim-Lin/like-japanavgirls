@@ -25,10 +25,8 @@ class DAO:
         self.mongo_db = self.mongo['dark']
         self.mongo_db['actress'].create_index('id', unique=True)
 
-    def hmset_actresses(self, actresses):
-        for actress in actresses:
-            if not self.r.exists(actress.get("id")):
-                self.r.hmset(actress.get("id"), actress)
+    def hmset_actress(self, actress):
+        self.r.hmset(actress.get("id"), actress)
 
     def is_actress_exists_by_id(self, id):
         return self.r.exists(id)
