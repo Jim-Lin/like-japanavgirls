@@ -18,7 +18,7 @@
      * @param file
      */
     function upload(file){
-        var url = "http://localhost:9090/upload";
+        var url = "http://like-av.xyz:9090/upload";
         var xhr = new XMLHttpRequest();
         var fd = new FormData();
         xhr.open("POST", url, true);
