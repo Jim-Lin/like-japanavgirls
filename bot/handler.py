@@ -69,10 +69,10 @@ class WebHookHandler(tornado.web.RequestHandler):
                         f.close()
 
                         actress = self.dao.hgetall_actress_by_id(result.get("id"))
-                        if actress is None:
-                            self.sendTextMessage(sender, "不是正妹所以找不到")
-                        else:
+                        if bool(actress):
                             self.sendImageMessage(sender, result, img_name, actress)
+                        else:
+                            self.sendTextMessage(sender, "不是正妹所以找不到")
 
             if ("postback" in event and "payload" in event["postback"]):
                 payload = event["postback"]["payload"]
