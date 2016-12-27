@@ -68,7 +68,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                         f.write(img_bytes)
                         f.close()
 
-                        actress = self.dao.hgetall_actress_by_id(result.get("id"))
+                        actress = self.dao.find_one_actress_by_id(result.get("id"))
                         if bool(actress):
                             self.sendImageMessage(sender, result, img_name, actress)
                         else:
