@@ -1,6 +1,9 @@
 package db
 
-import "gopkg.in/mgo.v2"
+import (
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+)
 
 const (
 	Host         = "mongodb://localhost:27017"
@@ -21,23 +24,17 @@ type MgoDb struct {
 	Col     *mgo.Collection
 }
 
-// func init() {
+func init() {
+	if mainSession == nil {
+		mainSession, err := mgo.Dial(Host)
+		if err != nil {
+			panic(err)
+		}
 
-// 	if mainSession == nil {
-
-// 		var err error
-// 		mainSession, err = mgo.Dial(Host)
-
-// 		if err != nil {
-// 			panic(err)
-// 		}
-
-// 		mainSession.SetMode(mgo.Monotonic, true)
-// 		mainDb = mainSession.DB(Database)
-
-// 	}
-
-// }
+		mainSession.SetMode(mgo.Monotonic, true)
+		mainDb = mainSession.DB(Database)
+	}
+}
 
 func (this *MgoDb) Init() *mgo.Session {
 
@@ -97,4 +94,13 @@ func (this *MgoDb) IsDup(err error) bool {
 	}
 
 	return false
+}
+
+func (this *MgoDb) FindOneActress(id string) map[string]string {
+	result := map[string]string{}
+	if err := this.C("actress").Find(bson.M{"id": id}).One(&result); err != nil {
+		panic(err)
+	}
+
+	return result
 }
