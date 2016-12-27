@@ -105,10 +105,7 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 			return nil, err
 		}
 
-		mgodb := db.MgoDb{}
-		mgodb.Init()
-		val := mgodb.FindOneActress(id)
-		mgodb.Close()
+		val := db.FindOneActress(id)
 		fmt.Println(val)
 
 		if len(val) == 0 {
