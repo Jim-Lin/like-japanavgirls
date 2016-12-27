@@ -45,3 +45,11 @@ class DAO:
     def find_one_works_by_id(self, id):
         collection = self.mongo_db['actress']
         return collection.find_one({"id": id}, {"works": True, "_id": False})
+
+    def update_one_info_by_actress(self, actress):
+        collection = self.mongo_db['actress']
+        result = collection.update_one({"id": actress.get("id")}, {'$set': {"id": actress.get("id"), "name": actress.get("name"), "img": actress.get("img")}}, upsert=True)
+
+    def find_one_actress_by_id(self, id):
+        collection = self.mongo_db['actress']
+        return collection.find_one({"id": id}, {"_id": False})
