@@ -36,8 +36,9 @@ class ETL:
                 count += 1
 
         for actress in ranking:
-            if not self.dao.is_actress_exists_by_id(actress.get("id")):
-                self.dao.hmset_actress(actress)
+            detail =  self.dao.find_one_actress_by_id(actress.get("id"))
+            if detail is None or detail.get("name") is None:
+                self.dao.update_one_info_by_actress(actress)
 
         return ranking
 
