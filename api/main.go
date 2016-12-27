@@ -105,7 +105,12 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 			return nil, err
 		}
 
-		val := db.HGetAllByActressId(id)
+		mgodb := db.MgoDb{}
+		mgodb.Init()
+		val := mgodb.FindOneActress(id)
+		mgodb.Close()
+		fmt.Println(val)
+
 		if len(val) == 0 {
 			js, err := json.Marshal(emptyPayload)
 			if err != nil {
