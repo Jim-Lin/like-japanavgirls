@@ -99,7 +99,7 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 		fmt.Println(id)
 		fmt.Println(similarity)
 
-		os.Mkdir("./"+id, os.ModePerm)
+		os.Mkdir(imagesRoot+id, os.ModePerm)
 		err := ioutil.WriteFile(imagesRoot+id+"/"+fileName, b, 0644)
 		if err != nil {
 			return nil, err
