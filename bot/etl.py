@@ -62,7 +62,7 @@ class ETL:
             pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
             match = pattern.search(actress_tag.find("a").get("href"))
             actress_id = match.group(1)
-            if not self.dao.is_actress_exists_by_id(actress_id):
+            if self.dao.find_one_actress_by_id(actress_id) is None:
                 continue
 
             title_tag  = works.find("td", {"class": "title-monocal"})
