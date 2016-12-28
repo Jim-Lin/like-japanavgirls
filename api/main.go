@@ -67,9 +67,32 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != "POST" {
+		http.Error(w, "Allowed POST method only", http.StatusMethodNotAllowed)
+		return
+	}
+
+	decoder := json.NewDecoder(r.Body)
+	val := map[string]string{}
+	err := decoder.Decode(&val)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	fmt.Println(val)
+	db.UpsertOneFeedback(val["id"], val["ox"], val["image"])
+}
+
 func main() {
-	http.HandleFunc("/upload", UploadHandler) // set router
-	err := http.ListenAndServe(":9090", nil)  // set listen port
+	http.HandleFunc("/upload", UploadHandler)     // set router
+	http.HandleFunc("/feedback", FeedbackHandler) // set router
+	err := http.ListenAndServe(":9090", nil)      // set listen port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
