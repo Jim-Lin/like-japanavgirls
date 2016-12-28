@@ -27,3 +27,11 @@ func FindOneActress(id string) map[string]string {
 
 	return result
 }
+
+func UpsertOneFeedback(id string, ox string, image string) {
+	update := bson.M{"$inc": bson.M{"count": 1}, "$push": bson.M{ox: image}}
+	_, err := Db.C("actress").Upsert(bson.M{"id": id}, update)
+	if err != nil {
+		panic(err)
+	}
+}
