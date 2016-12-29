@@ -1,5 +1,8 @@
 # like-japanavgirls
 
+## Structure
+![structure](structure.png?raw=true)
+
 ## Facebook Messenger Bot with Python
 ### requisites
 * requests
