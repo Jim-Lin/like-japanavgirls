@@ -135,12 +135,19 @@
      * @param file
      */
     function upload(file) {
+        // show the loading image
+        var loading = document.getElementById("loading");
+        loading.style.display = "block";
+
         var url = "http://like-av.xyz:9090/upload";
         var xhr = new XMLHttpRequest();
         var fd = new FormData();
         xhr.open("POST", url, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
+                // now hide the loading image
+                loading.style.display = "none";
+
                 // Every thing ok, file uploaded
                 var json = JSON.parse(xhr.responseText);
                 console.log(json); // handle response.
