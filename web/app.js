@@ -86,7 +86,7 @@
         a_img.appendChild(img);
 
         var div_similarity = document.createElement("div");
-        var similarity = document.createTextNode("相似度: " + json.Similarity);
+        var similarity = document.createTextNode("相似度: " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
 
         var div_resource = document.createElement("div");
