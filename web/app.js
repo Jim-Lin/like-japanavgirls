@@ -28,7 +28,7 @@
             }
         };
 
-        xhr.send(JSON.stringify({id: id, ox: ox, image: filename}));
+        xhr.send(JSON.stringify({id: id, ox: ox, file: filename}));
     };
 
     function preview(file) {
