@@ -9,6 +9,7 @@ import (
 
 const (
 	CollectionId = "rankingcollection"
+	Region       = "us-east-1"
 )
 
 type Face struct {
@@ -18,7 +19,7 @@ type Face struct {
 
 func SearchFacesByImage(imgBytes []byte) (*Face, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("us-east-1"),
+		Region: aws.String(Region),
 	})
 	if err != nil {
 		fmt.Println("failed to create session,", err)
@@ -51,4 +52,34 @@ func SearchFacesByImage(imgBytes []byte) (*Face, error) {
 	}
 
 	return &Face{*resp.FaceMatches[0].Face.ExternalImageId, *resp.FaceMatches[0].Similarity}, nil
+}
+
+func InsertIndexFaceByImage(id string, imgBytes []byte) error {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(Region),
+	})
+	if err != nil {
+		fmt.Println("failed to create session,", err)
+		return err
+	}
+
+	svc := rekognition.New(sess)
+
+	params := &rekognition.IndexFacesInput{
+		CollectionId:    aws.String(CollectionId), // Required
+		Image:           &rekognition.Image{Bytes: imgBytes},
+		ExternalImageId: aws.String(id),
+	}
+	resp, err := svc.IndexFaces(params)
+
+	if err != nil {
+		// Print the error, cast err to awserr.Error to get the Code and
+		// Message from an error.
+		fmt.Println(err.Error())
+		return err
+	}
+
+	// Pretty-print the response data.
+	fmt.Println(resp)
+	return nil
 }

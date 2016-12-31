@@ -36,33 +36,17 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := r.ParseMultipartForm(32 << 20) // maxMemory
-	if err != nil {
-		log.Fatal(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	checkNil(&w, err)
 
 	file, handler, err := r.FormFile("upload")
-	if err != nil {
-		log.Fatal(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	checkNil(&w, err)
 	defer file.Close()
 
 	b, err := ioutil.ReadAll(file)
-	if err != nil {
-		log.Fatal(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	checkNil(&w, err)
 
 	js, err := searchFace(b, handler.Filename)
-	if err != nil {
-		log.Fatal(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	checkNil(&w, err)
 
 	w.Write(js)
 }
@@ -80,13 +64,14 @@ func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	val := map[string]string{}
 	err := decoder.Decode(&val)
-	if err != nil {
-		log.Fatal(err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	checkNil(&w, err)
 
 	fmt.Println(val)
-	db.UpsertOneFeedback(val["id"], val["ox"], val["image"])
+	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
+
+	b, err := ioutil.ReadFile(imagesRoot + val["id"] + "/" + val["file"])
+	checkNil(&w, err)
+	checkNil(&w, aws.InsertIndexFaceByImage(val["id"], b))
 }
 
 func main() {
@@ -95,6 +80,14 @@ func main() {
 	err := http.ListenAndServe(":9090", nil)      // set listen port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
+	}
+}
+
+func checkNil(w *http.ResponseWriter, err error) {
+	if err != nil {
+		log.Fatal(err)
+		http.Error(*w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
 
@@ -140,7 +133,7 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 			return js, nil
 		}
 
-		payload := Payload{
+		payload := &Payload{
 			Id:         id,
 			Name:       val["name"],
 			File:       fileName,
