@@ -83,6 +83,11 @@ class WebHookHandler(tornado.web.RequestHandler):
                     ox = "unlike"
 
                 self.dao.update_one_feedback_by_id(feedback[1], ox, feedback[2])
+
+                file = self.images_root + feedback[1] + "/" + feedback[2]
+                with open(file, "rb") as img_file:
+                    self.aws.insert_index_face_feedback(feedback[1], img_file.read())
+
                 self.sendTextMessage(sender, "感謝回饋")
 
     def sendTextMessage(self, sender, text):

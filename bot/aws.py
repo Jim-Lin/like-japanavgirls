@@ -52,6 +52,14 @@ class AWS:
             )
             print response
 
+    def insert_index_face_feedback(self, actress_id, img_bytes):
+        response = self.rekognition.index_faces(
+            CollectionId = self.collection,
+            Image = {'Bytes': img_bytes},
+            ExternalImageId = actress_id
+        )
+        print response
+
     def search_face(self, img_bytes):
         try:
             response = self.rekognition.search_faces_by_image(
