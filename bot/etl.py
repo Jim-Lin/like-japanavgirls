@@ -43,8 +43,11 @@ class ETL:
         return ranking
 
     def get_new_works(self):
-        day = str(datetime.datetime.now().day)
-        url = "http://www.dmm.co.jp/mono/dvd/-/calendar/=/day=" + day + "-" + day + "/"
+        now = datetime.datetime.now()
+        year = str(now.year)
+        month = str(now.month)
+        day = str(now.day)
+        url = "http://www.dmm.co.jp/mono/dvd/-/calendar/=/month=" + month + "/year=" + year + "/day=" + day + "-" + day + "/"
         r = requests.get(url)
         soup = bs(r.text)
         
@@ -105,10 +108,10 @@ class ETL:
             cid = match.group(1)
             print cid
 
-            works = self.dao.find_one_works_by_id(actress_id)
-            print works
+            project_works = self.dao.find_one_works_by_id(actress_id)
+            print project_works
 
-            if works is not None and cid in works:
+            if project_works is not None and any(cid in s for s in project_works.get("works")):
                 return
             else:
                 self.dao.update_one_works_by_id(actress_id, cid)
