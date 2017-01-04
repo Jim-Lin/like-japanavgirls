@@ -67,11 +67,13 @@ func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
 	checkNil(&w, err)
 
 	fmt.Println(val)
-	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
+	if val["ox"] == "like" {
+		b, err := ioutil.ReadFile(imagesRoot + val["id"] + "/" + val["file"])
+		checkNil(&w, err)
+		checkNil(&w, aws.InsertIndexFaceByImage(val["id"], b))
+	}
 
-	b, err := ioutil.ReadFile(imagesRoot + val["id"] + "/" + val["file"])
-	checkNil(&w, err)
-	checkNil(&w, aws.InsertIndexFaceByImage(val["id"], b))
+	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
 }
 
 func main() {
