@@ -111,7 +111,7 @@ class ETL:
             project_works = self.dao.find_one_works_by_id(actress_id)
             print project_works
 
-            if project_works is not None and any(cid in s for s in project_works.get("works")):
+            if bool(project_works) and any(cid in s for s in project_works.get("works")):
                 return
             else:
                 self.dao.update_one_works_by_id(actress_id, cid)
