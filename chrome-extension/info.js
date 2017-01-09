@@ -154,7 +154,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         var imageUrl = window.location.hash.substring(1);
         if (imageUrl) {
-            filename = imageUrl.replace(/^.*?([^\\\/]*)$/, '$1');
+            filename = imageUrl.match(/[^\/?#%]+(?=$|[?#%])/);
 
             var request = new XMLHttpRequest();
             request.responseType = "blob";
