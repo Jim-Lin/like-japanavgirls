@@ -45,6 +45,7 @@ class AWS:
 
     def insert_index_faces_works(self, works):
         for detail in works:
+            print detail.get("img")
             response = self.rekognition.index_faces(
                 CollectionId = self.collection,
                 Image = {'Bytes': urllib2.urlopen(detail.get("img")).read()},
