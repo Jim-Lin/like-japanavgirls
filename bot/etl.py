@@ -16,8 +16,6 @@ class ETL:
         self.aws = AWS()
 
     def check_monthly_ranking(self):
-        count = 0
-        ranking = []
         intervals = ["1_20", "21_40", "41_60", "61_80", "81_100"]
         for interval in intervals:
             url = "http://www.dmm.co.jp/mono/dvd/-/ranking/=/term=monthly/mode=actress/rank=" + interval
@@ -29,21 +27,16 @@ class ETL:
                 pattern = re.compile("/mono/dvd/-/list/=/article=actress/id=(.*)/")
                 match = pattern.search(actress_a.get("href"))
                 actress_id = match.group(1)
-                actress_img = actress_a.find("img").get("src")
 
-                actress_data = actress.find("div", {"class": "data"}).find("p").find("a")
-                actress_name = actress_data.text
-                # actress_url = "http://www.dmm.co.jp" + actress_data.get("href") # + "sort=date/"
-
-                ranking.append({"id": actress_id, "name": actress_name, "img": actress_img})
-                count += 1
-
-        for actress in ranking:
-            detail =  self.dao.find_one_actress_by_id(actress.get("id"))
-            if detail is None or detail.get("name") is None:
-                print actress.get("name")
-                self.dao.update_one_info_by_actress(actress)
-                self.aws.insert_index_face(actress.get("id"), urllib2.urlopen(actress.get("img")).read())
+                detail =  self.dao.find_one_actress_by_id(actress_id)
+                if detail is None or detail.get("name") is None:
+                    actress_img = actress_a.find("img").get("src")
+                    actress_data = actress.find("div", {"class": "data"}).find("p").find("a")
+                    actress_name = actress_data.text
+                    print actress_name
+                    
+                    self.dao.update_one_info_by_actress({"id": actress_id, "name": actress_name, "img": actress_img})
+                    self.aws.insert_index_face(actress_id, urllib2.urlopen(actress_img).read())
 
     def check_new_works(self):
         now = datetime.datetime.now()
