@@ -6,13 +6,16 @@ from bs4 import BeautifulSoup as bs
 import re
 from dao import DAO
 import datetime
+from aws import AWS
+import urllib2
 
 class ETL:
 
     def __init__(self):
         self.dao = DAO()
+        self.aws = AWS()
 
-    def get_monthly_ranking(self):
+    def check_monthly_ranking(self):
         count = 0
         ranking = []
         intervals = ["1_20", "21_40", "41_60", "61_80", "81_100"]
@@ -38,11 +41,11 @@ class ETL:
         for actress in ranking:
             detail =  self.dao.find_one_actress_by_id(actress.get("id"))
             if detail is None or detail.get("name") is None:
+                print actress.get("name")
                 self.dao.update_one_info_by_actress(actress)
+                self.aws.insert_index_face(actress.get("id"), urllib2.urlopen(actress.get("img")).read())
 
-        return ranking
-
-    def get_new_works(self):
+    def check_new_works(self):
         now = datetime.datetime.now()
         year = str(now.year)
         month = str(now.month)
@@ -56,7 +59,6 @@ class ETL:
         if len(works_list) == 0:
             return
 
-        new_works = list()
         for works in works_list:
             actress_tag  = works.find("td", {"class": "info-01"})
             if actress_tag is None or actress_tag.text == "----":
@@ -81,9 +83,8 @@ class ETL:
             if detail is None:
                 continue
             else:
-                new_works.append(detail)
-
-        return new_works
+                print detail.get("img")
+                self.aws.insert_index_face(detail.get("id"), urllib2.urlopen(detail.get("img")).read())
 
     def get_works_detail(self, url, actress_id):
         r = requests.get(url)
