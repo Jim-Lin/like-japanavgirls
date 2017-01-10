@@ -15,7 +15,9 @@ class DAO:
             self.mongo_db = self.mongo[kwargs.get('mongo').get('db')]
 
     def default_mongo_init(self):
-        self.mongo = MongoClient('mongodb://username:password@localhost:27017/dark')
+        username = <username>
+        password = <password>
+        self.mongo = MongoClient('mongodb://' + username + ':' + password + '@localhost:27017/dark')
         self.mongo_db = self.mongo['dark']
         self.mongo_db['actress'].create_index('id', unique=True)
 

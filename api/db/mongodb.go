@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	Host     = "mongodb://localhost:27017"
+	Host     = "localhost:27017"
 	Database = "dark"
 )
 
@@ -15,7 +15,18 @@ var (
 )
 
 func init() {
-	session, _ := mgo.Dial(Host)
+	info := &mgo.DialInfo{
+		Addrs:    []string{Host},
+		Database: Database,
+		Username: <username>,
+		Password: <password>,
+	}
+
+	session, err := mgo.DialWithInfo(info)
+	if err != nil {
+		panic(err)
+	}
+
 	Db = session.DB(Database)
 }
 
