@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import boto3
-import urllib2
-import re
 
 class AWS:
 
@@ -14,46 +12,8 @@ class AWS:
         self.collection = "rankingcollection"
 
         self.rekognition = boto3.client('rekognition')
-        self.s3 = boto3.client('s3')
 
-    def insert_index_faces_actresses(self, actresses):
-        for actress in actresses:
-            print actress.get("img")
-
-            pattern = re.compile("http://pics.dmm.co.jp/mono/actjpgs/medium/(.*)")
-            match = pattern.search(actress.get("img"))
-            img_name = match.group(1)
-
-            try:
-                self.s3.head_object(Bucket=self.bucket, Key=img_name)
-            except:
-                self.s3.upload_fileobj(urllib2.urlopen(actress.get("img")), self.bucket, img_name)
-
-            # response = self.rekognition.list_faces(CollectionId=self.collection)
-            # if not self.__contains_face(response.get("Faces"), lambda x: x.get("ExternalImageId") == actress.get("id")):
-                response = self.rekognition.index_faces(
-                    CollectionId = self.collection,
-                    Image = {
-                        'S3Object': {
-                            'Bucket': self.bucket,
-                            'Name': img_name
-                        }
-                    },
-                    ExternalImageId = actress.get("id")
-                )
-                print response
-
-    def insert_index_faces_works(self, works):
-        for detail in works:
-            print detail.get("img")
-            response = self.rekognition.index_faces(
-                CollectionId = self.collection,
-                Image = {'Bytes': urllib2.urlopen(detail.get("img")).read()},
-                ExternalImageId = detail.get("id")
-            )
-            print response
-
-    def insert_index_face_feedback(self, actress_id, img_bytes):
+    def insert_index_face(self, actress_id, img_bytes):
         response = self.rekognition.index_faces(
             CollectionId = self.collection,
             Image = {'Bytes': img_bytes},
@@ -80,10 +40,3 @@ class AWS:
             print external_image_id
             print similarity
             return {"id": external_image_id, "similarity": similarity}
-
-
-    # def __contains_face(self, list, filter):
-    #     for x in list:
-    #         if filter(x):
-    #             return True
-    #     return False

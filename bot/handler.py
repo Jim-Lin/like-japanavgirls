@@ -81,7 +81,7 @@ class WebHookHandler(tornado.web.RequestHandler):
                     ox = "like"
                     file = self.images_root + feedback[1] + "/" + feedback[2]
                     with open(file, "rb") as img_file:
-                        self.aws.insert_index_face_feedback(feedback[1], img_file.read())
+                        self.aws.insert_index_face(feedback[1], img_file.read())
                 else:
                     ox = "unlike"
 

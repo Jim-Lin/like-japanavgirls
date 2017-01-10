@@ -3,6 +3,7 @@
 
 from etl import ETL
 from aws import AWS
+import urllib2
 
 if __name__ == "__main__":
     etl = ETL()
@@ -10,7 +11,8 @@ if __name__ == "__main__":
 
     # monthly
     actresses = etl.get_monthly_ranking()
-    aws.insert_index_faces_actresses(actresses)
 
     works = etl.get_new_works()
-    aws.insert_index_faces_works(works)
+    for detail in works:
+    	print detail.get("img")
+    	aws.insert_index_face(detail.get("id"), urllib2.urlopen(detail.get("img")).read())
