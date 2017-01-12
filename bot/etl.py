@@ -51,14 +51,13 @@ class ETL:
             actress_id = match.group(1)
             
             detail =  self.dao.find_one_actress_by_id(actress_id)
-                if detail is None or detail.get("name") is None:
-                    actress_img = actress.find("img").get("src")
-                    br = actress.find('br')
-                    actress_name = br.extract().text
-                    print actress_name
+            if detail is None or detail.get("name") is None:
+                actress_img = actress.find("img").get("src")
+                actress_name = actress.text
+                print actress_name
 
-                    self.dao.update_one_info_by_actress({"id": actress_id, "name": actress_name, "img": actress_img})
-                    self.aws.insert_index_face(actress_id, urllib2.urlopen(actress_img).read())
+                self.dao.update_one_info_by_actress({"id": actress_id, "name": actress_name, "img": actress_img})
+                self.aws.insert_index_face(actress_id, urllib2.urlopen(actress_img).read())
 
     def check_new_works(self):
         now = datetime.datetime.now()
