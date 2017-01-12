@@ -30,11 +30,33 @@ class ETL:
 
                 detail =  self.dao.find_one_actress_by_id(actress_id)
                 if detail is None or detail.get("name") is None:
-                    actress_img = actress_a.find("img").get("src")
+                    actress_img = actress_a.find("img").get("src").replace('medium/', '')
                     actress_data = actress.find("div", {"class": "data"}).find("p").find("a")
                     actress_name = actress_data.text
                     print actress_name
-                    
+
+                    self.dao.update_one_info_by_actress({"id": actress_id, "name": actress_name, "img": actress_img})
+                    self.aws.insert_index_face(actress_id, urllib2.urlopen(actress_img).read())
+
+    def check_new_actress(self):
+        url = "http://actress.dmm.co.jp/-/top/"
+        r = requests.get(url)
+        soup = bs(r.text)
+
+        act_box = soup.find_all("ul", {"class": "act-box-125 group"})
+        actresses = act_box[1].find_all("a")
+        for actress in actresses:
+            pattern = re.compile("/-/detail/=/actress_id=(.*)/")
+            match = pattern.search(actress.get("href"))
+            actress_id = match.group(1)
+            
+            detail =  self.dao.find_one_actress_by_id(actress_id)
+                if detail is None or detail.get("name") is None:
+                    actress_img = actress.find("img").get("src")
+                    br = actress.find('br')
+                    actress_name = br.extract().text
+                    print actress_name
+
                     self.dao.update_one_info_by_actress({"id": actress_id, "name": actress_name, "img": actress_img})
                     self.aws.insert_index_face(actress_id, urllib2.urlopen(actress_img).read())
 
@@ -46,6 +68,7 @@ class ETL:
         url = "http://www.dmm.co.jp/mono/dvd/-/calendar/=/month=" + month + "/year=" + year + "/day=" + day + "-" + day + "/"
         r = requests.get(url)
         soup = bs(r.text)
+        print datetime.date.today()
         
         cal = soup.find("table", {"id": "monocal"})
         works_list = cal.find_all("tr")
