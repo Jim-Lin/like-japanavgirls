@@ -61,12 +61,12 @@ class WebHookHandler(tornado.web.RequestHandler):
                         img_name = match.group(2)
                         print img_name
 
-                        today = datetime.date.today()
+                        today = str(datetime.date.today())
                         self.saveImage(today, img_name, img_bytes)
 
-                        count = len(result)
+                        face_count = len(result)
                         for i in xrange(2):
-                            face = result[i] if count > i else None
+                            face = result[i] if face_count > i else None
                             if face is not None:
                                 actress = self.dao.find_one_actress_by_id(face.get("id"))
                                 if bool(actress):
