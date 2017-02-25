@@ -30,9 +30,9 @@ class ETL:
 
                 detail =  self.dao.find_one_actress_by_id(actress_id)
                 if detail is None or detail.get("name") is None:
-                    actress_img = actress_a.find("img").get("src").replace('medium/', '')
-                    actress_data = actress.find("div", {"class": "data"}).find("p").find("a")
-                    actress_name = actress_data.text
+                    img = actress_a.find("img")
+                    actress_img = img.get("src").replace('medium/', '')
+                    actress_name = img.get("alt")
                     print actress_name
 
                     self.dao.update_one_info_by_actress({"id": actress_id, "name": actress_name, "img": actress_img})
