@@ -9,6 +9,7 @@ import urllib2
 from aws import AWS
 from dao import DAO
 import os
+import datetime
 
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
@@ -50,7 +51,7 @@ class WebHookHandler(tornado.web.RequestHandler):
 
                     self.sendTypingMessage(sender, "typing_on")
                     img_bytes = urllib2.urlopen(img_url).read()
-                    result = self.aws.search_face(img_bytes)
+                    result = self.aws.search_faces(img_bytes)
                     self.sendTypingMessage(sender, "typing_off")
                     if result is None:
                         self.sendTextMessage(sender, "不是正妹所以找不到")
@@ -60,26 +61,23 @@ class WebHookHandler(tornado.web.RequestHandler):
                         img_name = match.group(2)
                         print img_name
 
-                        directory = self.images_root + result.get("id") + "/"
-                        if not os.path.exists(directory):
-                            os.makedirs(directory)
+                        today = datetime.date.today()
+                        self.saveImage(today, img_name, img_bytes)
 
-                        f = open(directory + img_name,'wb')
-                        f.write(img_bytes)
-                        f.close()
-
-                        actress = self.dao.find_one_actress_by_id(result.get("id"))
-                        if bool(actress):
-                            self.sendImageMessage(sender, result, img_name, actress)
-                        else:
-                            self.sendTextMessage(sender, "不是正妹所以找不到")
+                        count = len(result)
+                        for i in xrange(2):
+                            face = result[i] if count > i else None
+                            if face is not None:
+                                actress = self.dao.find_one_actress_by_id(face.get("id"))
+                                if bool(actress):
+                                    self.sendImageMessage(sender, face, today + img_name, actress)
 
             if ("postback" in event and "payload" in event["postback"]):
                 payload = event["postback"]["payload"]
                 feedback = payload.split(",")
                 if feedback[0] == "O":
                     ox = "like"
-                    file = self.images_root + feedback[1] + "/" + feedback[2]
+                    file = self.images_root + feedback[2]
                     with open(file, "rb") as img_file:
                         self.aws.insert_index_face(feedback[1], img_file.read())
                 else:
@@ -87,6 +85,15 @@ class WebHookHandler(tornado.web.RequestHandler):
 
                 self.dao.update_one_feedback_by_id(feedback[1], ox, feedback[2])
                 self.sendTextMessage(sender, "感謝回饋")
+
+    def saveImage(self, today, img_name, img_bytes):
+        directory = self.images_root + today + "/"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        f = open(directory + img_name,'wb')
+        f.write(img_bytes)
+        f.close()
 
     def sendTextMessage(self, sender, text):
         if len(text) <= 0:
@@ -118,11 +125,11 @@ class WebHookHandler(tornado.web.RequestHandler):
                           "webview_height_ratio": "compact"
                         },
                         "buttons": [
-                            {
-                                "type": "web_url",
-                                "url": "http://sukebei.nyaa.se/?page=search&term=" + actress.get("name"),
-                                "title": "去找片"
-                            },
+                            # {
+                            #     "type": "web_url",
+                            #     "url": "http://sukebei.nyaa.se/?page=search&term=" + actress.get("name"),
+                            #     "title": "去找片"
+                            # },
                             {
                                 "type": "postback",
                                 "title": "O 覺得像",
