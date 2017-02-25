@@ -9,7 +9,7 @@ if __name__ == "__main__":
     # monthly
     etl.check_monthly_ranking()
 
-    etl.check_new_actress();
+    etl.check_new_actress()
     
     # daily
     etl.check_new_works()
