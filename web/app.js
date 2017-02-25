@@ -95,14 +95,14 @@
         a_buy.setAttribute("href", "http://www.r18.com/videos/vod/movies/list/id=" + json.Id + "/sort=new/type=actress/");
         a_buy.setAttribute("target", "_blank");
         a_buy.appendChild(t_buy);
-        var a_torrent = document.createElement("a");
+        /* var a_torrent = document.createElement("a");
         var t_torrent = document.createTextNode("去抓片");
         a_torrent.setAttribute("href", "http://sukebei.nyaa.se/?page=search&term=" + json.Name);
         a_torrent.setAttribute("target", "_blank");
-        a_torrent.appendChild(t_torrent);
+        a_torrent.appendChild(t_torrent); */
         div_resource.appendChild(a_buy);
-        div_resource.appendChild(document.createTextNode(" "));
-        div_resource.appendChild(a_torrent);
+        // div_resource.appendChild(document.createTextNode(" "));
+        // div_resource.appendChild(a_torrent);
 
         var div_feedback = document.createElement("div");
         div_feedback.setAttribute("id", "feedback");
