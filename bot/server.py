@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import tornado.ioloop
+import tornado.web
+import tornado.httpserver
 from handler import WebHookHandler
 
 application = tornado.web.Application([
@@ -9,5 +11,7 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    application.listen(5000)
-    tornado.ioloop.IOLoop.instance().start()
+    server = tornado.httpserver.HTTPServer(application)
+    server.bind(5000)
+    server.start(0)  # Forks multiple sub-processes
+    tornado.ioloop.IOLoop.current().start()
