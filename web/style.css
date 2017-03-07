@@ -1,0 +1,145 @@
+.inner {
+	position: relative;
+	max-width: 960px;
+	margin-right: auto;
+	margin-left : auto;
+}
+
+.content {
+	position: inherit;
+	top: 0px;
+	left: 0px;
+
+	height: 100vh;
+	background: linear-gradient(0deg, #FFFFFF 10%,  #FFA4BB 100%), url("Colorful-Light-Bokeh-Texture.jpg");
+	background-blend-mode: screen;
+	background-size: cover;
+}
+
+/*.content::after {
+	content: url("Fill-1.svg") url("Fill-2.svg") url("Fill-3.svg") url("Fill-4.svg");
+}*/
+
+.title {
+	position: absolute;
+	top: 50px;
+	left: 65px;
+	height: 260px;
+	width: 285px;
+	font-family: 'A-OTF Kocho Std';
+	font-size: 65px;
+	font-weight: 900;
+	color: #ff007c;
+	text-align: left;
+}
+
+.sub-title {
+	position: absolute;
+	top: 316px;
+	left: 65px;
+	width: 200px;
+	font-family: 'Adobe Fangsong Std';
+	font-size: 27px;
+	color: #ff007c;
+	text-align: left;
+}
+
+.upload-controls {
+	position: inherit;
+	top: 120px;
+	margin-left: auto;
+	margin-right: 80px;
+	height: 192px;
+	width: 380px;
+	background-color: #ffffff;
+	border-radius: 15px;
+}
+
+.upload-description {
+	position: inherit;
+	top: 35px;
+	left: 38px;
+	height: 20px;
+	width: 322px;
+	font-family: '.PingFang TC';
+	font-size: 14px;
+	color: #4a4a4a;
+	text-align: left;
+	line-height: 20px;
+
+	border-left: 6px solid #4a4a4a;
+	padding-left: 3px;
+}
+
+.button-box {
+	position: absolute;
+	top: 104px;
+	left: 53px;
+	height: 49px;
+	width: 280px;
+	border-radius: 3px;
+	background-image: linear-gradient(#fffe34 0%, #ff007c 100%);
+}
+
+.button-box .button {
+	position: inherit;
+	top: 14px;
+	left: 0px;
+	height: 21px;
+	width: 281px;
+	font-family: '.AppleSystemUIFont';
+	font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing: 0.0139em;
+
+	cursor: pointer;
+}
+
+.button-box .bottom {
+	position: inherit;
+	top: 28px;
+	left: 24px;
+	height: 21px;
+	width: 232px;
+	border-radius: 3px;
+	box-shadow: 0px 2px 20px 0px #000000, 0px 2px 20px 0px #ff346d;
+
+	z-index: -1;
+}
+
+#preview {
+	position: inherit;
+	top: 168px;
+	margin-left: auto;
+	margin-right: 119px;
+	width: 296px;
+    height: 296px;
+}
+
+.thumb {
+	position: inherit;
+	max-width: 296px;
+    max-height: 296px;
+	background-color: #ffffff;
+	border-radius: 7px;
+}
+
+#result {
+	position: inherit;
+	top: 150px;
+	left: 0px;
+	background-color: #ffffff;
+}
+
+#result .card {
+	position: inherit;
+	top: 0px;
+	left: 82px;
+	height: 221px;
+	width: 789px;
+	border: 1px solid #f95981;
+	border-radius: 12px;
+
+	border-style: dashed;
+}
