@@ -52,7 +52,7 @@ class AWS:
                 if face_external_image_id in external_image_ids:
                     continue
 
-                external_image_ids.add(face_external_image_id)
-                faces.add({"id": face_external_image_id, "similarity": face["Similarity"]})
+                external_image_ids.append(face_external_image_id)
+                faces.append({"id": face_external_image_id, "similarity": face_similarity})
 
             return faces
