@@ -16,10 +16,11 @@
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var h3 = document.createElement("h3");
-                var thx = document.createTextNode("感謝回饋");
+                h3.setAttribute("style", "text-align: center;");
+                var thx = document.createTextNode("Thanks");
                 h3.appendChild(thx);
 
-                var feedback = document.getElementById("feedback");
+                var feedback = document.getElementById("feedback" + id);
                 while (feedback.firstChild) {
                     feedback.removeChild(feedback.firstChild);
                 }
@@ -42,6 +43,9 @@
             preview.removeChild(preview.firstChild);
         }
 
+        var notfound = document.getElementById("notfound");
+        notfound.style.display = "none";
+
         var img = document.createElement("img");
         img.file = file;
         img.classList.add('thumb');
@@ -57,67 +61,87 @@
     function result(json) {
         var result = document.getElementById("result");
 
+        result.appendChild(createCard(json));
+
         var thumb = document.createElement("div");
         thumb.classList.add('card');
+        result.appendChild(thumb);
 
-        if(json.Name == "") {
-            var h3 = document.createElement("h3");
-            var notfound = document.createTextNode("找不到");
-            h3.appendChild(notfound);
-
-            thumb.appendChild(h3);
-            result.appendChild(thumb);
-
-            return;
+        var controls = document.querySelector('.upload-controls');
+        if ((controls.offsetTop-window.scrollY) < 10) {
+            window.scrollTo(0, 0);
         }
 
-        var h3 = document.createElement("h3");
-        var name = document.createTextNode(json.Name);
-        h3.appendChild(name);
+        scrollToItem(controls);
+    }
+
+    function createCard(json) {
+        var card = document.createElement("div");
+        card.classList.add('card');
 
         var img = document.createElement("img");
         img.src = json.Img;
+        img.classList.add('profile');
         var a_img = document.createElement("a");
         a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
         a_img.setAttribute("target", "_blank");
         a_img.appendChild(img);
 
+        var div_name = document.createElement("div");
+        div_name.classList.add('name');
+        var name = document.createTextNode(json.Name);
+        div_name.appendChild(name);
+
         var div_similarity = document.createElement("div");
+        div_similarity.classList.add('similarity');
         var similarity = document.createTextNode("そっくり率: " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
 
-        var div_resource = document.createElement("div");
+        var div_buy = document.createElement("div");
+        div_buy.classList.add('button-box', 'box');
+        var t_buy = document.createTextNode("買い物に行く");
         var a_buy = document.createElement("a");
-        var t_buy = document.createTextNode("去買片");
+        a_buy.classList.add('button');
         a_buy.setAttribute("href", "http://www.r18.com/videos/vod/movies/list/id=" + json.Id + "/sort=new/type=actress/");
         a_buy.setAttribute("target", "_blank");
         a_buy.appendChild(t_buy);
-        div_resource.appendChild(a_buy);
+        div_buy.appendChild(a_buy);
 
         var div_feedback = document.createElement("div");
-        div_feedback.setAttribute("id", "feedback");
-        var b_like = document.createElement("button");
-        b_like.setAttribute("id", "like");
-        b_like.onclick = function() { feedback(json.Id, "like"); };
+        div_feedback.setAttribute("id", "feedback" + json.Id);
+        div_feedback.classList.add('feedback');
+        var div_like = document.createElement("div");
+        div_like.setAttribute("id", "like");
+        div_like.addEventListener('click', function(event) {
+            feedback(json.Id, "like");
+        });
         var t_like = document.createTextNode("そっくり");
-        b_like.appendChild(t_like);
-        var b_unlike = document.createElement("button");
-        b_unlike.setAttribute("id", "unlike");
-        b_unlike.onclick = function() { feedback(json.Id, "unlike"); };
+        div_like.appendChild(t_like);
+        var div_unlike = document.createElement("div");
+        div_unlike.setAttribute("id", "unlike");
+        div_unlike.addEventListener('click', function(event) {
+            feedback(json.Id, "unlike");
+        });
         var t_unlike = document.createTextNode("似てない");
-        b_unlike.appendChild(t_unlike);
-        div_feedback.appendChild(b_like);
-        div_feedback.appendChild(document.createTextNode(" "));
-        div_feedback.appendChild(b_unlike);
+        div_unlike.appendChild(t_unlike);
+        var div_center = document.createElement("div");
+        div_center.setAttribute("id", "center");
+        div_feedback.appendChild(div_unlike);
+        div_feedback.appendChild(div_center);
+        div_feedback.appendChild(div_like);
         
-        thumb.appendChild(h3);
-        thumb.appendChild(a_img);
-        thumb.appendChild(div_similarity);
-        thumb.appendChild(document.createElement("br"));
-        thumb.appendChild(div_resource);
-        thumb.appendChild(document.createElement("br"));
-        thumb.appendChild(div_feedback);
-        result.appendChild(thumb);
+        card.appendChild(a_img);
+        card.appendChild(div_name);
+        card.appendChild(div_similarity);
+        card.appendChild(div_buy);
+
+        var div_separation = document.createElement("div");
+        div_separation.classList.add('separation');
+        card.appendChild(div_separation);
+
+        card.appendChild(div_feedback);
+
+        return card;
     }
 
     /**
@@ -125,6 +149,8 @@
      * @param file
      */
     function upload(file) {
+        var process = document.getElementById("process");
+        process.style.display = "block";
         // show the loading image
         var loading = document.getElementById("loading");
         loading.style.display = "block";
@@ -141,6 +167,14 @@
                 // Every thing ok, file uploaded
                 var json = JSON.parse(xhr.responseText);
                 console.log(json); // handle response.
+
+                if ((Object.keys(json).length === 0 && json.constructor === Object) || (json.Name == "")) {
+                    var notfound = document.getElementById("notfound");
+                    notfound.style.display = "block";
+
+                    return;
+                }
+
                 result(json);
             }
         };
@@ -148,5 +182,16 @@
         xhr.send(fd);
 
         uploadImage.value = "";
+    }
+
+    function scrollToItem(item) {
+        var diff = (item.offsetTop-window.scrollY) / 10;
+        if (Math.abs(diff) > 0) {
+            window.scrollTo(0, (window.scrollY+diff));
+            clearTimeout(window._TO);
+            window._TO = setTimeout(scrollToItem, 10, item);
+        } else {
+            window.scrollTo(0, item.offsetTop)
+        }
     }
 }());

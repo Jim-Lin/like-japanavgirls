@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DARK Facial Recognition</title>
   <link rel="icon" type="image/png" href="icon16.png">
-	<link rel="stylesheet" type="text/css" href="style.css" media="screen and (min-width: 780px)">
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen and (min-width: 780px)">
 </head>
 
 <body>
@@ -13,28 +13,33 @@
   <div class="inner">
     <div class="title">LIKE JP AV GIRLS</div>
 
-    <div class="sub-title">そっくりな<br />セクシー女優を<br />探そう</div>
+    <div class="sub-title">そっくりなセクシー女優を探そう</div>
 
     <div class="upload-controls">
       <div class="upload-description">美人写真をアップロードしてください</div>
-      <div class="button-box">
+      <div class="button-box upload-box">
         <label class="button" for="uploadImage">Upload Image</label>
         <input type="file" id="uploadImage" accept="image/*" style="display: none;" />
-        <div class="bottom"></div>
       </div>
     </div>
-
+	
     <div id="preview"></div>
-  </div>
-</div>
 
-<img src="loading.gif" id="loading" style="display: none; float: left;" />
+    <div id="notfound" style="display: none;">
+      <span class="dot"></span>
+      <span class="text">検索エラー、別の写真をアップロードしてください</span>
+    </div>
 
-<div>
-  <div class="inner">
+    <div id="process" style="display: none;">
+      <span class="line"></span><span class="dot"></span>
+      <span class="text">結果</span>
+      <img src="loading.gif" id="loading" style="display: none; margin: auto;" />
+    </div>
+
     <div id="result"></div>
   </div>
 </div>
+
 </body>
 
 <!-- Scripts -->

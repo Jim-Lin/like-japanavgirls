@@ -5,27 +5,53 @@
 	margin-left : auto;
 }
 
+.button-box {
+	height: 49px;
+	width: 280px;
+	border-radius: 3px;
+	background-image: linear-gradient(30deg, #fffe34 -100%, #ff007c 100%);
+	box-shadow: 0px 15px 30px -15px #000000, 0px 15px 30px -15px #ff346d;
+}
+
+.button-box .button {
+	position: inherit;
+	top: 14px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	font-family: '.AppleSystemUIFont';
+	font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing: 0.0139em;
+
+	cursor: pointer;
+}
+
 .content {
 	position: inherit;
 	top: 0px;
 	left: 0px;
 
 	height: 100vh;
-	background: linear-gradient(0deg, #FFFFFF 10%,  #FFA4BB 100%), url("Colorful-Light-Bokeh-Texture.jpg");
+	background: linear-gradient(0deg, #ffffff 20%,  #ddd6f3 40%), url("Colorful-Light-Bokeh-Texture.jpg");
 	background-blend-mode: screen;
 	background-size: cover;
 }
 
-/*.content::after {
-	content: url("Fill-1.svg") url("Fill-2.svg") url("Fill-3.svg") url("Fill-4.svg");
-}*/
+.content::after {
+/*	position: relative;
+	margin-right: auto;
+	margin-left : auto;
+	content: url("Fill-4.svg");*/
+	/*url("Fill-2.svg") url("Fill-3.svg") url("Fill-4.svg");*/
+}
 
 .title {
 	position: absolute;
 	top: 50px;
-	left: 65px;
-	height: 260px;
-	width: 285px;
+	left: 60px;
+	max-width: 550px;
 	font-family: 'A-OTF Kocho Std';
 	font-size: 65px;
 	font-weight: 900;
@@ -35,9 +61,9 @@
 
 .sub-title {
 	position: absolute;
-	top: 316px;
+	top: 116px;
 	left: 65px;
-	width: 200px;
+	max-width: 420px;
 	font-family: 'Adobe Fangsong Std';
 	font-size: 27px;
 	color: #ff007c;
@@ -45,10 +71,9 @@
 }
 
 .upload-controls {
-	position: inherit;
-	top: 120px;
-	margin-left: auto;
-	margin-right: 80px;
+	position: absolute;
+	top: 180px;
+	left: 65px;
 	height: 192px;
 	width: 380px;
 	background-color: #ffffff;
@@ -71,48 +96,17 @@
 	padding-left: 3px;
 }
 
-.button-box {
+.upload-box {
 	position: absolute;
 	top: 104px;
 	left: 53px;
-	height: 49px;
-	width: 280px;
-	border-radius: 3px;
-	background-image: linear-gradient(#fffe34 0%, #ff007c 100%);
-}
-
-.button-box .button {
-	position: inherit;
-	top: 14px;
-	left: 0px;
-	height: 21px;
-	width: 281px;
-	font-family: '.AppleSystemUIFont';
-	font-size: 18px;
-	color: #ffffff;
-	text-align: center;
-	letter-spacing: 0.0139em;
-
-	cursor: pointer;
-}
-
-.button-box .bottom {
-	position: inherit;
-	top: 28px;
-	left: 24px;
-	height: 21px;
-	width: 232px;
-	border-radius: 3px;
-	box-shadow: 0px 2px 20px 0px #000000, 0px 2px 20px 0px #ff346d;
-
-	z-index: -1;
 }
 
 #preview {
-	position: inherit;
-	top: 168px;
+	position: relative;
+	top: 180px;
 	margin-left: auto;
-	margin-right: 119px;
+	margin-right: 80px;
 	width: 296px;
     height: 296px;
 }
@@ -125,21 +119,181 @@
 	border-radius: 7px;
 }
 
+#notfound {
+	position: relative;
+	top: 200px;
+	margin-left: auto;
+	margin-right: 80px;
+	font-family: '.PingFang TC';
+	font-size: 14px;
+	color: #4a4a4a;
+	line-height: 20px;
+	text-align: right;
+}
+
+#notfound .dot {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	background-color: #4a4a4a;
+	border-radius: 18px;
+}
+
+#notfound .text {
+	margin-left: 20px;
+}
+
+#process {
+	position: absolute;
+	top: 500px;
+	left: 78px;
+	width: 100%;
+	font-family: '.AppleSystemUIFont';
+	font-size: 10px;
+	color: #000000;
+	text-align: left;
+	letter-spacing: 0.0063em;
+}
+
+#process .line {
+	position: absolute;
+	margin-top: 4px;
+	width: 50px;
+	border: 1px solid #fc4478;
+}
+
+#process .dot {
+	position: absolute;
+	margin-left: 57px;
+	margin-top: 3px;
+	height: 5px;
+	width: 5px;
+	background-color: #fc4478;
+	border-radius: 5px;
+}
+
+#process .text {
+	position: absolute;
+	margin-left: 65px;
+}
+
 #result {
-	position: inherit;
-	top: 150px;
-	left: 0px;
-	background-color: #ffffff;
+	position: absolute;
+	top: 520px;
 }
 
 #result .card {
-	position: inherit;
-	top: 0px;
+	position: relative;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	left: 82px;
 	height: 221px;
 	width: 789px;
-	border: 1px solid #f95981;
+	border: 1.5px solid #f95981;
 	border-radius: 12px;
 
 	border-style: dashed;
+}
+
+#result .card .profile {
+	position: absolute;
+	top: 19px;
+	left: 67px;
+	height: 125px;
+	width: 125px;
+	background-color: #d8d8d8;
+	border-radius: 150px;
+}
+
+#result .card .name {
+	position: absolute;
+	top: 53px;
+	left: 217px;
+	height: 28px;
+	width: 150px;
+	font-family: 'PingFang TC';
+	font-size: 20px;
+	color: #4a4a4a;
+	text-align: left;
+}
+
+#result .card .similarity {
+	position: absolute;
+	top: 93px;
+	left: 217px;
+	width: 150px;
+	font-family: 'PingFang TC';
+	font-size: 14px;
+	color: #9b9b9b;
+	text-align: left;
+}
+
+#result .card .box {
+	position: inherit;
+	top: 53px;
+	margin-left: auto;
+	margin-right: 45px;
+}
+
+#result .card a {
+    color: #ffffff;
+    display: block;
+}
+
+#result .card a:link {
+    text-decoration: none;
+}
+
+#result .card a:visited {
+    text-decoration: none;
+}
+
+#result .card a:hover {
+    text-decoration: none;
+}
+
+#result .card a:active {
+    text-decoration: none;
+}
+
+#result .card .separation {
+	position: absolute;
+	top: 156px;
+	left: 36px;
+	width: 719px;
+	border: 1px solid #cccccc;
+}
+
+#result .card .feedback {
+	position: inherit;
+	margin-right: auto;
+	margin-left : auto;
+	top: 132px;
+	width: 500px;
+	font-family: 'PingFang TC';
+	font-size: 15px;
+	text-align: center;
+}
+
+#result .card #unlike {
+	float: left;
+	width: 100px;
+	color: #4a90e2;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .card #center {
+	display: inline-block;
+	height: 16px;
+	width: 0.01px;
+	border: 1px solid #d5d5d5;
+}
+
+#result .card #like {
+	float: right;
+	width: 100px;
+	color: #fb0069;
+	display: inline-block;
+	cursor: pointer;
 }
