@@ -1,0 +1,297 @@
+.inner {
+	position: relative;
+	max-width: 375px;
+	margin-right: auto;
+	margin-left : auto;
+}
+
+.button-box {
+	height: 49px;
+	width: 280px;
+	border-radius: 3px;
+	background-image: linear-gradient(30deg, #fffe34 -100%, #ff007c 100%);
+	box-shadow: 0px 15px 30px -15px #000000, 0px 15px 30px -15px #ff346d;
+}
+
+.button-box .button {
+	position: absolute;
+	top: 14px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	font-family: '.AppleSystemUIFont';
+	font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing: 0.0139em;
+
+	cursor: pointer;
+}
+
+.content {
+	position: inherit;
+	top: 0px;
+	left: 0px;
+
+	height: 100vh;
+	background: linear-gradient(0deg, #ffffff 20%,  #ddd6f3 40%), url("Colorful-Light-Bokeh-Texture.jpg");
+	background-blend-mode: screen;
+	background-size: cover;
+}
+
+.content::after {
+/*	position: relative;
+	margin-right: auto;
+	margin-left : auto;
+	content: url("Fill-4.svg");*/
+	/*url("Fill-2.svg") url("Fill-3.svg") url("Fill-4.svg");*/
+}
+
+.title {
+	position: absolute;
+	top: 99px;
+	left: 32px;
+	height: 20px;
+	width: 237px;
+	font-family: 'A-OTF Kocho Std';
+	font-size: 20px;
+	font-weight: 900;
+	color: #ff007c;
+	text-align: left;
+}
+
+.sub-title {
+	position: absolute;
+	top: 131px;
+	left: 32px;
+	height: 16px;
+	width: 148px;
+	font-family: 'Adobe Fangsong Std';
+	font-size: 16px;
+	color: #ff007c;
+	text-align: left;
+}
+
+.upload-controls {
+	position: inherit;
+	top: 218px;
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
+}
+
+.upload-description {
+	display: none;
+}
+
+.upload-box {
+	position: inherit;
+}
+
+#preview {
+	position: inherit;
+	top: 304px;
+	margin: auto;
+	width: 296px;
+    height: 296px;
+}
+
+.thumb {
+	position: inherit;
+	max-width: 296px;
+    max-height: 296px;
+	border-radius: 7px;
+	margin: auto;
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
+}
+
+#notfound {
+	position: absolute;
+	top: 690px;
+	margin-left: auto;
+	font-family: '.PingFang TC';
+	font-size: 14px;
+	color: #4a4a4a;
+	line-height: 20px;
+	text-align: right;
+}
+
+#notfound .dot {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	background-color: #4a4a4a;
+	border-radius: 18px;
+}
+
+#notfound .text {
+	margin-left: 20px;
+}
+
+#process {
+	position: absolute;
+	top: 680px;
+	width: 100%;
+	font-family: '.AppleSystemUIFont';
+	font-size: 10px;
+	color: #000000;
+	text-align: left;
+	letter-spacing: 0.0063em;
+}
+
+#process .line {
+	position: absolute;
+	margin-top: 4px;
+	width: 50px;
+	border: 1px solid #fc4478;
+}
+
+#process .dot {
+	position: absolute;
+	margin-left: 57px;
+	margin-top: 3px;
+	height: 5px;
+	width: 5px;
+	background-color: #fc4478;
+	border-radius: 5px;
+}
+
+#process .text {
+	position: absolute;
+	margin-left: 65px;
+}
+
+#result {
+	position: inherit;
+	top: 380px;
+
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
+}
+
+#result .card {
+	position: relative;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 380px;
+	width: 318px;
+	border: 1.5px solid #f95981;
+	border-radius: 12px;
+
+	border-style: dashed;
+
+	opacity: 1;
+	-webkit-transition: opacity 3s;
+	-moz-transition: opacity 3s;
+	transition: opacity 3s;
+
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
+}
+
+#result .card .profile {
+	position: absolute;
+	top: 20px;
+}
+
+#result .card .profile * img {
+	height: 125px;
+	width: 125px;
+	background-color: #d8d8d8;
+	border-radius: 150px;
+}
+
+#result .card .name {
+	position: absolute;
+	top: 160px;
+	height: 28px;
+	font-family: 'PingFang TC';
+	font-size: 20px;
+	color: #4a4a4a;
+}
+
+#result .card .similarity {
+	position: absolute;
+	top: 190px;
+	font-family: 'PingFang TC';
+	font-size: 14px;
+	color: #9b9b9b;
+}
+
+#result .card .box {
+	position: absolute;
+	top: 240px;
+}
+
+#result .card a {
+    color: #ffffff;
+    display: block;
+}
+
+#result .card a:link {
+    text-decoration: none;
+}
+
+#result .card a:visited {
+    text-decoration: none;
+}
+
+#result .card a:hover {
+    text-decoration: none;
+}
+
+#result .card a:active {
+    text-decoration: none;
+}
+
+#result .card .separation {
+	position: absolute;
+	top: 315px;
+}
+
+#result .card .separation hr {
+	width: 300px;
+}
+
+#result .card .feedback {
+	position: absolute;
+	top: 340px;
+	font-family: 'PingFang TC';
+	font-size: 15px;
+	text-align: center;
+}
+
+#result .card #unlike {
+	float: left;
+	width: 100px;
+	color: #4a90e2;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .card #center {
+	display: inline-block;
+	height: 16px;
+	width: 0.01px;
+	border: 1px solid #d5d5d5;
+}
+
+#result .card #like {
+	float: right;
+	width: 100px;
+	color: #fb0069;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .fadeOut {
+	opacity: 0;
+}
