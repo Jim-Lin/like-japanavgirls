@@ -163,15 +163,9 @@
 #result {
 	position: inherit;
 	top: 380px;
-
-	display: flex;
-    flex-wrap: wrap; /* optional. only if you want the items to wrap */
-    justify-content: center; /* for horizontal alignment */
-    align-items: center; /* for vertical alignment */
 }
 
 #result .card {
-	position: relative;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	height: 380px;
