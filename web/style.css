@@ -19,7 +19,6 @@
 	left: 0px;
 	height: 100%;
 	width: 100%;
-	font-family: '.AppleSystemUIFont';
 	font-size: 18px;
 	color: #ffffff;
 	text-align: center;
@@ -51,8 +50,7 @@
 	position: absolute;
 	top: 50px;
 	left: 60px;
-	max-width: 600px;
-	font-family: 'A-OTF Kocho Std';
+	width: 100%;
 	font-size: 65px;
 	font-weight: 900;
 	color: #ff007c;
@@ -61,10 +59,9 @@
 
 .sub-title {
 	position: absolute;
-	top: 116px;
+	top: 130px;
 	left: 65px;
-	max-width: 420px;
-	font-family: 'Adobe Fangsong Std';
+	width: 100%;
 	font-size: 27px;
 	color: #ff007c;
 	text-align: left;
@@ -85,8 +82,7 @@
 	top: 35px;
 	left: 38px;
 	height: 20px;
-	width: 322px;
-	font-family: '.PingFang TC';
+	width: 100%;
 	font-size: 14px;
 	color: #4a4a4a;
 	text-align: left;
@@ -124,7 +120,6 @@
 	top: 200px;
 	margin-left: auto;
 	margin-right: 80px;
-	font-family: '.PingFang TC';
 	font-size: 14px;
 	color: #4a4a4a;
 	line-height: 20px;
@@ -148,7 +143,6 @@
 	top: 500px;
 	left: 78px;
 	width: 100%;
-	font-family: '.AppleSystemUIFont';
 	font-size: 10px;
 	color: #000000;
 	text-align: left;
@@ -180,6 +174,7 @@
 #result {
 	position: absolute;
 	top: 520px;
+	width: 80%;
 }
 
 #result .card {
@@ -188,7 +183,6 @@
 	margin-bottom: 10px;
 	left: 82px;
 	height: 221px;
-	width: 789px;
 	border: 1.5px solid #f95981;
 	border-radius: 12px;
 
@@ -218,8 +212,7 @@
 	top: 53px;
 	left: 217px;
 	height: 28px;
-	width: 150px;
-	font-family: 'PingFang TC';
+	width: 100%;
 	font-size: 20px;
 	color: #4a4a4a;
 	text-align: left;
@@ -229,8 +222,7 @@
 	position: absolute;
 	top: 93px;
 	left: 217px;
-	width: 150px;
-	font-family: 'PingFang TC';
+	width: 100%;
 	font-size: 14px;
 	color: #9b9b9b;
 	text-align: left;
@@ -286,15 +278,14 @@
 	margin-right: auto;
 	margin-left : auto;
 	top: 112px;
-	width: 500px;
-	font-family: 'PingFang TC';
+	width: 100%;
 	font-size: 15px;
 	text-align: center;
 }
 
 #result .card #unlike {
 	float: left;
-	width: 100px;
+	width: 40%;
 	color: #4a90e2;
 	display: inline-block;
 	cursor: pointer;
@@ -309,7 +300,7 @@
 
 #result .card #like {
 	float: right;
-	width: 100px;
+	width: 40%;
 	color: #fb0069;
 	display: inline-block;
 	cursor: pointer;
