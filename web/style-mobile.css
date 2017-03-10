@@ -14,7 +14,6 @@
 }
 
 .button-box .button {
-	position: absolute;
 	top: 14px;
 	left: 0px;
 	height: 100%;
@@ -25,6 +24,11 @@
 	letter-spacing: 0.0139em;
 
 	cursor: pointer;
+
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
 }
 
 .content {
@@ -166,6 +170,7 @@
 }
 
 #result .card {
+	position: relative;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	height: 380px;
@@ -184,11 +189,11 @@
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
     justify-content: center; /* for horizontal alignment */
     align-items: center; /* for vertical alignment */
+    flex-direction: column;
 }
 
 #result .card .profile {
-	position: absolute;
-	top: 20px;
+	margin-top: 15px;
 }
 
 #result .card .profile * img {
@@ -199,28 +204,24 @@
 }
 
 #result .card .name {
-	position: absolute;
-	top: 160px;
+	margin-top: 15px;
 	height: 28px;
 	font-size: 20px;
 	color: #4a4a4a;
 }
 
 #result .card .similarity {
-	position: absolute;
-	top: 190px;
+	margin-top: 5px;
 	font-size: 14px;
 	color: #9b9b9b;
 }
 
 #result .card .box {
-	position: absolute;
-	top: 240px;
+	margin-top: 25px;
 }
 
 #result .card a {
     color: #ffffff;
-    display: block;
 }
 
 #result .card a:link {
@@ -240,8 +241,7 @@
 }
 
 #result .card .separation {
-	position: absolute;
-	top: 315px;
+	margin-top: 26px;
 }
 
 #result .card .separation hr {
@@ -249,8 +249,7 @@
 }
 
 #result .card .feedback {
-	position: absolute;
-	top: 340px;
+	margin-top: 10px;
 	width: 100%;
 	font-size: 15px;
 	text-align: center;

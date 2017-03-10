@@ -14,7 +14,6 @@
 }
 
 .button-box .button {
-	position: absolute;
 	top: 14px;
 	left: 0px;
 	height: 100%;
@@ -25,6 +24,11 @@
 	letter-spacing: 0.0139em;
 
 	cursor: pointer;
+
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
 }
 
 .content {
@@ -237,7 +241,6 @@
 
 #result .card a {
     color: #ffffff;
-    display: block;
 }
 
 #result .card a:link {
