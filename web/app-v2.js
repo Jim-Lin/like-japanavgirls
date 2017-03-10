@@ -15,17 +15,17 @@
         xhr.open("POST", url, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                var h3 = document.createElement("h3");
-                h3.setAttribute("style", "text-align: center;");
+                var b = document.createElement("b");
+                b.setAttribute("style", "text-align: center;");
                 var thx = document.createTextNode("Thanks");
-                h3.appendChild(thx);
+                b.appendChild(thx);
 
                 var feedback = document.getElementById("feedback" + id);
                 while (feedback.firstChild) {
                     feedback.removeChild(feedback.firstChild);
                 }
 
-                feedback.appendChild(h3);
+                feedback.appendChild(b);
             }
         };
 
@@ -65,7 +65,7 @@
         result.appendChild(div1);
 
         // fake
-        // result.appendChild(createCard({}));
+        result.appendChild(createCard({}));
 
 
         var controls = document.querySelector('.upload-controls');
