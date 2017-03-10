@@ -61,11 +61,12 @@
     function result(json) {
         var result = document.getElementById("result");
 
-        result.appendChild(createCard(json));
+        var div1 = createCard(json);
+        result.appendChild(div1);
 
-        var thumb = document.createElement("div");
-        thumb.classList.add('card');
-        result.appendChild(thumb);
+        // fake
+        // result.appendChild(createCard({}));
+
 
         var controls = document.querySelector('.upload-controls');
         if ((controls.offsetTop-window.scrollY) < 10) {
@@ -73,19 +74,26 @@
         }
 
         scrollToItem(controls);
+
+        document.querySelectorAll('.fadeOut').forEach(function(element, index, array) {
+            element.classList.remove('fadeOut');
+        });
     }
 
     function createCard(json) {
         var card = document.createElement("div");
         card.classList.add('card');
+        card.classList.add('fadeOut');
 
+        var div_profile = document.createElement("div");
+        div_profile.classList.add('profile');
         var img = document.createElement("img");
         img.src = json.Img;
-        img.classList.add('profile');
         var a_img = document.createElement("a");
         a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
         a_img.setAttribute("target", "_blank");
         a_img.appendChild(img);
+        div_profile.appendChild(a_img);
 
         var div_name = document.createElement("div");
         div_name.classList.add('name');
@@ -130,13 +138,14 @@
         div_feedback.appendChild(div_center);
         div_feedback.appendChild(div_like);
         
-        card.appendChild(a_img);
+        card.appendChild(div_profile);
         card.appendChild(div_name);
         card.appendChild(div_similarity);
         card.appendChild(div_buy);
 
         var div_separation = document.createElement("div");
         div_separation.classList.add('separation');
+        div_separation.appendChild(document.createElement("hr"));
         card.appendChild(div_separation);
 
         card.appendChild(div_feedback);
@@ -184,13 +193,16 @@
         uploadImage.value = "";
     }
 
+    var tmpScrollY = -1;
     function scrollToItem(item) {
         var diff = (item.offsetTop-window.scrollY) / 10;
-        if (Math.abs(diff) > 0) {
+        if (Math.abs(diff) > 0 && tmpScrollY != window.scrollY) {
+            tmpScrollY = window.scrollY;
             window.scrollTo(0, (window.scrollY+diff));
             clearTimeout(window._TO);
             window._TO = setTimeout(scrollToItem, 10, item);
         } else {
+            clearTimeout(window._TO);
             window.scrollTo(0, item.offsetTop)
         }
     }

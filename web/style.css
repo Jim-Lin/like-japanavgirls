@@ -14,7 +14,7 @@
 }
 
 .button-box .button {
-	position: inherit;
+	position: absolute;
 	top: 14px;
 	left: 0px;
 	height: 100%;
@@ -51,7 +51,7 @@
 	position: absolute;
 	top: 50px;
 	left: 60px;
-	max-width: 550px;
+	max-width: 600px;
 	font-family: 'A-OTF Kocho Std';
 	font-size: 65px;
 	font-weight: 900;
@@ -193,12 +193,20 @@
 	border-radius: 12px;
 
 	border-style: dashed;
+
+	opacity: 1;
+	-webkit-transition: opacity 3s;
+	-moz-transition: opacity 3s;
+	transition: opacity 3s;
 }
 
 #result .card .profile {
 	position: absolute;
-	top: 19px;
+	top: 20px;
 	left: 67px;
+}
+
+#result .card .profile * img {
 	height: 125px;
 	width: 125px;
 	background-color: #d8d8d8;
@@ -257,18 +265,27 @@
 }
 
 #result .card .separation {
+	position: relative;
+	top: 100px;
+}
+
+#result .card .separation hr {
+	width: 90%;
+}
+
+/*#result .card .separation {
 	position: absolute;
 	top: 156px;
 	left: 36px;
 	width: 719px;
 	border: 1px solid #cccccc;
-}
+}*/
 
 #result .card .feedback {
-	position: inherit;
+	position: relative;
 	margin-right: auto;
 	margin-left : auto;
-	top: 132px;
+	top: 112px;
 	width: 500px;
 	font-family: 'PingFang TC';
 	font-size: 15px;
@@ -296,4 +313,8 @@
 	color: #fb0069;
 	display: inline-block;
 	cursor: pointer;
+}
+
+#result .fadeOut {
+	opacity: 0;
 }
