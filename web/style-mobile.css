@@ -25,9 +25,21 @@
 
 	cursor: pointer;
 
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
+	
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
     justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
     align-items: center; /* for vertical alignment */
 }
 
@@ -76,9 +88,22 @@
 .upload-controls {
 	position: inherit;
 	top: 218px;
+
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
+	
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
     justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
     align-items: center; /* for vertical alignment */
 }
 
@@ -104,9 +129,22 @@
     max-height: 296px;
 	border-radius: 7px;
 	margin: auto;
+	
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
+	
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
     justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
     align-items: center; /* for vertical alignment */
 }
 
@@ -185,10 +223,24 @@
 	-moz-transition: opacity 3s;
 	transition: opacity 3s;
 
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
+	
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
     justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
     align-items: center; /* for vertical alignment */
+
+    -webkit-flex-direction: column;/*--- safari（PC）用 ---*/
     flex-direction: column;
 }
 
