@@ -75,15 +75,22 @@
 
         scrollToItem(controls);
 
-        document.querySelectorAll('.fadeOut').forEach(function(element, index, array) {
+        // querySelectorAll support issue
+        // document.querySelectorAll('.fadeOut').forEach(function(element, index, array) {
+        //     element.classList.remove('fadeOut');
+        // });
+
+        var divs = [].slice.call(document.querySelectorAll('div')).filter(function(el) {
+           return el.className.match(/\bfadeOut\b/i);
+        });
+        divs.forEach(function(element, index, array) {
             element.classList.remove('fadeOut');
         });
     }
 
     function createCard(json) {
         var card = document.createElement("div");
-        card.classList.add('card');
-        card.classList.add('fadeOut');
+        card.classList.add('card', 'fadeOut');
 
         var div_profile = document.createElement("div");
         div_profile.classList.add('profile');
