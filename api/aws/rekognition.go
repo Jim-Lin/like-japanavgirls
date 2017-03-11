@@ -5,7 +5,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/rekognition"
-	"reflect"
 )
 
 const (
@@ -61,7 +60,7 @@ func SearchFacesByImage(imgBytes []byte) (*[]Face, error) {
 	ids := []string{*resp.FaceMatches[0].Face.ExternalImageId}
 	for i := 1; i < len(resp.FaceMatches); i++ {
 		face := resp.FaceMatches[i]
-		if !hasElem(ids, face.Face.ExternalImageId) {
+		if !hasElem(ids, *face.Face.ExternalImageId) {
 			if *face.Similarity >= 20 {
 				ids = append(ids, *face.Face.ExternalImageId)
 				faces = append(faces, Face{*face.Face.ExternalImageId, *face.Similarity})
@@ -102,19 +101,11 @@ func InsertIndexFaceByImage(id string, imgBytes []byte) error {
 	return nil
 }
 
-func hasElem(s interface{}, elem interface{}) bool {
-	arrV := reflect.ValueOf(s)
-
-	if arrV.Kind() == reflect.Slice {
-		for i := 0; i < arrV.Len(); i++ {
-
-			// XXX - panics if slice element points to an unexported struct field
-			// see https://golang.org/pkg/reflect/#Value.Interface
-			if arrV.Index(i).Interface() == elem {
-				return true
-			}
-		}
+func hasElem(ids []string, id string) bool {
+	set := make(map[string]bool)
+	for _, v := range ids {
+		set[v] = true
 	}
 
-	return false
+	return set[id]
 }
