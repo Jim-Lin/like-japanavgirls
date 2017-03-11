@@ -79,7 +79,7 @@ func main() {
 
 func checkNil(w http.ResponseWriter, err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		// http.Error(*w, err.Error(), http.StatusInternalServerError)
 		// return
 
@@ -89,7 +89,7 @@ func checkNil(w http.ResponseWriter, err error) {
 
 func checkPost(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		log.Fatal("Allowed POST method only")
+		log.Println("Allowed POST method only")
 		// http.Error(w, "Allowed POST method only", http.StatusMethodNotAllowed)
 		// return
 
