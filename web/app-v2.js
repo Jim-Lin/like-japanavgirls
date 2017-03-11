@@ -189,6 +189,7 @@
                     return;
                 }
 
+                filename = json.File;
                 result(json);
             }
         };

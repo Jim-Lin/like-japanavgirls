@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 const (
@@ -65,7 +66,7 @@ func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(val)
 	if val["ox"] == "like" {
-		b, err := ioutil.ReadFile(imagesRoot + val["id"] + "/" + val["file"])
+		b, err := ioutil.ReadFile(imagesRoot + val["file"])
 		checkNil(w, err)
 		checkNil(w, aws.InsertIndexFaceByImage(val["id"], b))
 	}
@@ -130,9 +131,18 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 
 		return js, nil
 	} else {
+		today := time.Now().Local().Format("2006-01-02")
+		fmt.Println(today)
+		imageDir := imagesRoot + today
+		os.Mkdir(imageDir, os.ModePerm)
+		err := ioutil.WriteFile(imageDir+"/"+fileName, b, 0644)
+		if err != nil {
+			return nil, err
+		}
+
 		payload := &Payload{
 			Count: 0,
-			File:  fileName,
+			File:  today + "/" + fileName,
 			Data:  []Face{},
 		}
 
@@ -143,12 +153,6 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 			similarity := strconv.FormatFloat(matchFace.Similarity, 'f', 2, 64)
 			fmt.Println(id)
 			fmt.Println(similarity)
-
-			os.Mkdir(imagesRoot+id, os.ModePerm)
-			err := ioutil.WriteFile(imagesRoot+id+"/"+fileName, b, 0644)
-			if err != nil {
-				return nil, err
-			}
 
 			val := db.FindOneActress(id)
 			fmt.Println(val)
