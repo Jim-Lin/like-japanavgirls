@@ -5,7 +5,6 @@ import (
 	"./db"
 	"encoding/json"
 	"fmt"
-	// "io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -31,44 +30,59 @@ type Face struct {
 	Similarity string
 }
 
+var emptyPayload = Payload{Count: 0}
+
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() { //catch or finally
+		if err := recover(); err != nil { //catch
+			log.Println(err)
+			js, _ := json.Marshal(emptyPayload)
+			w.Write(js)
+		}
+	}()
+
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
-	checkPost(w, r)
+	checkPost(r)
 
 	err := r.ParseMultipartForm(32 << 20) // maxMemory
-	checkNil(w, err)
+	checkError(err)
 
 	file, handler, err := r.FormFile("upload")
-	checkNil(w, err)
+	checkError(err)
 	defer file.Close()
 
 	b, err := ioutil.ReadAll(file)
-	checkNil(w, err)
+	checkError(err)
 
-	js, err := searchFace(b, handler.Filename)
-	checkNil(w, err)
-
-	w.Write(js)
+	w.Write(searchFace(b, handler.Filename))
 }
 
 func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() { //catch or finally
+		if err := recover(); err != nil { //catch
+			log.Println(err)
+			js, _ := json.Marshal(emptyPayload)
+			w.Write(js)
+		}
+	}()
+
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
-	checkPost(w, r)
+	checkPost(r)
 
 	decoder := json.NewDecoder(r.Body)
 	val := map[string]string{}
 	err := decoder.Decode(&val)
-	checkNil(w, err)
+	checkError(err)
 
 	fmt.Println(val)
 	if val["ox"] == "like" {
 		b, err := ioutil.ReadFile(imagesRoot + val["file"])
-		checkNil(w, err)
-		checkNil(w, aws.InsertIndexFaceByImage(val["id"], b))
+		checkError(err)
+		checkError(aws.InsertIndexFaceByImage(val["id"], b))
 	}
 
 	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
@@ -83,53 +97,35 @@ func main() {
 	}
 }
 
-func checkNil(w http.ResponseWriter, err error) {
+func checkError(err error) {
 	if err != nil {
-		log.Println(err)
 		// http.Error(w, err.Error(), http.StatusInternalServerError)
 		// return
-
-		responseEmptyPayload(w)
+		panic(err)
 	}
 }
 
-func checkPost(w http.ResponseWriter, r *http.Request) {
+func checkPost(r *http.Request) {
 	if r.Method != "POST" {
-		log.Println("Allowed POST method only")
 		// http.Error(w, "Allowed POST method only", http.StatusMethodNotAllowed)
 		// return
-
-		responseEmptyPayload(w)
+		panic("Allowed POST method only")
 	}
 }
 
-func responseEmptyPayload(w http.ResponseWriter) {
-	emptyPayload := &Payload{
-		Count: 0,
-	}
-
-	js, _ := json.Marshal(emptyPayload)
-	w.Write(js)
-}
-
-func searchFace(b []byte, fileName string) ([]byte, error) {
+func searchFace(b []byte, fileName string) []byte {
 	result, err := aws.SearchFacesByImage(b)
 	if err != nil {
-		return nil, err
-	}
-
-	emptyPayload := &Payload{
-		Count: 0,
-		File:  fileName,
+		panic(err)
 	}
 
 	if result == nil {
 		js, err := json.Marshal(emptyPayload)
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 
-		return js, nil
+		return js
 	} else {
 		today := time.Now().Local().Format("2006-01-02")
 		fmt.Println(today)
@@ -137,7 +133,7 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 		os.Mkdir(imageDir, os.ModePerm)
 		err := ioutil.WriteFile(imageDir+"/"+fileName, b, 0644)
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 
 		payload := &Payload{
@@ -146,11 +142,11 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 			Data:  []Face{},
 		}
 
-		for i := 0; i < 2 && i < len(*result); i++ {
-			matchFace := (*result)[i]
+		for i := 0; i < 2 && i < len(result); i++ {
+			var matchFace = result[i]
 
-			id := matchFace.Id
-			similarity := strconv.FormatFloat(matchFace.Similarity, 'f', 2, 64)
+			id := (*matchFace).Id
+			similarity := strconv.FormatFloat((*matchFace).Similarity, 'f', 2, 64)
 			fmt.Println(id)
 			fmt.Println(similarity)
 
@@ -160,10 +156,10 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 			if len(val) == 0 {
 				js, err := json.Marshal(emptyPayload)
 				if err != nil {
-					return nil, err
+					panic(err)
 				}
 
-				return js, nil
+				return js
 			}
 
 			face := Face{
@@ -179,9 +175,9 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 
 		js, err := json.Marshal(payload)
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 
-		return js, nil
+		return js
 	}
 }
