@@ -17,7 +17,7 @@ type Face struct {
 	Similarity float64
 }
 
-func SearchFacesByImage(imgBytes []byte) (*[]Face, error) {
+func SearchFacesByImage(imgBytes []byte) ([]*Face, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(Region),
 	})
@@ -56,19 +56,19 @@ func SearchFacesByImage(imgBytes []byte) (*[]Face, error) {
 		return nil, nil
 	}
 
-	faces := []Face{Face{*resp.FaceMatches[0].Face.ExternalImageId, *resp.FaceMatches[0].Similarity}}
+	faces := []*Face{&Face{*resp.FaceMatches[0].Face.ExternalImageId, *resp.FaceMatches[0].Similarity}}
 	ids := []string{*resp.FaceMatches[0].Face.ExternalImageId}
 	for i := 1; i < len(resp.FaceMatches); i++ {
 		face := resp.FaceMatches[i]
 		if !hasElem(ids, *face.Face.ExternalImageId) {
 			if *face.Similarity >= 20 {
 				ids = append(ids, *face.Face.ExternalImageId)
-				faces = append(faces, Face{*face.Face.ExternalImageId, *face.Similarity})
+				faces = append(faces, &Face{*face.Face.ExternalImageId, *face.Similarity})
 			}
 		}
 	}
 
-	return &faces, nil
+	return faces, nil
 }
 
 func InsertIndexFaceByImage(id string, imgBytes []byte) error {
