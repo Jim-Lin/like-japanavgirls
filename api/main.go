@@ -29,24 +29,20 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
-
-	if r.Method != "POST" {
-		http.Error(w, "Allowed POST method only", http.StatusMethodNotAllowed)
-		return
-	}
+	checkPost(w, r)
 
 	err := r.ParseMultipartForm(32 << 20) // maxMemory
-	checkNil(&w, err)
+	checkNil(w, err)
 
 	file, handler, err := r.FormFile("upload")
-	checkNil(&w, err)
+	checkNil(w, err)
 	defer file.Close()
 
 	b, err := ioutil.ReadAll(file)
-	checkNil(&w, err)
+	checkNil(w, err)
 
 	js, err := searchFace(b, handler.Filename)
-	checkNil(&w, err)
+	checkNil(w, err)
 
 	w.Write(js)
 }
@@ -55,22 +51,18 @@ func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
-
-	if r.Method != "POST" {
-		http.Error(w, "Allowed POST method only", http.StatusMethodNotAllowed)
-		return
-	}
+	checkPost(w, r)
 
 	decoder := json.NewDecoder(r.Body)
 	val := map[string]string{}
 	err := decoder.Decode(&val)
-	checkNil(&w, err)
+	checkNil(w, err)
 
 	fmt.Println(val)
 	if val["ox"] == "like" {
 		b, err := ioutil.ReadFile(imagesRoot + val["id"] + "/" + val["file"])
-		checkNil(&w, err)
-		checkNil(&w, aws.InsertIndexFaceByImage(val["id"], b))
+		checkNil(w, err)
+		checkNil(w, aws.InsertIndexFaceByImage(val["id"], b))
 	}
 
 	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
@@ -85,12 +77,33 @@ func main() {
 	}
 }
 
-func checkNil(w *http.ResponseWriter, err error) {
+func checkNil(w http.ResponseWriter, err error) {
 	if err != nil {
 		log.Fatal(err)
-		http.Error(*w, err.Error(), http.StatusInternalServerError)
-		return
+		// http.Error(*w, err.Error(), http.StatusInternalServerError)
+		// return
+
+		responseEmptyPayload(w)
 	}
+}
+
+func checkPost(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		log.Fatal("Allowed POST method only")
+		// http.Error(w, "Allowed POST method only", http.StatusMethodNotAllowed)
+		// return
+
+		responseEmptyPayload(w)
+	}
+}
+
+func responseEmptyPayload(w http.ResponseWriter) {
+	emptyPayload := Payload{
+		Id: "",
+	}
+
+	js, _ := json.Marshal(emptyPayload)
+	w.Write(js)
 }
 
 func searchFace(b []byte, fileName string) ([]byte, error) {
