@@ -18,9 +18,14 @@ const (
 )
 
 type Payload struct {
+	Count int
+	File  string
+	Data  []Face
+}
+
+type Face struct {
 	Id         string
 	Name       string
-	File       string
 	Img        string
 	Similarity string
 }
@@ -80,7 +85,7 @@ func main() {
 func checkNil(w http.ResponseWriter, err error) {
 	if err != nil {
 		log.Println(err)
-		// http.Error(*w, err.Error(), http.StatusInternalServerError)
+		// http.Error(w, err.Error(), http.StatusInternalServerError)
 		// return
 
 		responseEmptyPayload(w)
@@ -98,8 +103,8 @@ func checkPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func responseEmptyPayload(w http.ResponseWriter) {
-	emptyPayload := Payload{
-		Id: "",
+	emptyPayload := &Payload{
+		Count: 0,
 	}
 
 	js, _ := json.Marshal(emptyPayload)
@@ -112,9 +117,9 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 		return nil, err
 	}
 
-	emptyPayload := Payload{
-		Id:   "",
-		File: fileName,
+	emptyPayload := &Payload{
+		Count: 0,
+		File:  fileName,
 	}
 
 	if result == nil {
@@ -125,36 +130,49 @@ func searchFace(b []byte, fileName string) ([]byte, error) {
 
 		return js, nil
 	} else {
-		id := result.Id
-		similarity := strconv.FormatFloat(result.Similarity, 'f', 2, 64)
-		fmt.Println(id)
-		fmt.Println(similarity)
-
-		os.Mkdir(imagesRoot+id, os.ModePerm)
-		err := ioutil.WriteFile(imagesRoot+id+"/"+fileName, b, 0644)
-		if err != nil {
-			return nil, err
+		payload := &Payload{
+			Count: 0,
+			File:  fileName,
+			Data:  []Face{},
 		}
 
-		val := db.FindOneActress(id)
-		fmt.Println(val)
+		for i := 0; i < 2 && i < len(*result); i++ {
+			matchFace := (*result)[i]
 
-		if len(val) == 0 {
-			js, err := json.Marshal(emptyPayload)
+			id := matchFace.Id
+			similarity := strconv.FormatFloat(matchFace.Similarity, 'f', 2, 64)
+			fmt.Println(id)
+			fmt.Println(similarity)
+
+			os.Mkdir(imagesRoot+id, os.ModePerm)
+			err := ioutil.WriteFile(imagesRoot+id+"/"+fileName, b, 0644)
 			if err != nil {
 				return nil, err
 			}
 
-			return js, nil
+			val := db.FindOneActress(id)
+			fmt.Println(val)
+
+			if len(val) == 0 {
+				js, err := json.Marshal(emptyPayload)
+				if err != nil {
+					return nil, err
+				}
+
+				return js, nil
+			}
+
+			face := Face{
+				Id:         id,
+				Name:       val["name"],
+				Img:        val["img"],
+				Similarity: similarity,
+			}
+
+			payload.Count += 1
+			payload.Data = append(payload.Data, face)
 		}
 
-		payload := &Payload{
-			Id:         id,
-			Name:       val["name"],
-			File:       fileName,
-			Img:        val["img"],
-			Similarity: similarity,
-		}
 		js, err := json.Marshal(payload)
 		if err != nil {
 			return nil, err

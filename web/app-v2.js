@@ -61,11 +61,9 @@
     function result(json) {
         var result = document.getElementById("result");
 
-        var div1 = createCard(json);
-        result.appendChild(div1);
-
-        // fake
-        result.appendChild(createCard({}));
+        json.Data.forEach(function(element, index, array) {
+            result.appendChild(createCard(element));
+        });
 
 
         var controls = document.querySelector('.upload-controls');
@@ -184,7 +182,7 @@
                 var json = JSON.parse(xhr.responseText);
                 console.log(json); // handle response.
 
-                if ((Object.keys(json).length === 0 && json.constructor === Object) || (json.Name == "")) {
+                if ((Object.keys(json).length === 0 && json.constructor === Object) || (json.Count == 0)) {
                     var notfound = document.getElementById("notfound");
                     notfound.style.display = "block";
 
