@@ -5,55 +5,6 @@
 	margin-left : auto;
 }
 
-.button-box {
-	height: 49px;
-	width: 280px;
-	border-radius: 3px;
-	background-image: linear-gradient(30deg, #fffe34 -100%, #ff007c 100%);
-	box-shadow: 0px 15px 30px -15px #000000, 0px 15px 30px -15px #ff346d;
-}
-
-.button-box .button {
-	top: 14px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	font-size: 18px;
-	color: #ffffff;
-	text-align: center;
-	letter-spacing: 0.0139em;
-
-	cursor: pointer;
-
-    display: -webkit-box;/*--- Androidブラウザ用 ---*/
-    display: -ms-flexbox;/*--- IE10 ---*/
-    display: -webkit-flex;/*--- safari（PC）用 ---*/
-	display: flex;
-	
-    flex-wrap: wrap; /* optional. only if you want the items to wrap */
-
-    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
-    -ms-flex-pack: center;/*--- IE10 ---*/
-    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
-    justify-content: center; /* for horizontal alignment */
-
-    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
-    -ms-flex-align: center;/*--- IE10 ---*/
-    -webkit-align-items: center;/*--- safari（PC）用 ---*/
-    align-items: center; /* for vertical alignment */
-}
-
-.content {
-	position: inherit;
-	top: 0px;
-	left: 0px;
-
-	height: 100vh;
-	background: linear-gradient(0deg, #ffffff 20%,  #ddd6f3 40%), url("Colorful-Light-Bokeh-Texture.jpg");
-	background-blend-mode: screen;
-	background-size: cover;
-}
-
 .content::after {
 /*	position: relative;
 	margin-right: auto;
