@@ -3,66 +3,36 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DARK Facial Recognition</title>
-	<style>
-		.block {
-			float: left;
-		    margin: 10px;
-		    padding: 10px;
-		    max-width: 300px;
-		    max-height: 300px;
-		    border: 1px solid black;
-		}
-		.block img {
-			max-width: 280px;
-			max-height: 280px;
-    	}
-
-	    .block a {
-	    	text-decoration: none;
-	    	font-size: 80%;
-	    	color: hotpink;
-	    }
-		.block a:hover {
-		    text-decoration: underline;
-		}
-
-		.block #like {
-			font-size: 120%;
-	        background-color: white;
-		    color: black;
-		    border: 2px solid #4CAF50;
-		    text-align: center;
-		    display: inline-block;
-	    }
-	    .block #like:hover {
-	    	background-color: #4CAF50;
-	    	color: white;
-	    }
-	    .block #unlike {
-	    	font-size: 120%;
-	    	background-color: white;
-		    color: black;
-		    border: 2px solid red;
-		    text-align: center;
-		    display: inline-block;
-	    }
-	    .block #unlike:hover {
-	    	background-color: red;
-	    	color: white;
-	    }
-	</style>
+	<title>DARK Facial Recognition</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-
-<img src="loading.gif" id="loading" style="display: none; float: left;" />
-
-<div id="result"></div>
-
-<div id="preview"></div>
+<div class="content">
+	<div class="inner">
+		<div class="row">
+			<div class="col-8" id="preview"></div>
+			<div class="col-3" id="notfound" style="display: none;">
+			  <div class="dot"></div>
+			  <div class="text">検索エラー、別の写真を選択してください</div>
+			</div>
+		</div>
+		<img src="loading.gif" id="loading" style="display: none; margin: auto;" />
+		<div class="row">
+			<div class="col-8" id="process" style="display: none;">
+			  <div class="line"></div><div class="dot"></div>
+			  <div class="text">結果</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-8" id="result"></div>
+		</div>
+	</div>
+</div>
+</body>
 
 <!-- Scripts -->
 <script src="info.js" charset="UTF-8"></script>
 
-</body>
 </html>

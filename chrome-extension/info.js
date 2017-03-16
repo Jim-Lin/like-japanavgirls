@@ -8,16 +8,17 @@
         xhr.open("POST", url, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                var h3 = document.createElement("h3");
-                var thx = document.createTextNode("感謝回饋");
-                h3.appendChild(thx);
+                var b = document.createElement("b");
+                b.setAttribute("style", "text-align: center;");
+                var thx = document.createTextNode("Thanks");
+                b.appendChild(thx);
 
-                var feedback = document.getElementById("feedback");
+                var feedback = document.getElementById("feedback" + id);
                 while (feedback.firstChild) {
                     feedback.removeChild(feedback.firstChild);
                 }
 
-                feedback.appendChild(h3);
+                feedback.appendChild(b);
             }
         };
 
@@ -35,14 +36,14 @@
             preview.removeChild(preview.firstChild);
         }
 
-        var thumb = document.createElement("div");
-        thumb.classList.add('block');
+        var notfound = document.getElementById("notfound");
+        notfound.style.display = "none";
 
         var img = document.createElement("img");
         img.file = file;
+        img.classList.add('thumb');
 
-        thumb.appendChild(img);
-        preview.appendChild(thumb);
+        preview.appendChild(img);
 
         // Using FileReader to display the image content
         var reader = new FileReader();
@@ -51,76 +52,100 @@
     }
 
     function result(json) {
+        var process = document.getElementById("process");
+        process.style.display = "block";
+
         var result = document.getElementById("result");
 
-        var thumb = document.createElement("div");
-        thumb.classList.add('block');
+        result.appendChild(createCard(json.Data[0]));
+        // json.Data.forEach(function(element, index, array) {
+        //     result.appendChild(createCard(element));
+        // });
 
-        if (json.Name == "") {
-            var h3 = document.createElement("h3");
-            var notfound = document.createTextNode("找不到");
-            h3.appendChild(notfound);
+        // querySelectorAll support issue
+        // document.querySelectorAll('.fadeOut').forEach(function(element, index, array) {
+        //     element.classList.remove('fadeOut');
+        // });
 
-            thumb.appendChild(h3);
-            result.appendChild(thumb);
+        var divs = [].slice.call(document.querySelectorAll('div')).filter(function(el) {
+           return el.className.match(/\bfadeOut\b/i);
+        });
+        divs.forEach(function(element, index, array) {
+            element.classList.remove('fadeOut');
+        });
+    }
 
-            return;
-        }
+    function createCard(json) {
+        var card = document.createElement("div");
+        card.classList.add('card');
+        card.classList.add('fadeOut');
 
-        var h3 = document.createElement("h3");
-        var name = document.createTextNode(json.Name);
-        h3.appendChild(name);
-
+        var div_profile = document.createElement("div");
+        div_profile.classList.add('profile');
         var img = document.createElement("img");
         img.src = json.Img;
         var a_img = document.createElement("a");
         a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
         a_img.setAttribute("target", "_blank");
         a_img.appendChild(img);
+        div_profile.appendChild(a_img);
+
+        var div_name = document.createElement("div");
+        div_name.classList.add('name');
+        var name = document.createTextNode(json.Name);
+        div_name.appendChild(name);
 
         var div_similarity = document.createElement("div");
-        var similarity = document.createTextNode("相似度: " + json.Similarity + "%");
+        div_similarity.classList.add('similarity');
+        var similarity = document.createTextNode("そっくり率: " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
 
-        var div_resource = document.createElement("div");
+        var div_buy = document.createElement("div");
+        div_buy.classList.add('button-box', 'box');
+        var t_buy = document.createTextNode("買い物に行く");
         var a_buy = document.createElement("a");
-        var t_buy = document.createTextNode("去買片");
+        a_buy.classList.add('button');
         a_buy.setAttribute("href", "http://www.r18.com/videos/vod/movies/list/id=" + json.Id + "/sort=new/type=actress/");
         a_buy.setAttribute("target", "_blank");
         a_buy.appendChild(t_buy);
-        var a_torrent = document.createElement("a");
-        var t_torrent = document.createTextNode("去抓片");
-        a_torrent.setAttribute("href", "http://sukebei.nyaa.se/?page=search&term=" + json.Name);
-        a_torrent.setAttribute("target", "_blank");
-        a_torrent.appendChild(t_torrent);
-        div_resource.appendChild(a_buy);
-        div_resource.appendChild(document.createTextNode(" "));
-        div_resource.appendChild(a_torrent);
+        div_buy.appendChild(a_buy);
 
         var div_feedback = document.createElement("div");
-        div_feedback.setAttribute("id", "feedback");
-        var b_like = document.createElement("button");
-        b_like.setAttribute("id", "like");
-        b_like.onclick = function() { feedback(json.Id, "like"); };
-        var t_like = document.createTextNode("覺得像");
-        b_like.appendChild(t_like);
-        var b_unlike = document.createElement("button");
-        b_unlike.setAttribute("id", "unlike");
-        b_unlike.onclick = function() { feedback(json.Id, "unlike"); };
-        var t_unlike = document.createTextNode("差很多");
-        b_unlike.appendChild(t_unlike);
-        div_feedback.appendChild(b_like);
-        div_feedback.appendChild(document.createTextNode(" "));
-        div_feedback.appendChild(b_unlike);
+        div_feedback.setAttribute("id", "feedback" + json.Id);
+        div_feedback.classList.add('feedback');
+        var div_like = document.createElement("div");
+        div_like.setAttribute("id", "like");
+        div_like.addEventListener('click', function(event) {
+            feedback(json.Id, "like");
+        });
+        var t_like = document.createTextNode("そっくり");
+        div_like.appendChild(t_like);
+        var div_unlike = document.createElement("div");
+        div_unlike.setAttribute("id", "unlike");
+        div_unlike.addEventListener('click', function(event) {
+            feedback(json.Id, "unlike");
+        });
+        var t_unlike = document.createTextNode("似てない");
+        div_unlike.appendChild(t_unlike);
+        var div_center = document.createElement("div");
+        div_center.setAttribute("id", "center");
+        div_feedback.appendChild(div_unlike);
+        div_feedback.appendChild(div_center);
+        div_feedback.appendChild(div_like);
         
-        thumb.appendChild(h3);
-        thumb.appendChild(a_img);
-        thumb.appendChild(div_similarity);
-        thumb.appendChild(document.createElement("br"));
-        thumb.appendChild(div_resource);
-        thumb.appendChild(document.createElement("br"));
-        thumb.appendChild(div_feedback);
-        result.appendChild(thumb);
+        card.appendChild(div_profile);
+        card.appendChild(div_name);
+        card.appendChild(div_similarity);
+        card.appendChild(div_buy);
+
+        var div_separation = document.createElement("div");
+        div_separation.classList.add('separation');
+        div_separation.appendChild(document.createElement("hr"));
+        card.appendChild(div_separation);
+
+        card.appendChild(div_feedback);
+
+        return card;
     }
 
     /**
@@ -144,6 +169,18 @@
                 // Every thing ok, file uploaded
                 var json = JSON.parse(xhr.responseText);
                 console.log(json); // handle response.
+
+                if ((Object.keys(json).length === 0 && json.constructor === Object) || (json.Count == 0)) {
+                    var notfound = document.getElementById("notfound");
+                    notfound.style.display = "block";
+                    var preview = document.getElementById("preview");
+                    preview.classList.remove('col-8');
+                    preview.classList.add('col-5');
+
+                    return;
+                }
+
+                filename = json.File;
                 result(json);
             }
         };

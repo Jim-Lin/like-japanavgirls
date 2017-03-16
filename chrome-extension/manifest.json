@@ -1,7 +1,7 @@
 {
   "name": "Like Japanavgirls",
   "description": "DARK Facial Recognition",
-  "version": "0.2",
+  "version": "0.3",
   "permissions": [
   	"contextMenus",
   	"<all_urls>"
