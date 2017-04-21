@@ -1,0 +1,286 @@
+.inner {
+	position: relative;
+	max-width: 375px;
+	margin-right: auto;
+	margin-left : auto;
+}
+
+.content::after {
+/*	position: relative;
+	margin-right: auto;
+	margin-left : auto;
+	content: url("Fill-4.svg");*/
+	/*url("Fill-2.svg") url("Fill-3.svg") url("Fill-4.svg");*/
+}
+
+.title {
+	position: absolute;
+	top: 99px;
+	left: 32px;
+	height: 20px;
+	width: 100%;
+	font-size: 20px;
+	font-weight: 900;
+	color: #ff007c;
+	text-align: left;
+}
+
+.sub-title {
+	position: absolute;
+	top: 131px;
+	left: 32px;
+	height: 16px;
+	width: 100%;
+	font-size: 16px;
+	color: #ff007c;
+	text-align: left;
+}
+
+.upload-controls {
+	position: inherit;
+	top: 218px;
+
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
+	display: flex;
+	
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
+    justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
+    align-items: center; /* for vertical alignment */
+}
+
+.upload-description {
+	display: none;
+}
+
+.upload-box {
+	position: inherit;
+}
+
+#preview {
+	position: inherit;
+	top: 304px;
+	margin: auto;
+	width: 296px;
+    height: 296px;
+}
+
+.thumb {
+	position: inherit;
+	max-width: 296px;
+    max-height: 296px;
+	border-radius: 7px;
+	margin: auto;
+	
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
+	display: flex;
+	
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
+    justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
+    align-items: center; /* for vertical alignment */
+}
+
+#notfound {
+	position: absolute;
+	top: 690px;
+	margin-left: auto;
+	font-size: 14px;
+	color: #4a4a4a;
+	line-height: 20px;
+	text-align: right;
+}
+
+#notfound .dot {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	background-color: #4a4a4a;
+	border-radius: 18px;
+}
+
+#notfound .text {
+	margin-left: 20px;
+}
+
+#process {
+	position: absolute;
+	top: 680px;
+	width: 100%;
+	font-size: 10px;
+	color: #000000;
+	text-align: left;
+	letter-spacing: 0.0063em;
+}
+
+#process .line {
+	position: absolute;
+	margin-top: 4px;
+	width: 50px;
+	border: 1px solid #fc4478;
+}
+
+#process .dot {
+	position: absolute;
+	margin-left: 57px;
+	margin-top: 3px;
+	height: 5px;
+	width: 5px;
+	background-color: #fc4478;
+	border-radius: 5px;
+}
+
+#process .text {
+	position: absolute;
+	margin-left: 65px;
+}
+
+#result {
+	position: inherit;
+	top: 380px;
+}
+
+#result .card {
+	position: relative;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 380px;
+	width: 100%;
+	border: 1.5px solid #f95981;
+	border-radius: 12px;
+
+	border-style: dashed;
+
+	opacity: 1;
+	-webkit-transition: opacity 3s;
+	-moz-transition: opacity 3s;
+	transition: opacity 3s;
+
+	display: -webkit-box;/*--- Androidブラウザ用 ---*/
+    display: -ms-flexbox;/*--- IE10 ---*/
+    display: -webkit-flex;/*--- safari（PC）用 ---*/
+	display: flex;
+	
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+
+    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-pack: center;/*--- IE10 ---*/
+    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
+    justify-content: center; /* for horizontal alignment */
+
+    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+    -ms-flex-align: center;/*--- IE10 ---*/
+    -webkit-align-items: center;/*--- safari（PC）用 ---*/
+    align-items: center; /* for vertical alignment */
+
+    -webkit-flex-direction: column;/*--- safari（PC）用 ---*/
+    flex-direction: column;
+}
+
+#result .card .profile {
+	margin-top: 15px;
+}
+
+#result .card .profile * img {
+	height: 125px;
+	width: 125px;
+	background-color: #d8d8d8;
+	border-radius: 150px;
+}
+
+#result .card .name {
+	margin-top: 15px;
+	height: 28px;
+	font-size: 20px;
+	color: #4a4a4a;
+}
+
+#result .card .similarity {
+	margin-top: 5px;
+	font-size: 14px;
+	color: #9b9b9b;
+}
+
+#result .card .box {
+	margin-top: 25px;
+}
+
+#result .card a {
+    color: #ffffff;
+}
+
+#result .card a:link {
+    text-decoration: none;
+}
+
+#result .card a:visited {
+    text-decoration: none;
+}
+
+#result .card a:hover {
+    text-decoration: none;
+}
+
+#result .card a:active {
+    text-decoration: none;
+}
+
+#result .card .separation {
+	margin-top: 26px;
+}
+
+#result .card .separation hr {
+	width: 300px;
+}
+
+#result .card .feedback {
+	margin-top: 10px;
+	width: 100%;
+	font-size: 15px;
+	text-align: center;
+}
+
+#result .card #unlike {
+	float: left;
+	width: 40%;
+	color: #4a90e2;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .card #center {
+	display: inline-block;
+	height: 16px;
+	width: 0.01px;
+	border: 1px solid #d5d5d5;
+}
+
+#result .card #like {
+	float: right;
+	width: 40%;
+	color: #fb0069;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .fadeOut {
+	opacity: 0;
+}

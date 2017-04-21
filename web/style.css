@@ -1,0 +1,277 @@
+.inner {
+	position: relative;
+	max-width: 960px;
+	margin-right: auto;
+	margin-left : auto;
+}
+
+.content::after {
+/*	position: relative;
+	margin-right: auto;
+	margin-left : auto;
+	content: url("Fill-4.svg");*/
+	/*url("Fill-2.svg") url("Fill-3.svg") url("Fill-4.svg");*/
+}
+
+.title {
+	position: absolute;
+	top: 50px;
+	left: 60px;
+	width: 100%;
+	font-size: 65px;
+	font-weight: 900;
+	color: #ff007c;
+	text-align: left;
+}
+
+.sub-title {
+	position: absolute;
+	top: 130px;
+	left: 65px;
+	width: 100%;
+	font-size: 27px;
+	color: #ff007c;
+	text-align: left;
+}
+
+.upload-controls {
+	position: absolute;
+	top: 180px;
+	left: 65px;
+	height: 192px;
+	width: 380px;
+	background-color: #ffffff;
+	border-radius: 15px;
+}
+
+.upload-description {
+	position: inherit;
+	top: 35px;
+	left: 38px;
+	height: 20px;
+	width: 100%;
+	font-size: 14px;
+	color: #4a4a4a;
+	text-align: left;
+	line-height: 20px;
+
+	border-left: 6px solid #4a4a4a;
+	padding-left: 3px;
+}
+
+.upload-box {
+	position: absolute;
+	top: 104px;
+	left: 53px;
+}
+
+#preview {
+	position: relative;
+	top: 180px;
+	margin-left: auto;
+	margin-right: 80px;
+	width: 296px;
+    height: 296px;
+}
+
+.thumb {
+	position: inherit;
+	max-width: 296px;
+    max-height: 296px;
+	background-color: #ffffff;
+	border-radius: 7px;
+}
+
+#notfound {
+	position: relative;
+	top: 200px;
+	margin-left: auto;
+	margin-right: 80px;
+	font-size: 14px;
+	color: #4a4a4a;
+	line-height: 20px;
+	text-align: right;
+}
+
+#notfound .dot {
+	position: absolute;
+	height: 18px;
+	width: 18px;
+	background-color: #4a4a4a;
+	border-radius: 18px;
+}
+
+#notfound .text {
+	margin-left: 20px;
+}
+
+#process {
+	position: absolute;
+	top: 500px;
+	left: 78px;
+	width: 100%;
+	font-size: 10px;
+	color: #000000;
+	text-align: left;
+	letter-spacing: 0.0063em;
+}
+
+#process .line {
+	position: absolute;
+	margin-top: 4px;
+	width: 50px;
+	border: 1px solid #fc4478;
+}
+
+#process .dot {
+	position: absolute;
+	margin-left: 57px;
+	margin-top: 3px;
+	height: 5px;
+	width: 5px;
+	background-color: #fc4478;
+	border-radius: 5px;
+}
+
+#process .text {
+	position: absolute;
+	margin-left: 65px;
+}
+
+#result {
+	position: absolute;
+	top: 520px;
+	width: 80%;
+}
+
+#result .card {
+	position: relative;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	left: 82px;
+	height: 221px;
+	border: 1.5px solid #f95981;
+	border-radius: 12px;
+
+	border-style: dashed;
+
+	opacity: 1;
+	-webkit-transition: opacity 3s;
+	-moz-transition: opacity 3s;
+	transition: opacity 3s;
+}
+
+#result .card .profile {
+	position: absolute;
+	top: 20px;
+	left: 67px;
+}
+
+#result .card .profile * img {
+	height: 125px;
+	width: 125px;
+	background-color: #d8d8d8;
+	border-radius: 150px;
+}
+
+#result .card .name {
+	position: absolute;
+	top: 53px;
+	left: 217px;
+	height: 28px;
+	width: 100%;
+	font-size: 20px;
+	color: #4a4a4a;
+	text-align: left;
+}
+
+#result .card .similarity {
+	position: absolute;
+	top: 93px;
+	left: 217px;
+	width: 100%;
+	font-size: 14px;
+	color: #9b9b9b;
+	text-align: left;
+}
+
+#result .card .box {
+	position: inherit;
+	top: 53px;
+	margin-left: auto;
+	margin-right: 45px;
+}
+
+#result .card a {
+    color: #ffffff;
+}
+
+#result .card a:link {
+    text-decoration: none;
+}
+
+#result .card a:visited {
+    text-decoration: none;
+}
+
+#result .card a:hover {
+    text-decoration: none;
+}
+
+#result .card a:active {
+    text-decoration: none;
+}
+
+#result .card .separation {
+	position: relative;
+	top: 100px;
+}
+
+#result .card .separation hr {
+	width: 90%;
+}
+
+/*#result .card .separation {
+	position: absolute;
+	top: 156px;
+	left: 36px;
+	width: 719px;
+	border: 1px solid #cccccc;
+}*/
+
+#result .card .feedback {
+	position: relative;
+	margin-right: auto;
+	margin-left : auto;
+	top: 112px;
+	width: 100%;
+	font-size: 15px;
+	text-align: center;
+}
+
+#result .card #unlike {
+	float: left;
+	width: 40%;
+	color: #4a90e2;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .card #center {
+	display: inline-block;
+	height: 16px;
+	width: 0.01px;
+	border: 1px solid #d5d5d5;
+}
+
+#result .card #like {
+	float: right;
+	width: 40%;
+	color: #fb0069;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .fadeOut {
+	opacity: 0;
+}
