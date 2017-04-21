@@ -70,7 +70,6 @@ body {
 	top: 0px;
 	left: 0px;
 
-	height: 100vh;
 	background: linear-gradient(0deg, #ffffff 20%,  #ddd6f3 40%), url("Colorful-Light-Bokeh-Texture.jpg");
 	background-blend-mode: screen;
 	background-size: cover;
