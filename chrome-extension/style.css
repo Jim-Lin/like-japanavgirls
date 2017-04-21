@@ -1,0 +1,263 @@
+* {
+	box-sizing: border-box;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+[class*="col-"] {
+    float: left;
+}
+
+/* For desktop: */
+.col-1 {width: 12.5%;}
+.col-2 {width: 25%;}
+.col-3 {width: 37.5%;}
+.col-4 {width: 50%;}
+.col-5 {width: 62.5%;}
+.col-6 {width: 75%;}
+.col-7 {width: 87.5%;}
+.col-8 {width: 100%;}
+
+.inner {
+	max-width: 560px;
+	margin-right: auto;
+	margin-left : auto;
+}
+
+.row {
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+.button-box {
+	height: 47px;
+	width: 196px;
+	border-radius: 3px;
+	background-image: linear-gradient(30deg, #fffe34 -100%, #ff007c 100%);
+	box-shadow: 0px 15px 30px -15px #000000, 0px 15px 30px -15px #ff346d;
+}
+
+.button-box .button {
+	top: 14px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing: 0.0139em;
+
+	cursor: pointer;
+
+	display: flex;
+    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+    justify-content: center; /* for horizontal alignment */
+    align-items: center; /* for vertical alignment */
+}
+
+.content {
+	position: inherit;
+	top: 0px;
+	left: 0px;
+
+	background: linear-gradient(0deg, #ffffff 20%,  #ddd6f3 40%), url("Colorful-Light-Bokeh-Texture.jpg");
+	background-blend-mode: screen;
+	background-size: cover;
+}
+
+#preview {
+
+}
+
+.thumb {
+	max-width: 296px;
+    max-height: 296px;
+	background-color: #ffffff;
+	border-radius: 7px;
+}
+
+#notfound {
+
+}
+
+#notfound .dot {
+	height: 18px;
+	width: 18px;
+	background-color: #4a4a4a;
+	border-radius: 18px;
+}
+
+#notfound .text {
+	margin-left: 20px;
+	margin-top: -20px;
+	font-size: 14px;
+	color: #4a4a4a;
+	line-height: 20px;
+	text-align: left;
+}
+
+#process {
+	font-size: 10px;
+	color: #000000;
+	text-align: left;
+	letter-spacing: 0.0063em;
+}
+
+#process .line {
+	margin-top: 15px;
+	width: 50px;
+	border: 1px solid #fc4478;
+}
+
+#process .dot {
+	margin-left: 57px;
+	margin-top: -4px;
+	height: 5px;
+	width: 5px;
+	background-color: #fc4478;
+	border-radius: 5px;
+}
+
+#process .text {
+	margin-left: 65px;
+	margin-top: -8px;
+}
+
+#result {
+
+}
+
+#result .card {
+	position: relative;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 506px;
+	height: 190px;
+	border: 1.5px solid #f95981;
+	border-radius: 12px;
+
+	border-style: dashed;
+
+	opacity: 1;
+	-webkit-transition: opacity 3s;
+	-moz-transition: opacity 3s;
+	transition: opacity 3s;
+}
+
+#result .card .profile {
+	position: absolute;
+	top: 22px;
+	left: 33px;
+}
+
+#result .card .profile * img {
+	height: 100px;
+	width: 100px;
+	background-color: #d8d8d8;
+	border-radius: 150px;
+}
+
+#result .card .name {
+	position: absolute;
+	top: 48px;
+	left: 144px;
+	height: 20px;
+	width: 100%;
+	font-size: 15px;
+	font-weight: 600;
+	color: #4a4a4a;
+	text-align: left;
+}
+
+#result .card .similarity {
+	position: absolute;
+	top: 70px;
+	left: 143px;
+	height: 20px;
+	width: 100%;
+	font-size: 15px;
+	color: #9b9b9b;
+	text-align: left;
+}
+
+#result .card .box {
+	position: inherit;
+	top: 48px;
+	left: 287px;
+}
+
+#result .card a {
+    color: #ffffff;
+}
+
+#result .card a:link {
+    text-decoration: none;
+}
+
+#result .card a:visited {
+    text-decoration: none;
+}
+
+#result .card a:hover {
+    text-decoration: none;
+}
+
+#result .card a:active {
+    text-decoration: none;
+}
+
+#result .card .separation {
+	position: relative;
+	top: 80px;
+}
+
+#result .card .separation hr {
+	width: 90%;
+}
+
+#result .card .feedback {
+	position: relative;
+	margin-right: auto;
+	margin-left : auto;
+	top: 90px;
+	width: 100%;
+	font-size: 15px;
+	text-align: center;
+}
+
+#result .card #unlike {
+	float: left;
+	width: 40%;
+	color: #4a90e2;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .card #center {
+	display: inline-block;
+	height: 16px;
+	width: 0.01px;
+	border: 1px solid #d5d5d5;
+}
+
+#result .card #like {
+	float: right;
+	width: 40%;
+	color: #fb0069;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#result .fadeOut {
+	opacity: 0;
+}

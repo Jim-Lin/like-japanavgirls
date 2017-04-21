@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DARK Facial Recognition</title>
+  <link rel="icon" type="image/png" href="icon16.png">
+	<style>
+		.block {
+      float: left;
+      margin: 10px;
+      padding: 10px;
+      max-width: 300px;
+      max-height: 300px;
+      border: 1px solid black;
+    }
+    .block img {
+      max-width: 280px;
+      max-height: 280px;
+    }
+
+    .block a {
+      text-decoration: none;
+      font-size: 80%;
+      color: hotpink;
+    }
+    .block a:hover {
+        text-decoration: underline;
+    }
+
+    .block #like {
+      font-size: 120%;
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50;
+      text-align: center;
+      display: inline-block;
+    }
+    .block #like:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .block #unlike {
+      font-size: 120%;
+      background-color: white;
+      color: black;
+      border: 2px solid red;
+      text-align: center;
+      display: inline-block;
+    }
+    .block #unlike:hover {
+      background-color: red;
+      color: white;
+    }
+	</style>
+</head>
+<body>
+
+<div class="block">
+  <h2>upload Beauty Girl pic</h2>
+  <p><input type="file" id="uploadImage" accept="image/*" /></p>
+</div>
+
+<img src="loading.gif" id="loading" style="display: none; float: left;" />
+
+<div id="result"></div>
+
+<div id="preview"></div>
+
+<!-- Scripts -->
+<script src="app.js" charset="UTF-8"></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89546590-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
