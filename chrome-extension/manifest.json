@@ -1,0 +1,19 @@
+{
+  "name": "Like Japanavgirls",
+  "description": "DARK Facial Recognition",
+  "version": "0.3",
+  "permissions": [
+  	"contextMenus",
+  	"<all_urls>"
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "manifest_version": 2
+}

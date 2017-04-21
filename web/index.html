@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DARK Facial Recognition</title>
+  <link rel="icon" type="image/png" href="icon16.png">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="common.css">
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen and (min-width: 780px)">
+  <link rel="stylesheet" type="text/css" href="style-mobile.css" media="screen and (max-width: 780px)">
+</head>
+
+<body>
+<div class="content">
+  <div class="inner">
+    <div class="title">LIKE JP AV GIRLS</div>
+
+    <div class="sub-title">そっくりなセクシー女優を探そう</div>
+
+    <div class="upload-controls">
+      <div class="upload-description">美人写真をアップロードしてください</div>
+      <div class="button-box upload-box">
+        <label class="button" for="uploadImage">Upload Image</label>
+        <input type="file" id="uploadImage" accept="image/*" style="display: none;" />
+      </div>
+    </div>
+	
+    <div id="preview"></div>
+
+    <div id="notfound" style="display: none;">
+      <span class="dot"></span>
+      <span class="text">検索エラー、別の写真をアップロードしてください</span>
+    </div>
+
+    <div id="process" style="display: none;">
+      <span class="line"></span><span class="dot"></span>
+      <span class="text">結果</span>
+      <img src="loading.gif" id="loading" style="display: none; margin: auto;" />
+    </div>
+
+    <div id="result"></div>
+  </div>
+</div>
+</body>
+
+<!-- Scripts -->
+<script src="app.js" charset="UTF-8"></script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89546590-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</html>
