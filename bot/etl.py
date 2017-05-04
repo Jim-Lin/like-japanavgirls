@@ -39,20 +39,23 @@ class ETL:
                     self.aws.insert_index_face(actress_id, urllib2.urlopen(actress_img).read())
 
     def check_new_actress(self):
-        url = "http://actress.dmm.co.jp/-/top/"
+        self.get_new_actress("http://actress.dmm.co.jp/-/top/", "act-box-125 group", 1, "/-/detail/=/actress_id=(.*)/")
+        self.get_new_actress("http://www.dmm.co.jp/mono/dvd/-/actress/", "act-box-100 group mg-b20", 0, "/mono/dvd/-/list/=/article=actress/id=(.*)/")
+
+    def get_new_actress(self, url, cssClass, index, hrefPattern):
         r = requests.get(url)
         soup = bs(r.text)
 
-        act_box = soup.find_all("ul", {"class": "act-box-125 group"})
-        actresses = act_box[1].find_all("a")
+        act_box = soup.find_all("ul", {"class": cssClass})
+        actresses = act_box[index].find_all("a")
         for actress in actresses:
-            pattern = re.compile("/-/detail/=/actress_id=(.*)/")
+            pattern = re.compile(hrefPattern)
             match = pattern.search(actress.get("href"))
             actress_id = match.group(1)
             
             detail =  self.dao.find_one_actress_by_id(actress_id)
             if detail is None or detail.get("name") is None:
-                actress_img = actress.find("img").get("src")
+                actress_img = actress.find("img").get("src").replace('medium/', '')
                 actress_name = actress.text.encode('utf-8')
                 print actress_name
 
@@ -88,7 +91,7 @@ class ETL:
             title_tag  = works.find("td", {"class": "title-monocal"})
             title = title_tag.find("a")
             title_name = title.text
-            pattern = re.compile(ur"(^(【数量限定】|【DMM限定】|【DMM限定販売】|【アウトレット】)|（ブルーレイディスク）$)", re.UNICODE)
+            pattern = re.compile(ur"(^(【数量限定】|【DMM限定】|【DMM限定販売】|【アウトレット】|【特選アウトレット】)|（ブルーレイディスク）$)", re.UNICODE)
             match = re.search(pattern, title_name)
             if match:
                 continue
