@@ -54,7 +54,7 @@ launch webhook handler server for facebook app
 python bot/server.py
 ```
 
-go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting
+go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting and input your webhook url
 <img src="images/bot/webhook.png" width="50%" height="50%">
 
 ---
@@ -63,18 +63,18 @@ modify your Verify Token and Page Access Token in [bot/handler.py](https://githu
 - Verify Token: the same as above what you set
 - Page Access Token: page which you created for messenger permissions
 
-there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L30-L87) function
+there are two type events in bot/handler.py post function
 - message: **text** or **attachments** data
 - postback: user's feedback **payload** data to improve accuracy
 
 ### facebook bot sample operation
-- message event(text): response text
+- message event(text): response text in [bot/handler.py#L40-L42](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L40-L42)
 
 <img src="images/bot/text.png" width="50%" height="50%">
 
 ---
 
-- message event(attachment): load image data and search faces
+- message event(attachment): load image data and search faces in in [bot/handler.py#L44-L73](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L44-L73)
 
 <img src="images/bot/attachment.png" width="50%" height="50%">
 
@@ -83,7 +83,7 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
 
 ---
 
-- postback event(payload): if you think the second one is more similar than first one, press **O** button and upload the same image again, and then you will get the new similarity order
+- postback event(payload): if you think the second one is more similar than first one, press **O** button and upload the same image again, and then you will get the new similarity order in [bot/handler.py#L75-L87](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L75-L87)
 
 <img src="images/bot/feedback.png" width="50%" height="50%">
 
@@ -100,9 +100,13 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
 * gopkg.in/mgo.v2
 
 ### [upload handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
-1. call aws rekognition api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L20-L72) to search faces' similarity above 20%
+1. call aws rekognition SearchFacesByImage api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L20-L72) funtion to search faces' similarity above 20%
 1. select top 2 similarity and find data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L33-L40)
 1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31) response json format
+
+### [feedback handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L62-L89)
+1. if the value of key "ox" is "like", call aws rekognition IndexFaces api in [InsertIndexFaceByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L74-L102) funtion to add the face with the index
+1. update "like or unlike" of image with id in [UpsertOneFeedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L42-L48)
 
 ## Front-end with native JavaScript (no 3rd party library)
 ### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L165-L200)
@@ -117,9 +121,9 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
     "Data" : [ 
         {
         	"Id": "102xxx",
-        	"Img": "http://pics.dmm.co.jp/mono/actjpgs/nakamura_xxx.jpg",
-        	"Name": "中村xxx",
-        	"Similarity": "76.54"
+        	"Img": "http://pics.dmm.co.jp/mono/actjpgs/xxx.jpg",
+        	"Name": "xxx",
+        	"Similarity": "99.98"
         },
         ...
     ],
@@ -141,11 +145,13 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
 https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
 
 ### context menu
-- chrome-extension/background.js: set up context menu tree at install time and only for image context
+set up context menu tree at install time and only for image context in [chrome-extension/background.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/background.js)
 
 <img src="images/chrome/context_menu.png" width="50%" height="50%">
 
 ---
+pop window and preview and upload image in [chrome-extension/info.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/info.js#L199-L200) and then get json data to show result
+
 <img src="images/chrome/result.png" width="50%" height="50%">
 
 ---
