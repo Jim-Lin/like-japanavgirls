@@ -6,6 +6,9 @@
 ## Preparement
 1. register domain name with [お名前.com](http://www.onamae.com/)
 1. Let's Encrypt certificate authority with [NGINX](https://github.com/Jim-Lin/like-japanavgirls/blob/master/etc/nginx/sites-available/default)
+    - 80: web/
+    - 5000: bot/server.py
+    - 9090: api/main.go
 
 ## Facebook Messenger Bot with Python
 ### requisites
@@ -22,7 +25,7 @@
         - DAO: **mongodb find and update operation**
 
 #### mongodb sample document
-```
+```json
 {
     "_id" : ObjectId("5877d3f47b991c5356a45xxx"),
     "id" : "103xxx",
@@ -53,6 +56,15 @@
 ### facebook bot sample operation
 - text
 ![text](images/bot/text.png?raw=true)
+
+- attachment
+![attachment](images/bot/attachment.png?raw=true)  
+![result](images/bot/result.png?raw=true)
+
+- feedback: if you think the second one is similar, press **O** button and send image again, and then you will get the new similarity order
+![feedback](images/bot/feedback.png?raw=true)  
+![new_result](images/bot/new_result.png?raw=true)
+
 
 
 ## Back-end Api Server with Go
