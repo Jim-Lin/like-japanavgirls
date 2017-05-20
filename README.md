@@ -6,7 +6,7 @@
 ## Preparement
 1. register domain name with [お名前.com](http://www.onamae.com/)
 1. Let's Encrypt certificate authority with [NGINX](https://github.com/Jim-Lin/like-japanavgirls/blob/master/etc/nginx/sites-available/default)
-1. run mongodb docker service: `docker run -p 27017:27017 -v /var/mongo:/data/db -d mongo --auth`
+1. run docker mongodb service: `docker run -p 27017:27017 -v <mount_path>:/data/db -d mongo --auth`
 1. create facebook page for messenger
 
 ## Facebook Messenger Bot with Python
@@ -54,25 +54,28 @@ launch webhook handler server for facebook app
 python bot/server.py
 ```
 
+go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting
 <img src="images/bot/webhook.png" width="50%" height="50%">
 
 ---
 
-modify your Verify Token and Page Access Token in `bot/handler.py`
-- [Verify Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15): the same as above what you set
-- [Page Access Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L16): page which you created for messenger permissions
+modify your Verify Token and Page Access Token in [bot/handler.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15-L16)
+- Verify Token: the same as above what you set
+- Page Access Token: page which you created for messenger permissions
 
 there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L30-L87) function
 - message: **text** or **attachments** data
 - postback: user's feedback **payload** data to improve accuracy
 
 ### facebook bot sample operation
-- text: input text
+- message event(text): response text
+
 <img src="images/bot/text.png" width="50%" height="50%">
 
 ---
 
-- attachment: upload image
+- message event(attachment): load image data and search faces
+
 <img src="images/bot/attachment.png" width="50%" height="50%">
 
 ---
@@ -80,8 +83,9 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
 
 ---
 
-- payload: if you think the second one is more similar than first one, press **O** button and upload the same image again, and then you will get the new similarity order  
-<img src="images/bot/feedback.png" width="50%" height="50%">  
+- postback event(payload): if you think the second one is more similar than first one, press **O** button and upload the same image again, and then you will get the new similarity order
+
+<img src="images/bot/feedback.png" width="50%" height="50%">
 
 ---
 <img src="images/bot/new_result.png" width="50%" height="50%">
@@ -96,10 +100,9 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
 * gopkg.in/mgo.v2
 
 ### [upload handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
-1. [searchFace](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L117)
-1. [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L37): aws rekognition api **SearchFacesByImage** to search faces
-1. [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31): response json format
-
+1. call aws rekognition api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L20-L72) to search faces' similarity above 20%
+1. select top 2 similarity and find data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L33-L40)
+1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31) response json format
 
 ## Front-end with native JavaScript (no 3rd party library)
 ### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L165-L200)
@@ -138,7 +141,8 @@ there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/li
 https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
 
 ### context menu
-- chrome-extension/background.js: set up context menu tree at install time and only for image context  
+- chrome-extension/background.js: set up context menu tree at install time and only for image context
+
 <img src="images/chrome/context_menu.png" width="50%" height="50%">
 
 ---
