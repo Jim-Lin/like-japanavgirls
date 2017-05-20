@@ -15,16 +15,19 @@
 * tornado
 * pymongo
 
-### collect face data (daily cron job)
-- bot/scheduler.py import bot/etl.py to fetch data
-    - bot/etl.py import bot/aws.py and bot/dao.py
-        - aws.py: insert_index_face for insert face data to aws and search_faces for search similar face
-        - dao.py: mongodb find and update operation
-
+### face data (daily cron job)
+- bot/scheduler.py: import ETL class from bot/etl.py to **fetch monthly, daily, and work face data**
+    - ETL: import AWS class from bot/aws.py and DAO class from bot/dao.py
+        - AWS: **insert_index_face for insert face data with index of ExternalImageId and search_faces for search faces' similarity above 20%**
+        - DAO: **mongodb find and update operation**
 
 ### webhook
-bot/server.py launch webhook handler for facebook app
+- bot/server.py: **launch webhook handler server for facebook app**
 ![webhook](images/bot/webhook.png?raw=true)
+
+- bot/handler.py: post function for two type event
+    - message: **text or attachments data**
+    - postback: **user's feedback payload data to improve accuracy**
 
 
 ## Back-end Api Server with Go
