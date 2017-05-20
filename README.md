@@ -84,9 +84,10 @@
 * github.com/aws/aws-sdk-go/service/...
 * gopkg.in/mgo.v2
 
-### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
+### [upload handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
 1. [searchFace](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L117)
-1. SearchFacesByImage: aws rekognition api **[SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L37)** to search faces' similarity above 20%
+1. [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L37): aws rekognition api **SearchFacesByImage** to search faces' similarity above 20%
+1. [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31): response json format
 
 
 ## Front-end with native JavaScript (no 3rd party library)
