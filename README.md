@@ -84,10 +84,15 @@
 * github.com/aws/aws-sdk-go/service/...
 * gopkg.in/mgo.v2
 
-## Front-end with native JavaScript
+### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
+1. [searchFace](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L117)
+1. SearchFacesByImage: aws rekognition api **[SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L37)** to search faces' similarity above 20%
+
+
+## Front-end with native JavaScript (no 3rd party library)
 ### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L165-L200)
 - url: http://like-av.xyz/api/upload
-- method: POST
+- method: POST in XMLHttpRequest
 - form-data: {upload: \<blob\>}
 
 #### response sample json
@@ -113,7 +118,7 @@
 
 ### [feedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L11-L33)
 - url: http://like-av.xyz/api/feedback
-- method: POST
+- method: POST in XMLHttpRequest
 - json-data: {id: \<id\>, ox: \<ox\>, file: \<filename\>}
 
 ## Chrome-Extension
