@@ -6,9 +6,8 @@
 ## Preparement
 1. register domain name with [お名前.com](http://www.onamae.com/)
 1. Let's Encrypt certificate authority with [NGINX](https://github.com/Jim-Lin/like-japanavgirls/blob/master/etc/nginx/sites-available/default)
-    - 80: web/
-    - 5000: bot/server.py
-    - 9090: api/main.go
+1. run mongodb docker service: `docker run -p 27017:27017 -v /var/mongo:/data/db -d mongo --auth`
+1. create facebook page for messenger
 
 ## Facebook Messenger Bot with Python
 ### requisites
@@ -19,10 +18,14 @@
 * pymongo
 
 ### face data (daily cron job)
-- bot/scheduler.py: import ETL class from bot/etl.py to **fetch monthly, daily, and work face data**
-    - ETL: import AWS class from bot/aws.py and DAO class from bot/dao.py
-        - AWS: insert_index_face for **insert face data with index of ExternalImageId** and search_faces for **search faces' similarity above 20%**
-        - DAO: **mongodb find and update operation**
+fetch monthly, daily, and work face data
+```bash
+python bot/scheduler.py
+```
+
+two main class to process data
+- AWS([bot/aws.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py)): insert_index_face for **insert face data with index of ExternalImageId** and search_faces for **search faces' similarity above 20%**
+- DAO([bot/dao.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py)): **mongodb find and update operation**
 
 #### mongodb sample document
 ```json
@@ -46,26 +49,30 @@
 ```
 
 ### webhook
-- bot/server.py: launch webhook handler server for facebook app  
+launch webhook handler server for facebook app
+```bash
+python bot/server.py
+```
+
 <img src="images/bot/webhook.png" width="50%" height="50%">
 
 ---
 
-- [Verify Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15): the same as above
-
+modify your Verify Token and Page Access Token in `bot/handler.py`
+- [Verify Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15): the same as above what you set
 - [Page Access Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L16): page which you created for messenger permissions
 
-- bot/handler.py: post function for two type event
-    - message: **text** or **attachments** data
-    - postback: user's feedback **payload** data to improve accuracy
+there are two type events in bot/handler.py [post](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L30-L87) function
+- message: **text** or **attachments** data
+- postback: user's feedback **payload** data to improve accuracy
 
 ### facebook bot sample operation
-- text  
+- text: input text
 <img src="images/bot/text.png" width="50%" height="50%">
 
 ---
 
-- attachment  
+- attachment: upload image
 <img src="images/bot/attachment.png" width="50%" height="50%">
 
 ---
@@ -73,7 +80,7 @@
 
 ---
 
-- payload: if you think the second one is more similar than first one, press **O** button and send the same image again, and then you will get the new similarity order  
+- payload: if you think the second one is more similar than first one, press **O** button and upload the same image again, and then you will get the new similarity order  
 <img src="images/bot/feedback.png" width="50%" height="50%">  
 
 ---
