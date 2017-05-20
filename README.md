@@ -74,7 +74,7 @@ there are two type events in bot/handler.py post function
 
 ---
 
-- message event(attachment): load image data and search faces in in [bot/handler.py#L44-L73](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L44-L73)
+- message event(attachment): load image data and search faces in [bot/handler.py#L44-L73](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L44-L73) and then responses if the image has matches face
 
 <img src="images/bot/attachment.png" width="50%" height="50%">
 
@@ -150,7 +150,7 @@ set up context menu tree at install time and only for image context in [chrome-e
 <img src="images/chrome/context_menu.png" width="50%" height="50%">
 
 ---
-pop window and preview and upload image in [chrome-extension/info.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/info.js#L199-L200) and then get json data to show result
+pop window and preview and call upload api in [chrome-extension/info.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/info.js#L199-L200) and then get json data to show result
 
 <img src="images/chrome/result.png" width="50%" height="50%">
 
