@@ -51,6 +51,10 @@
 
 ---
 
+- [Verify Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15): the same as above
+
+- [Page Access Token](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L16): page which you created for messenger permissions
+
 - bot/handler.py: post function for two type event
     - message: **text** or **attachments** data
     - postback: user's feedback **payload** data to improve accuracy
@@ -86,7 +90,7 @@
 
 ### [upload handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
 1. [searchFace](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L117)
-1. [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L37): aws rekognition api **SearchFacesByImage** to search faces' similarity above 20%
+1. [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L37): aws rekognition api **SearchFacesByImage** to search faces
 1. [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31): response json format
 
 
