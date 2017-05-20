@@ -48,7 +48,8 @@
 ### webhook
 - bot/server.py: launch webhook handler server for facebook app  
 <img src="images/bot/webhook.png" width="50%" height="50%">
-___
+
+---
 
 - bot/handler.py: post function for two type event
     - message: **text** or **attachments** data
@@ -57,19 +58,24 @@ ___
 ### facebook bot sample operation
 - text  
 <img src="images/bot/text.png" width="50%" height="50%">
-___
+
+---
 
 - attachment  
 <img src="images/bot/attachment.png" width="50%" height="50%">
-___
+
+---
 <img src="images/bot/result.png" width="50%" height="50%">
-___
+
+---
 
 - payload: if you think the second one is more similar than first one, press **O** button and send the same image again, and then you will get the new similarity order  
 <img src="images/bot/feedback.png" width="50%" height="50%">  
-___
+
+---
 <img src="images/bot/new_result.png" width="50%" height="50%">
-___
+
+---
 
 ## Back-end Api Server with Go
 ### requisites
@@ -102,7 +108,8 @@ ___
 ```
 
 <img src="images/web/result.png" width="50%" height="50%">
-___
+
+---
 
 ### [feedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L11-L33)
 - url: http://like-av.xyz/api/feedback
@@ -116,6 +123,8 @@ https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblg
 ### context menu
 - chrome-extension/background.js: set up context menu tree at install time and only for image context  
 <img src="images/chrome/context_menu.png" width="50%" height="50%">
-___
+
+---
 <img src="images/chrome/result.png" width="50%" height="50%">
-___
+
+---
