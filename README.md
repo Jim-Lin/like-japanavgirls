@@ -76,7 +76,7 @@
 ### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L165-L200)
 - url: http://like-av.xyz/api/upload
 - method: POST
-- form-data: {upload: <blob>}
+- form-data: {upload: \<blob\>}
 
 #### response sample json
 ```json
@@ -85,21 +85,28 @@
     "Data" : [ 
         {
         	"Id": "102xxx",
-        	"Img": "http://pics.dmm.co.jp/mono/actjpgs/nakamura_xxx.jpg"
-			"Name": "中村xxx"
-			"Similarity": "76.54"
-		},
+        	"Img": "http://pics.dmm.co.jp/mono/actjpgs/nakamura_xxx.jpg",
+        	"Name": "中村xxx",
+        	"Similarity": "76.54"
+        },
         ...
     ],
     "File" : "2017-03-20/12274445_xxx.jpg"
 }
 ```
 
+<img src="images/web/result.png" width="50%" height="50%">
+
+### [feedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L11-L33)
+- url: http://like-av.xyz/api/feedback
+- method: POST
+- json-data: {id: \<id\>, ox: \<ox\>, file: \<filename\>}
+
 ## Chrome-Extension
 ### install
 https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
 
-### contextMenus
+### context menu
 - chrome-extension/background.js: set up context menu tree at install time and only for image context  
 <img src="images/chrome/context_menu.png" width="50%" height="50%">  
 <img src="images/chrome/result.png" width="50%" height="50%">
