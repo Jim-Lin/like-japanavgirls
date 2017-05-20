@@ -21,47 +21,47 @@
 ### face data (daily cron job)
 - bot/scheduler.py: import ETL class from bot/etl.py to **fetch monthly, daily, and work face data**
     - ETL: import AWS class from bot/aws.py and DAO class from bot/dao.py
-        - AWS: **insert_index_face for insert face data with index of ExternalImageId and search_faces for search faces' similarity above 20%**
+        - AWS: insert_index_face for **insert face data with index of ExternalImageId** and search_faces for **search faces' similarity above 20%**
         - DAO: **mongodb find and update operation**
 
 #### mongodb sample document
 ```json
 {
-    "_id" : ObjectId("5877d3f47b991c5356a45xxx"),
-    "id" : "103xxx",
-    "img" : "http://pics.dmm.co.jp/mono/actjpgs/xxx.jpg",
-    "name" : "XXX",
-    "works" : [ 
+    "_id": ObjectId("5877d3f47b991c5356a45xxx"),
+    "id": "103xxx",
+    "img": "http://pics.dmm.co.jp/mono/actjpgs/xxx.jpg",
+    "name": "XXX",
+    "works": [ 
         "2wwkxxx",
         ...
     ],
-    "count" : 2,
-    "like" : [ 
+    "count": 2,
+    "like": [ 
         "2017-03-13/17204117_xxx.jpg"
     ],
-    "unlike" : [ 
+    "unlike": [ 
         "2017-03-13/5_xxx.jpg"
     ]
 }
 ```
 
 ### webhook
-- bot/server.py: **launch webhook handler server for facebook app**
+- bot/server.py: launch webhook handler server for facebook app  
 <img src="images/bot/webhook.png" width="50%" height="50%">
 
 - bot/handler.py: post function for two type event
-    - message: **text or attachments data**
-    - postback: **user's feedback payload data to improve accuracy**
+    - message: **text** or **attachments** data
+    - postback: user's feedback **payload** data to improve accuracy
 
 ### facebook bot sample operation
-- text
+- text  
 <img src="images/bot/text.png" width="50%" height="50%">
 
-- attachment
+- attachment  
 <img src="images/bot/attachment.png" width="50%" height="50%">  
 <img src="images/bot/result.png" width="50%" height="50%">
 
-- feedback: if you think the second one is similar, press **O** button and send image again, and then you will get the new similarity order
+- payload: if you think the second one is more similar than first one, press **O** button and send the same image again, and then you will get the new similarity order  
 <img src="images/bot/feedback.png" width="50%" height="50%">  
 <img src="images/bot/new_result.png" width="50%" height="50%">
 
@@ -73,8 +73,33 @@
 * gopkg.in/mgo.v2
 
 ## Front-end with native JavaScript
-### request
+### [upload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L165-L200)
+- url: http://like-av.xyz/api/upload
+- method: POST
+- form-data: {upload: <blob>}
 
+#### response sample json
+```json
+{
+    "Count": 2,
+    "Data" : [ 
+        {
+        	"Id": "102xxx",
+        	"Img": "http://pics.dmm.co.jp/mono/actjpgs/nakamura_xxx.jpg"
+			"Name": "中村xxx"
+			"Similarity": "76.54"
+		},
+        ...
+    ],
+    "File" : "2017-03-20/12274445_xxx.jpg"
+}
+```
 
 ## Chrome-Extension
+### install
 https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
+
+### contextMenus
+- chrome-extension/background.js: set up context menu tree at install time and only for image context  
+<img src="images/chrome/context_menu.png" width="50%" height="50%">  
+<img src="images/chrome/result.png" width="50%" height="50%">
