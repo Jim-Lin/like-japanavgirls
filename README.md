@@ -21,6 +21,27 @@
         - AWS: **insert_index_face for insert face data with index of ExternalImageId and search_faces for search faces' similarity above 20%**
         - DAO: **mongodb find and update operation**
 
+#### mongodb sample document
+```
+{
+    "_id" : ObjectId("5877d3f47b991c5356a45xxx"),
+    "id" : "103xxx",
+    "img" : "http://pics.dmm.co.jp/mono/actjpgs/xxx.jpg",
+    "name" : "XXX",
+    "works" : [ 
+        "2wwkxxx",
+        ...
+    ],
+    "count" : 2,
+    "like" : [ 
+        "2017-03-13/17204117_xxx.jpg"
+    ],
+    "unlike" : [ 
+        "2017-03-13/5_xxx.jpg"
+    ]
+}
+```
+
 ### webhook
 - bot/server.py: **launch webhook handler server for facebook app**
 ![webhook](images/bot/webhook.png?raw=true)
@@ -28,6 +49,10 @@
 - bot/handler.py: post function for two type event
     - message: **text or attachments data**
     - postback: **user's feedback payload data to improve accuracy**
+
+### facebook bot sample operation
+- text
+![text](images/bot/text.png?raw=true)
 
 
 ## Back-end Api Server with Go
