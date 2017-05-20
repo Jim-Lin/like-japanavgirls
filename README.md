@@ -47,7 +47,7 @@
 
 ### webhook
 - bot/server.py: **launch webhook handler server for facebook app**
-![webhook](images/bot/webhook.png?raw=true)
+<img src="images/bot/webhook.png" width="50%" height="50%">
 
 - bot/handler.py: post function for two type event
     - message: **text or attachments data**
@@ -55,17 +55,15 @@
 
 ### facebook bot sample operation
 - text
-![text](images/bot/text.png?raw=true)
+<img src="images/bot/text.png" width="50%" height="50%">
 
 - attachment
-![attachment](images/bot/attachment.png?raw=true)  
-![result](images/bot/result.png?raw=true)
+<img src="images/bot/attachment.png" width="50%" height="50%">  
+<img src="images/bot/result.png" width="50%" height="50%">
 
 - feedback: if you think the second one is similar, press **O** button and send image again, and then you will get the new similarity order
-![feedback](images/bot/feedback.png?raw=true)  
-![new_result](images/bot/new_result.png?raw=true)
-
-
+<img src="images/bot/feedback.png" width="50%" height="50%">  
+<img src="images/bot/new_result.png" width="50%" height="50%">
 
 ## Back-end Api Server with Go
 ### requisites
