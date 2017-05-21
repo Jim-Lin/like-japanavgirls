@@ -24,8 +24,16 @@ python bot/scheduler.py
 ```
 
 two main class to process data
-- AWS([bot/aws.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py)): insert_index_face for **insert face data with index of ExternalImageId** and search_faces for **search faces' similarity above 20%**
-- DAO([bot/dao.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py)): **mongodb find and update operation**
+- AWS([bot/aws.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py)): aws rekognition api
+    - [insert_index_face](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py#L16-L22): insert face data with index of ExternalImageId
+    - [search_faces](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py#L24-L58): search faces' similarity above 20%
+- DAO([bot/dao.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py)): mongodb find and update operation
+    - [find_one_actress_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L40-L42)
+    - [update_one_info_by_actress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L36-L38)
+    - [find_one_works_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L32-L34)
+    - [update_one_works_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L28-L30)
+    - [update_one_feedback_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L24-L26)
+
 
 #### mongodb sample document
 ```json
@@ -55,6 +63,7 @@ python bot/server.py
 ```
 
 go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting and input your webhook url
+
 <img src="images/bot/webhook.png" width="50%" height="50%">
 
 ---
@@ -83,7 +92,7 @@ there are two type events in bot/handler.py post function
 
 ---
 
-- postback event(payload): if you think the second one is more similar than first one, press **O** button and upload the same image again, and then you will get the new similarity order in [bot/handler.py#L75-L87](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L75-L87)
+- postback event(payload): if you think the second one is more similar than first one, press **O** button and then receive the postback event with payload data in [bot/handler.py#L75-L87](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L75-L87). try to upload the same image again, and then you will get the new similarity order
 
 <img src="images/bot/feedback.png" width="50%" height="50%">
 
@@ -101,7 +110,7 @@ there are two type events in bot/handler.py post function
 
 ### [upload handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60)
 1. call aws rekognition SearchFacesByImage api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L20-L72) funtion to search faces' similarity above 20%
-1. select top 2 similarity and find data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L33-L40)
+1. select top 2 similarity and find actress data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L33-L40)
 1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31) response json format
 
 ### [feedback handler](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L62-L89)
