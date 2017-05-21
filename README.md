@@ -1,4 +1,6 @@
-# like-japanavgirls
+- Facebook Messenger Bot: https://m.me/like-japanavgirls
+- Web App: http://like-av.xyz/
+- Chrome Extension: https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
 
 ## Structure
 ![structure](structure.png?raw=true)
@@ -149,9 +151,6 @@ there are two type events in bot/handler.py post function
 - json-data: {id: \<id\>, ox: \<ox\>, file: \<filename\>}
 
 ## Chrome-Extension
-### install
-https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
-
 ### context menu
 set up context menu tree at install time and only for image context in [chrome-extension/background.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/background.js)
 
