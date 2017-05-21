@@ -22,7 +22,7 @@
 ### face data (daily cron job)
 fetch monthly, daily, and work face data
 ```bash
-python bot/scheduler.py
+$ python bot/scheduler.py
 ```
 
 two main class to process data
@@ -60,7 +60,7 @@ two main class to process data
 ### webhook
 launch webhook handler server for facebook app
 ```bash
-python bot/server.py
+$ python bot/server.py
 ```
 
 go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting and input your webhook url
