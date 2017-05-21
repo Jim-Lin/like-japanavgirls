@@ -69,7 +69,7 @@ go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting and in
 
 ---
 
-modify your Verify Token and Page Access Token in [bot/handler.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15-L16)
+modify your Verify Token and Page Access Token in [bot/handler.py#L15-L16](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15-L16)
 - Verify Token: the same as above what you set
 - Page Access Token: page which you created for messenger permissions
 
