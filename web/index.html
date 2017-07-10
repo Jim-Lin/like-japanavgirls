@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,10 @@
   <link rel="stylesheet" type="text/css" href="common.css">
   <link rel="stylesheet" type="text/css" href="style.css" media="screen and (min-width: 780px)">
   <link rel="stylesheet" type="text/css" href="style-mobile.css" media="screen and (max-width: 780px)">
+
+  <script type="text/javascript" src="json2.min.js"></script>
+  <script type="text/javascript" src="l10n.min.js"></script>
+  <script type="text/javascript" src="localizations.js"></script>
 </head>
 
 <body>
@@ -16,21 +20,21 @@
   <div class="inner">
     <div class="title">LIKE JP AV GIRLS</div>
 
-    <div class="sub-title">そっくりなセクシー女優を探そう</div>
+    <div class="sub-title" id="sub-title">そっくりなセクシー女優を探そう</div>
 
     <div class="upload-controls">
-      <div class="upload-description">美人写真をアップロードしてください</div>
+      <div class="upload-description" id="upload-description">美人写真をアップロードしてください</div>
       <div class="button-box upload-box">
         <label class="button" for="uploadImage">Upload Image</label>
         <input type="file" id="uploadImage" accept="image/*" style="display: none;" />
       </div>
     </div>
-	
+
     <div id="preview"></div>
 
     <div id="notfound" style="display: none;">
       <span class="dot"></span>
-      <span class="text">検索エラー、別の写真をアップロードしてください</span>
+      <span class="text" id="error">検索エラー、別の写真をアップロードしてください</span>
     </div>
 
     <div id="process" style="display: none;">
