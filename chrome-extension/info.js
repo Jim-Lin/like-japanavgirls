@@ -1,4 +1,12 @@
 (function () {
+    String.defaultLocale = "en";
+    var l = function (string) {
+        return string.toLocaleString();
+    };
+
+    var error = document.getElementById("error").firstChild;
+    error.nodeValue = l("%error");
+
     var filename;
 
     var feedback = function(id, ox) {
@@ -85,7 +93,8 @@
         var img = document.createElement("img");
         img.src = json.Img;
         var a_img = document.createElement("a");
-        a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
+        // a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
+        a_img.setAttribute("href", "http://www.thisav.com/search?query=" + json.Name + "&for=videos");
         a_img.setAttribute("target", "_blank");
         a_img.appendChild(img);
         div_profile.appendChild(a_img);
@@ -97,12 +106,14 @@
 
         var div_similarity = document.createElement("div");
         div_similarity.classList.add('similarity');
-        var similarity = document.createTextNode("そっくり率: " + json.Similarity + "%");
+        // var similarity = document.createTextNode("そっくり率: " + json.Similarity + "%");
+        var similarity = document.createTextNode(l("%similarity") + ": " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
 
         var div_buy = document.createElement("div");
         div_buy.classList.add('button-box', 'box');
-        var t_buy = document.createTextNode("買い物に行く");
+        // var t_buy = document.createTextNode("買い物に行く");
+        var t_buy = document.createTextNode(l("%buy"));
         var a_buy = document.createElement("a");
         a_buy.classList.add('button');
         a_buy.setAttribute("href", "http://www.r18.com/videos/vod/movies/list/id=" + json.Id + "/sort=new/type=actress/");
@@ -118,21 +129,23 @@
         div_like.addEventListener('click', function(event) {
             feedback(json.Id, "like");
         });
-        var t_like = document.createTextNode("そっくり");
+        // var t_like = document.createTextNode("そっくり");
+        var t_like = document.createTextNode(l("%like"));
         div_like.appendChild(t_like);
         var div_unlike = document.createElement("div");
         div_unlike.setAttribute("id", "unlike");
         div_unlike.addEventListener('click', function(event) {
             feedback(json.Id, "unlike");
         });
-        var t_unlike = document.createTextNode("似てない");
+        // var t_unlike = document.createTextNode("似てない");
+        var t_unlike = document.createTextNode(l("%unlike"));
         div_unlike.appendChild(t_unlike);
         var div_center = document.createElement("div");
         div_center.setAttribute("id", "center");
         div_feedback.appendChild(div_unlike);
         div_feedback.appendChild(div_center);
         div_feedback.appendChild(div_like);
-        
+
         card.appendChild(div_profile);
         card.appendChild(div_name);
         card.appendChild(div_similarity);
