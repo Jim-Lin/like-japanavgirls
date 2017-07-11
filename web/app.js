@@ -108,7 +108,8 @@
         var img = document.createElement("img");
         img.src = json.Img;
         var a_img = document.createElement("a");
-        a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
+        // a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
+        a_img.setAttribute("href", "http://www.thisav.com/search?query=" + json.Name + "&for=videos");
         a_img.setAttribute("target", "_blank");
         a_img.appendChild(img);
         div_profile.appendChild(a_img);
