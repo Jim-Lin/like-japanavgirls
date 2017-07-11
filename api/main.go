@@ -86,6 +86,7 @@ func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
+	db.UpsertOneWeekRank(val["id"])
 }
 
 func main() {

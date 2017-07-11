@@ -3,12 +3,19 @@ package db
 import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"time"
+	"strconv"
 )
 
 const (
 	Host     = "localhost:27017"
 	Database = "dark"
 )
+
+type Rank struct {
+	Id    string
+	Count int
+}
 
 var (
 	Db *mgo.Database
@@ -45,4 +52,38 @@ func UpsertOneFeedback(id string, ox string, image string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func UpsertOneWeekRank(id string) {
+	year, week := time.Now().ISOWeek()
+	update := bson.M{"$push": bson.M{"vote": id}}
+	_, err := Db.C("rank").Upsert(bson.M{"week": strconv.Itoa(year) + strconv.Itoa(week)}, update)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func AggregateWeekRank() []Rank {
+	year, week := time.Now().ISOWeek()
+	lastWeek := strconv.Itoa(year) + strconv.Itoa(week - 1)
+	pipeline := []bson.M{
+		bson.M{"$match": bson.M{"week": lastWeek}},
+    bson.M{"$unwind": "$vote"},
+    bson.M{"$group": bson.M{"_id": "$vote", "count": bson.M{"$sum": 1}}},
+		bson.M{"$sort": bson.M{"count": -1}},
+		bson.M{"$limit": 5},
+	}
+	pipe := Db.C("rank").Pipe(pipeline)
+	result := []bson.M{}
+	err := pipe.All(&result)
+	if err != nil {
+		panic(err)
+	}
+
+	var rank []Rank
+	for _, v := range result {
+		rank = append(rank, Rank{Id: v["_id"].(string), Count: v["count"].(int)})
+	}
+
+	return rank
 }
