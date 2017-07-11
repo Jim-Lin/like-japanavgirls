@@ -14,7 +14,7 @@ import datetime
 class WebHookHandler(tornado.web.RequestHandler):
     verify_token = <VERIFY_TOKEN>
     page_access_token = <PAGE_ACCESS_TOKEN>
-    api_url = 'https://graph.facebook.com/v2.6/me/messages'
+    api_url = 'https://graph.facebook.com/v2.9/me/messages'
     api_headers = {'content-type': 'application/json'}
     images_root = "/var/www/like-av.xyz/images/"
 
@@ -139,8 +139,8 @@ class WebHookHandler(tornado.web.RequestHandler):
                                 "type": "postback",
                                 "title": "X 差很多",
                                 "payload": "X," + face.get("id") + "," + img_name
-                            }         
-                        ]      
+                            }
+                        ]
                     }
                 ]
             }
