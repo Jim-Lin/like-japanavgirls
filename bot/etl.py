@@ -52,7 +52,7 @@ class ETL:
             pattern = re.compile(hrefPattern)
             match = pattern.search(actress.get("href"))
             actress_id = match.group(1)
-            
+
             detail =  self.dao.find_one_actress_by_id(actress_id)
             if detail is None or detail.get("name") is None:
                 actress_img = actress.find("img").get("src").replace('medium/', '')
@@ -71,7 +71,7 @@ class ETL:
         r = requests.get(url)
         soup = bs(r.text)
         print datetime.date.today()
-        
+
         cal = soup.find("table", {"id": "monocal"})
         works_list = cal.find_all("tr")
         if len(works_list) == 0:
@@ -107,11 +107,11 @@ class ETL:
     def get_works_detail(self, url, actress_id):
         r = requests.get(url)
         soup = bs(r.text)
-        
+
         sample = soup.find("div", {"class": "tx10 pd-3 lh4"})
         if sample is None:
             return
-        
+
         # No Image
         a_tag = sample.find("a")
         if a_tag is None:
@@ -134,6 +134,22 @@ class ETL:
                 return
             else:
                 self.dao.update_one_works_by_id(actress_id, cid)
+                self.get_sample(soup, actress_id)
                 return {"id": actress_id, "img": a_tag.get('href')}
         else:
             return
+
+    def get_sample(self, soup, actress_id):
+        sample_image = soup.find("div", {"id": "sample-image-block"})
+        if sample_image is None:
+            return
+
+        sample_head = soup.find("div", {"class": "headline mg-b10 lh3"})
+        sample_small = sample_head.find("span", {"class": "nw"})
+        if sample_small is not None:
+            return
+
+        images = map(lambda tag: re.sub(r'-(\d+)', r'jp-\1', tag.get("src")), sample_image.find_all("img"))
+        for image in images:
+            print image
+            self.aws.insert_index_face(actress_id, urllib2.urlopen(image).read())
