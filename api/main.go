@@ -5,6 +5,7 @@ import (
 	"./db"
 	"encoding/json"
 	"fmt"
+	"github.com/google/uuid"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -132,14 +133,15 @@ func searchFace(b []byte, fileName string) []byte {
 		fmt.Println(today)
 		imageDir := imagesRoot + today
 		os.Mkdir(imageDir, os.ModePerm)
-		err := ioutil.WriteFile(imageDir+"/"+fileName, b, 0644)
+		uuidFileName := uuid.New().String()[:8] + "_" + fileName
+		err := ioutil.WriteFile(imageDir + "/" + uuidFileName, b, 0644)
 		if err != nil {
 			panic(err)
 		}
 
 		payload := &Payload{
 			Count: 0,
-			File:  today + "/" + fileName,
+			File:  today + "/" + uuidFileName,
 			Data:  []Face{},
 		}
 
