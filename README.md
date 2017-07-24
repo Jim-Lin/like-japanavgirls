@@ -1,6 +1,7 @@
 - Facebook Messenger Bot (private for tester account): https://m.me/like-japanavgirls
 - Web App: http://like-av.xyz/
 - Chrome Extension: https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
+- iOS App: https://itunes.apple.com/us/app/likegirl/id1262331185
 
 ## Structure
 ![structure](structure.png?raw=true)
@@ -43,15 +44,15 @@ two main class to process data
     "id": "103xxx",
     "img": "http://pics.dmm.co.jp/mono/actjpgs/xxx.jpg",
     "name": "XXX",
-    "works": [ 
+    "works": [
         "2wwkxxx",
         ...
     ],
     "count": 2,
-    "like": [ 
+    "like": [
         "2017-03-13/17204117_xxx.jpg"
     ],
-    "unlike": [ 
+    "unlike": [
         "2017-03-13/5_xxx.jpg"
     ]
 }
@@ -128,7 +129,7 @@ there are two type events in bot/handler.py post function
 ```json
 {
     "Count": 2,
-    "Data" : [ 
+    "Data" : [
         {
         	"Id": "102xxx",
         	"Img": "http://pics.dmm.co.jp/mono/actjpgs/xxx.jpg",
