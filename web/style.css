@@ -140,7 +140,7 @@
 
 #result {
 	position: absolute;
-	top: 520px;
+	top: 640px;
 	width: 80%;
 }
 
@@ -274,4 +274,15 @@
 
 #result .fadeOut {
 	opacity: 0;
+}
+
+#ad {
+	position: relative;
+	top: 240px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#ad img {
+	content: url("728x90_01.jpg");
 }

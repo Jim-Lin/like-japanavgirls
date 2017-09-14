@@ -38,13 +38,13 @@
 
 .upload-controls {
 	position: inherit;
-	top: 218px;
+	top: 178px;
 
 	display: -webkit-box;/*--- Androidブラウザ用 ---*/
     display: -ms-flexbox;/*--- IE10 ---*/
     display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
-	
+
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
 
     -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
@@ -68,7 +68,7 @@
 
 #preview {
 	position: inherit;
-	top: 304px;
+	top: 224px;
 	margin: auto;
 	width: 296px;
     height: 296px;
@@ -80,12 +80,12 @@
     max-height: 296px;
 	border-radius: 7px;
 	margin: auto;
-	
+
 	display: -webkit-box;/*--- Androidブラウザ用 ---*/
     display: -ms-flexbox;/*--- IE10 ---*/
     display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
-	
+
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
 
     -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
@@ -101,7 +101,7 @@
 
 #notfound {
 	position: absolute;
-	top: 690px;
+	top: 620px;
 	margin-left: auto;
 	font-size: 14px;
 	color: #4a4a4a;
@@ -123,7 +123,7 @@
 
 #process {
 	position: absolute;
-	top: 680px;
+	top: 600px;
 	width: 100%;
 	font-size: 10px;
 	color: #000000;
@@ -155,7 +155,7 @@
 
 #result {
 	position: inherit;
-	top: 380px;
+	top: 300px;
 }
 
 #result .card {
@@ -178,7 +178,7 @@
     display: -ms-flexbox;/*--- IE10 ---*/
     display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
-	
+
     flex-wrap: wrap; /* optional. only if you want the items to wrap */
 
     -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
@@ -283,4 +283,15 @@
 
 #result .fadeOut {
 	opacity: 0;
+}
+
+#ad {
+	position: relative;
+	top: 300px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#ad img {
+	content: url("r18tube_300x50_1.jpg");
 }
