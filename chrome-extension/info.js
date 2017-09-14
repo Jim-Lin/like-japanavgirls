@@ -14,23 +14,19 @@
         var xhr = new XMLHttpRequest();
 
         xhr.open("POST", url, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var b = document.createElement("b");
-                b.setAttribute("style", "text-align: center;");
-                var thx = document.createTextNode("Thanks");
-                b.appendChild(thx);
-
-                var feedback = document.getElementById("feedback" + id);
-                while (feedback.firstChild) {
-                    feedback.removeChild(feedback.firstChild);
-                }
-
-                feedback.appendChild(b);
-            }
-        };
-
         xhr.send(JSON.stringify({id: id, ox: ox, file: filename}));
+
+        var b = document.createElement("b");
+        b.setAttribute("style", "text-align: center;");
+        var thx = document.createTextNode("Thanks");
+        b.appendChild(thx);
+
+        var feedback = document.getElementById("feedback" + id);
+        while (feedback.firstChild) {
+            feedback.removeChild(feedback.firstChild);
+        }
+
+        feedback.appendChild(b);
     };
 
     function preview(file) {
