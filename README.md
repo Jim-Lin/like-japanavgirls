@@ -19,6 +19,7 @@
 * boto3
 * tornado
 * pymongo
+* jproperties
 
 ### face data (daily cron job)
 fetch monthly, daily, and work face data
@@ -109,6 +110,7 @@ there are two type events in bot/handler.py post function
 * github.com/aws/aws-sdk-go/aws/...
 * github.com/aws/aws-sdk-go/service/...
 * gopkg.in/mgo.v2
+* github.com/magiconair/properties
 
 ### upload handler([api/main.go#L35-L60](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60))
 1. call aws rekognition SearchFacesByImage api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L20-L72) funtion to search faces' similarity above 20%
