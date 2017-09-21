@@ -1,10 +1,12 @@
 package db
 
 import (
+	"github.com/magiconair/properties"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"time"
+	"path/filepath"
 	"strconv"
+	"time"
 )
 
 const (
@@ -22,11 +24,14 @@ var (
 )
 
 func init() {
+	abspath, _ := filepath.Abs("./")
+	p := properties.MustLoadFile(abspath + "/db/mongodb.properties", properties.UTF8)
+
 	info := &mgo.DialInfo{
 		Addrs:    []string{Host},
 		Database: Database,
-		Username: <username>,
-		Password: <password>,
+		Username: p.MustGetString("username"),
+		Password: p.MustGetString("password"),
 	}
 
 	session, err := mgo.DialWithInfo(info)
