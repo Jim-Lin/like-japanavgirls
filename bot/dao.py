@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pymongo import MongoClient, IndexModel
+from jproperties import Properties
 
 class DAO:
 
@@ -15,8 +16,12 @@ class DAO:
             self.mongo_db = self.mongo[kwargs.get('mongo').get('db')]
 
     def default_mongo_init(self):
-        username = <username>
-        password = <password>
+        p = Properties()
+        with open("mongodb.properties", "rb") as f:
+            p.load(f, "utf-8")
+
+        username = p["username"]
+        password = p["password"]
         self.mongo = MongoClient('mongodb://' + username + ':' + password + '@localhost:27017/dark')
         self.mongo_db = self.mongo['dark']
         self.mongo_db['actress'].create_index('id', unique=True)

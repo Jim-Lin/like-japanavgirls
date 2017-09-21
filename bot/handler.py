@@ -10,10 +10,15 @@ from aws import AWS
 from dao import DAO
 import os
 import datetime
+from jproperties import Properties
 
 class WebHookHandler(tornado.web.RequestHandler):
-    verify_token = <VERIFY_TOKEN>
-    page_access_token = <PAGE_ACCESS_TOKEN>
+    p = Properties()
+    with open("token.properties", "rb") as f:
+        p.load(f, "utf-8")
+
+    verify_token = p["verify_token"]
+    page_access_token = p["page_access_token"]
     api_url = 'https://graph.facebook.com/v2.9/me/messages'
     api_headers = {'content-type': 'application/json'}
     images_root = "/var/www/like-av.xyz/images/"
