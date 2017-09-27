@@ -25,7 +25,7 @@ var (
 
 func init() {
 	abspath, _ := filepath.Abs("./")
-	p := properties.MustLoadFile(abspath + "/db/mongodb.properties", properties.UTF8)
+	p := properties.MustLoadFile(abspath + "/mongodb.properties", properties.UTF8)
 
 	info := &mgo.DialInfo{
 		Addrs:    []string{Host},
