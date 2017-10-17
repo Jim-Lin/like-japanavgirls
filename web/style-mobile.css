@@ -15,7 +15,6 @@
 
 .title {
 	position: absolute;
-	top: 99px;
 	left: 32px;
 	height: 20px;
 	width: 100%;
@@ -27,7 +26,7 @@
 
 .sub-title {
 	position: absolute;
-	top: 131px;
+	top: 81px;
 	left: 32px;
 	height: 16px;
 	width: 100%;
@@ -38,7 +37,7 @@
 
 .upload-controls {
 	position: inherit;
-	top: 178px;
+	top: 128px;
 
 	display: -webkit-box;/*--- Androidブラウザ用 ---*/
     display: -ms-flexbox;/*--- IE10 ---*/
@@ -68,7 +67,7 @@
 
 #preview {
 	position: inherit;
-	top: 224px;
+	top: 174px;
 	margin: auto;
 	width: 296px;
     height: 296px;
@@ -101,7 +100,7 @@
 
 #notfound {
 	position: absolute;
-	top: 620px;
+	top: 570px;
 	margin-left: auto;
 	font-size: 14px;
 	color: #4a4a4a;
@@ -123,7 +122,7 @@
 
 #process {
 	position: absolute;
-	top: 600px;
+	top: 550px;
 	width: 100%;
 	font-size: 10px;
 	color: #000000;
@@ -155,7 +154,7 @@
 
 #result {
 	position: inherit;
-	top: 300px;
+	top: 250px;
 }
 
 #result .card {
@@ -287,7 +286,7 @@
 
 #ad {
 	position: relative;
-	top: 300px;
+	top: 250px;
 	vertical-align: middle;
 	text-align: center;
 }
