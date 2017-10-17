@@ -1,4 +1,12 @@
 (function () {
+    var campaign;
+    fetch("campaign.json")
+    .then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      campaign = json;
+    });
+
     String.defaultLocale = "en";
     var l = function (string) {
         return string.toLocaleString();
@@ -127,7 +135,7 @@
         var t_buy = document.createTextNode(l("%buy"));
         var a_buy = document.createElement("a");
         a_buy.classList.add('button');
-        a_buy.setAttribute("href", "http://www.r18.com/videos/vod/movies/list/id=" + json.Id + "/sort=new/type=actress/");
+        a_buy.setAttribute("href", getCampaignUrl(json.Id));
         a_buy.setAttribute("target", "_blank");
         a_buy.appendChild(t_buy);
         div_buy.appendChild(a_buy);
@@ -170,6 +178,14 @@
         card.appendChild(div_feedback);
 
         return card;
+    }
+
+    function getCampaignUrl(id) {
+        if (campaign && campaign[id]) {
+            return "http://media.r18.com/track/" + campaign[id] + "/videos/vod/movies/list/id=" + id + "/pagesize=30/price=all/sort=new/type=actress/page=1/";
+        } else {
+            return "http://media.r18.com/track/OTk3LjEuMS4xLjEuMC4wLjAuMA/videos/vod/movies/list/id=" + id + "/pagesize=30/price=all/sort=new/type=actress/page=1/";
+        }
     }
 
     /**
