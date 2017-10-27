@@ -174,24 +174,24 @@
 	transition: opacity 3s;
 
 	display: -webkit-box;/*--- Androidブラウザ用 ---*/
-    display: -ms-flexbox;/*--- IE10 ---*/
-    display: -webkit-flex;/*--- safari（PC）用 ---*/
+  display: -ms-flexbox;/*--- IE10 ---*/
+  display: -webkit-flex;/*--- safari（PC）用 ---*/
 	display: flex;
 
-    flex-wrap: wrap; /* optional. only if you want the items to wrap */
+  flex-wrap: wrap; /* optional. only if you want the items to wrap */
 
-    -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
-    -ms-flex-pack: center;/*--- IE10 ---*/
-    -webkit-justify-content: center;/*--- safari（PC）用 ---*/
-    justify-content: center; /* for horizontal alignment */
+  -webkit-box-pack: center;/*--- Androidブラウザ用 ---*/
+  -ms-flex-pack: center;/*--- IE10 ---*/
+  -webkit-justify-content: center;/*--- safari（PC）用 ---*/
+  justify-content: center; /* for horizontal alignment */
 
-    -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
-    -ms-flex-align: center;/*--- IE10 ---*/
-    -webkit-align-items: center;/*--- safari（PC）用 ---*/
-    align-items: center; /* for vertical alignment */
+  -webkit-box-align: center;/*--- Androidブラウザ用 ---*/
+  -ms-flex-align: center;/*--- IE10 ---*/
+  -webkit-align-items: center;/*--- safari（PC）用 ---*/
+  align-items: center; /* for vertical alignment */
 
-    -webkit-flex-direction: column;/*--- safari（PC）用 ---*/
-    flex-direction: column;
+  -webkit-flex-direction: column;/*--- safari（PC）用 ---*/
+  flex-direction: column;
 }
 
 #result .card .profile {
@@ -291,6 +291,6 @@
 	text-align: center;
 }
 
-#ad img, img::after {
+#ad img, #ad img::after {
 	content: url("r18tube_300x50_1.jpg");
 }

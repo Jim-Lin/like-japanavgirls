@@ -59,9 +59,10 @@ body {
 	margin-right: 60px;
 }
 
-#copyright a {
-    color: #ff007c;
-		text-decoration: none;
+#fb {
+  color: white;
+	background-color: #3b5998;
+	text-decoration: none;
 }
 
 #mail {
