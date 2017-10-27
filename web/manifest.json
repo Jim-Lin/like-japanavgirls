@@ -1,0 +1,12 @@
+{
+  "name": "DARK Facial Recognition",
+  "short_name": "Like Japanavgirls",
+  "icons": [{
+    "src": "icon180.png",
+    "sizes": "180x180",
+    "type": "image/png"
+  }],
+  "start_url": "/?utm_source=homescreen",
+  "display": "standalone",
+  "orientation": "portrait"
+}
