@@ -8,7 +8,7 @@
 
 ## Preparement
 1. register domain name with [お名前.com](http://www.onamae.com/)
-1. Let's Encrypt certificate authority with [NGINX](https://github.com/Jim-Lin/like-japanavgirls/blob/master/etc/nginx/sites-available/default)
+1. Let's Encrypt certificate authority with NGINX
 1. run docker mongodb service: `docker run -p 27017:27017 -v <mount_path>:/data/db -d mongo --auth`
 1. create facebook page for messenger
 
