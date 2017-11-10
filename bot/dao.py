@@ -20,8 +20,8 @@ class DAO:
         with open("mongodb.properties", "rb") as f:
             p.load(f, "utf-8")
 
-        username = p["username"]
-        password = p["password"]
+        username, metadata = p["username"]
+        password, metadata = p["password"]
         self.mongo = MongoClient('mongodb://' + username + ':' + password + '@localhost:27017/dark')
         self.mongo_db = self.mongo['dark']
         self.mongo_db['actress'].create_index('id', unique=True)
