@@ -14,7 +14,7 @@ from jproperties import Properties
 
 class WebHookHandler(tornado.web.RequestHandler):
     p = Properties()
-    with open("token.properties", "rb") as f:
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/token.properties", "rb") as f:
         p.load(f, "utf-8")
 
     verify_token, metadata = p["verify_token"]

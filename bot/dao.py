@@ -3,6 +3,7 @@
 
 from pymongo import MongoClient, IndexModel
 from jproperties import Properties
+import os
 
 class DAO:
 
@@ -17,7 +18,7 @@ class DAO:
 
     def default_mongo_init(self):
         p = Properties()
-        with open("mongodb.properties", "rb") as f:
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/mongodb.properties", "rb") as f:
             p.load(f, "utf-8")
 
         username, metadata = p["username"]
