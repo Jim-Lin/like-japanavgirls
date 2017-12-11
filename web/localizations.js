@@ -1,6 +1,6 @@
 String.toLocaleString({
 	"en": {
-		"%sub-title": "search the actress that the girl is similar to",
+		"%sub-title": "search the actress who the girl is similar to",
 		"%upload-description": "please upload beauty girl image",
 		"%error": "not found, please upload another image",
 		"%buy": "SHOPPING",
