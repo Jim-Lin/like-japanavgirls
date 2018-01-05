@@ -10,7 +10,7 @@
     var filename;
 
     var feedback = function(id, ox) {
-        var url = "http://like-av.xyz/api/feedback";
+        var url = "https://like-av.xyz/api/feedback";
         var xhr = new XMLHttpRequest();
 
         xhr.open("POST", url, true);
@@ -166,7 +166,7 @@
         var loading = document.getElementById("loading");
         loading.style.display = "block";
 
-        var url = "http://like-av.xyz/api/upload";
+        var url = "https://like-av.xyz/api/upload";
         var xhr = new XMLHttpRequest();
         var fd = new FormData();
         xhr.open("POST", url, true);
