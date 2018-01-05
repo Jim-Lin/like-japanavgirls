@@ -1,5 +1,5 @@
 - Facebook Messenger Bot (private for tester account): https://m.me/like-japanavgirls
-- Web App: http://like-av.xyz/
+- Web App: https://like-av.xyz/
 - Chrome Extension: https://chrome.google.com/webstore/detail/like-japanavgirls/ehhdbpobmjcndjibgblgnbgmhjmfmhae
 - iOS App: https://itunes.apple.com/us/app/likegirl/id1262331185
 
