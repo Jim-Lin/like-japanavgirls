@@ -282,6 +282,6 @@
 	text-align: center;
 }
 
-#ad img, #ad img::after {
+#ad a, #ad a::after {
 	content: url("728x90_01.jpg");
 }
