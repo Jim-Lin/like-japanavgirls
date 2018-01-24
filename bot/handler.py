@@ -19,7 +19,7 @@ class WebHookHandler(tornado.web.RequestHandler):
 
     verify_token, metadata = p["verify_token"]
     page_access_token, metadata = p["page_access_token"]
-    api_url = 'https://graph.facebook.com/v2.9/me/messages'
+    api_url = 'https://graph.facebook.com/v2.11/me/messages'
     api_headers = {'content-type': 'application/json'}
     images_root = "/var/www/like-av.xyz/images/"
 
@@ -120,15 +120,15 @@ class WebHookHandler(tornado.web.RequestHandler):
                 "elements": [
                     {
                         "title": actress.get("name"),
-                        "image_url": actress.get("img"),
+                        # "image_url": actress.get("img"),
                         "subtitle": "相似度: " + str(round(face.get("similarity"), 2)) + "%",
-                        "default_action": {
-                          "type": "web_url",
-                          # "url": "http://www.dmm.co.jp/mono/dvd/-/list/=/article=actress/id=" + face.get("id") + "/sort=date/",
-                          "url": "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + face.get("id") + "/sort/date",
-                          # "url": "http://www.r18.com/videos/vod/movies/list/id=" + face.get("id") + "/sort=new/type=actress/",
-                          "webview_height_ratio": "compact"
-                        },
+                        # "default_action": {
+                        #   "type": "web_url",
+                        #   "url": "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + face.get("id") + "/sort/date",
+                        #   "webview_height_ratio": "compact",
+                        #   "messenger_extensions": True,
+                        #   "title": ""
+                        # },
                         "buttons": [
                             # {
                             #     "type": "web_url",
