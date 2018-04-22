@@ -29,14 +29,14 @@ $ python bot/scheduler.py
 
 two main class to process data
 - AWS([bot/aws.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py)): aws rekognition api
-    - [insert_index_face](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py#L16-L22): insert face data with index of ExternalImageId
-    - [search_faces](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/aws.py#L24-L58): search faces' similarity above 20%
+    - insert_index_face: insert face data with index of ExternalImageId
+    - search_faces: search faces' similarity above 20%
 - DAO([bot/dao.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py)): mongodb find and update operation
-    - [find_one_actress_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L40-L42)
-    - [update_one_info_by_actress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L36-L38)
-    - [find_one_works_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L32-L34)
-    - [update_one_works_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L28-L30)
-    - [update_one_feedback_by_id](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/dao.py#L24-L26)
+    - find_one_actress_by_id
+    - update_one_info_by_actress
+    - find_one_works_by_id
+    - update_one_works_by_id
+    - update_one_feedback_by_id
 
 #### mongodb sample document
 ```json
@@ -71,7 +71,7 @@ go to your app https://developers.facebook.com/apps/xxx/webhooks/ setting and in
 
 ---
 
-modify your Verify Token and Page Access Token in [bot/handler.py#L15-L16](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L15-L16)
+modify your Verify Token and Page Access Token in [bot/handler.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py)
 - Verify Token: the same as above what you set
 - Page Access Token: page which you created for messenger permissions
 
@@ -80,13 +80,14 @@ there are two type events in bot/handler.py post function
 - postback: user's feedback **payload** data to improve accuracy
 
 ### facebook bot sample operation
-- message event(text): response text in [bot/handler.py#L40-L42](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L40-L42)
+#### WebHookHandler [bot/handler.py](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py)
+- message event(text): response text in handler
 
 <img src="images/bot/text.png" width="50%" height="50%">
 
 ---
 
-- message event(attachment): load image data and search faces in [bot/handler.py#L44-L73](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L44-L73) and then responses if the image has matches face
+- message event(attachment): load image data and search faces in handler and then responses if the image has matches face
 
 <img src="images/bot/attachment.png" width="50%" height="50%">
 
@@ -95,7 +96,7 @@ there are two type events in bot/handler.py post function
 
 ---
 
-- postback event(payload): if you think the second one is more similar than first one, press **O** button and then responses the postback event with payload data in [bot/handler.py#L75-L87](https://github.com/Jim-Lin/like-japanavgirls/blob/master/bot/handler.py#L75-L87). upload the same image again and then you will get the new similarity order
+- postback event(payload): if you think the second one is more similar than first one, press **O** button and then responses the postback event with payload data in handler. upload the same image again and then you will get the new similarity order
 
 <img src="images/bot/feedback.png" width="50%" height="50%">
 
@@ -112,17 +113,17 @@ there are two type events in bot/handler.py post function
 * gopkg.in/mgo.v2
 * github.com/magiconair/properties
 
-### upload handler([api/main.go#L35-L60](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L35-L60))
-1. call aws rekognition SearchFacesByImage api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L20-L72) funtion to search faces' similarity above 20%
-1. select top 2 similarity and find actress data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L33-L40)
-1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L20-L31) response json format
+### upload handler([api/main.go](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go))
+1. call aws rekognition SearchFacesByImage api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go) funtion to search faces' similarity above 20%
+1. select top 2 similarity and find actress data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go)
+1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go) response json format
 
-### feedback handler([api/main.go#L62-L89](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go#L62-L89))
-1. if the value of key "ox" is "like", call aws rekognition IndexFaces api in [InsertIndexFaceByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go#L74-L102) funtion to add the face with the index
-1. update "like or unlike" of image with id in [UpsertOneFeedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go#L42-L48)
+### feedback handler([api/main.go](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go))
+1. if the value of key "ox" is "like", call aws rekognition IndexFaces api in [InsertIndexFaceByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go) funtion to add the face with the index
+1. update "like or unlike" of image with id in [UpsertOneFeedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go)
 
 ## Front-end with native JavaScript (no 3rd party library)
-### upload([web/app.js#L165-L200](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L165-L200))
+### upload([web/app.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js))
 - url: http://like-av.xyz/api/upload
 - method: POST in XMLHttpRequest
 - form-data: {upload: \<blob\>}
@@ -148,7 +149,7 @@ there are two type events in bot/handler.py post function
 
 ---
 
-### feedback([web/app.js#L11-L33](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js#L11-L33))
+### feedback([web/app.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js))
 - url: http://like-av.xyz/api/feedback
 - method: POST in XMLHttpRequest
 - json-data: {id: \<id\>, ox: \<ox\>, file: \<filename\>}
@@ -160,7 +161,7 @@ set up context menu tree at install time and only for image context in [chrome-e
 <img src="images/chrome/context_menu.png" width="50%" height="50%">
 
 ---
-popup window, preview, and call upload api in [chrome-extension/info.js#L199-L200](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/info.js#L199-L200) and then get json data to show result
+popup window, preview, and call upload api in [chrome-extension/info.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/chrome-extension/info.js) and then get json data to show result
 
 <img src="images/chrome/result.png" width="50%" height="50%">
 
