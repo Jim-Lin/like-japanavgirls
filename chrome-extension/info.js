@@ -88,12 +88,6 @@
         div_profile.classList.add('profile');
         var img = document.createElement("img");
         img.src = json.Img;
-        var a_img = document.createElement("a");
-        // a_img.setAttribute("href", "http://sp.dmm.co.jp/mono/list/index/shop/dvd/article/actress/id/" + json.Id + "/sort/date");
-        a_img.setAttribute("href", "http://www.thisav.com/search?query=" + json.Name + "&for=videos");
-        a_img.setAttribute("target", "_blank");
-        a_img.appendChild(img);
-        div_profile.appendChild(a_img);
 
         var div_name = document.createElement("div");
         div_name.classList.add('name');
@@ -105,17 +99,6 @@
         // var similarity = document.createTextNode("そっくり率: " + json.Similarity + "%");
         var similarity = document.createTextNode(l("%similarity") + ": " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
-
-        var div_buy = document.createElement("div");
-        div_buy.classList.add('button-box', 'box');
-        // var t_buy = document.createTextNode("買い物に行く");
-        var t_buy = document.createTextNode(l("%buy"));
-        var a_buy = document.createElement("a");
-        a_buy.classList.add('button');
-        a_buy.setAttribute("href", "http://www.r18.com/videos/vod/movies/list/id=" + json.Id + "/sort=new/type=actress/");
-        a_buy.setAttribute("target", "_blank");
-        a_buy.appendChild(t_buy);
-        div_buy.appendChild(a_buy);
 
         var div_feedback = document.createElement("div");
         div_feedback.setAttribute("id", "feedback" + json.Id);
@@ -145,7 +128,6 @@
         card.appendChild(div_profile);
         card.appendChild(div_name);
         card.appendChild(div_similarity);
-        card.appendChild(div_buy);
 
         var div_separation = document.createElement("div");
         div_separation.classList.add('separation');
