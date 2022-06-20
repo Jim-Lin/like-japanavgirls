@@ -100,6 +100,7 @@
         var similarity = document.createTextNode(l("%similarity") + ": " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
 
+        /*
         var div_feedback = document.createElement("div");
         div_feedback.setAttribute("id", "feedback" + json.Id);
         div_feedback.classList.add('feedback');
@@ -124,6 +125,7 @@
         div_feedback.appendChild(div_unlike);
         div_feedback.appendChild(div_center);
         div_feedback.appendChild(div_like);
+        */
 
         card.appendChild(div_profile);
         card.appendChild(div_name);
@@ -134,7 +136,7 @@
         div_separation.appendChild(document.createElement("hr"));
         card.appendChild(div_separation);
 
-        card.appendChild(div_feedback);
+        // card.appendChild(div_feedback);
 
         return card;
     }
