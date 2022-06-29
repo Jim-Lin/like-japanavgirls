@@ -62,6 +62,9 @@
         var result = document.getElementById("result");
 
         result.appendChild(createCard(json.Data[0]));
+        if (json.Data[1]) {
+            result.appendChild(createCard(json.Data[1]));
+        }
         // json.Data.forEach(function(element, index, array) {
         //     result.appendChild(createCard(element));
         // });
@@ -88,6 +91,7 @@
         div_profile.classList.add('profile');
         var img = document.createElement("img");
         img.src = json.Img;
+        div_profile.appendChild(img);
 
         var div_name = document.createElement("div");
         div_name.classList.add('name');
@@ -96,47 +100,12 @@
 
         var div_similarity = document.createElement("div");
         div_similarity.classList.add('similarity');
-        // var similarity = document.createTextNode("そっくり率: " + json.Similarity + "%");
         var similarity = document.createTextNode(l("%similarity") + ": " + json.Similarity + "%");
         div_similarity.appendChild(similarity);
-
-        /*
-        var div_feedback = document.createElement("div");
-        div_feedback.setAttribute("id", "feedback" + json.Id);
-        div_feedback.classList.add('feedback');
-        var div_like = document.createElement("div");
-        div_like.setAttribute("id", "like");
-        div_like.addEventListener('click', function(event) {
-            feedback(json.Id, "like");
-        });
-        // var t_like = document.createTextNode("そっくり");
-        var t_like = document.createTextNode(l("%like"));
-        div_like.appendChild(t_like);
-        var div_unlike = document.createElement("div");
-        div_unlike.setAttribute("id", "unlike");
-        div_unlike.addEventListener('click', function(event) {
-            feedback(json.Id, "unlike");
-        });
-        // var t_unlike = document.createTextNode("似てない");
-        var t_unlike = document.createTextNode(l("%unlike"));
-        div_unlike.appendChild(t_unlike);
-        var div_center = document.createElement("div");
-        div_center.setAttribute("id", "center");
-        div_feedback.appendChild(div_unlike);
-        div_feedback.appendChild(div_center);
-        div_feedback.appendChild(div_like);
-        */
 
         card.appendChild(div_profile);
         card.appendChild(div_name);
         card.appendChild(div_similarity);
-
-        var div_separation = document.createElement("div");
-        div_separation.classList.add('separation');
-        div_separation.appendChild(document.createElement("hr"));
-        card.appendChild(div_separation);
-
-        // card.appendChild(div_feedback);
 
         return card;
     }
