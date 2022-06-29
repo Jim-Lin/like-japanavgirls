@@ -14,5 +14,5 @@ function onClickHandler(info, tab) {
     var url = 'info.html#' + decodeURIComponent(info.srcUrl);
 
     // Create a new window to the info page.
-    chrome.windows.create({ url: url, width: 560, height: 560, type: "popup" });
+    chrome.windows.create({ url: url, width: 560, height: 720, type: "popup" });
 }
