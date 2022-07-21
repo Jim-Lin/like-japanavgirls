@@ -141,8 +141,8 @@ body {
 	position: relative;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 506px;
-	height: 190px;
+	width: 306px;
+	height: 154px;
 	border: 1.5px solid #f95981;
 	border-radius: 12px;
 
@@ -160,7 +160,7 @@ body {
 	left: 33px;
 }
 
-#result .card .profile * img {
+#result .card .profile img {
 	height: 100px;
 	width: 100px;
 	background-color: #d8d8d8;
