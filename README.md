@@ -105,22 +105,44 @@ there are two type events in bot/handler.py post function
 
 ---
 
-## Back-end Api Server with Go
+## Back-end Api Server with Rust
+Rewritten from Go to Rust. The HTTP API (routes, request and response JSON) is unchanged, so the web app, Chrome extension and iOS app work as before. See [api/MIGRATION.md](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/MIGRATION.md) for the full Go → Rust migration notes.
+
 ### requisites
-* github.com/aws/aws-sdk-go
-* github.com/aws/aws-sdk-go/aws/...
-* github.com/aws/aws-sdk-go/service/...
-* gopkg.in/mgo.v2
-* github.com/magiconair/properties
+* [tokio](https://crates.io/crates/tokio) + [axum](https://crates.io/crates/axum): async HTTP server
+* [aws-sdk-rekognition](https://crates.io/crates/aws-sdk-rekognition) + [aws-config](https://crates.io/crates/aws-config): AWS Rekognition
+* [mongodb](https://crates.io/crates/mongodb): official MongoDB driver (**requires MongoDB 4.4+**)
+* [serde](https://crates.io/crates/serde) / [serde_json](https://crates.io/crates/serde_json): JSON
+* [chrono](https://crates.io/crates/chrono), [uuid](https://crates.io/crates/uuid), [anyhow](https://crates.io/crates/anyhow), [tracing](https://crates.io/crates/tracing)
 
-### upload handler([api/main.go](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go))
-1. call aws rekognition SearchFacesByImage api in [SearchFacesByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go) funtion to search faces' similarity above 20%
-1. select top 2 similarity and find actress data by id in [FindOneActress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go)
-1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go) response json format
+### run
+```bash
+$ cd api
+# mongodb.properties in the working directory:
+#   username=...
+#   password=...
+# AWS credentials via env vars, ~/.aws or an IAM role
+$ cargo run --release        # listens on 0.0.0.0:9090
+$ cargo test
+```
 
-### feedback handler([api/main.go](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/main.go))
-1. if the value of key "ox" is "like", call aws rekognition IndexFaces api in [InsertIndexFaceByImage](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/aws/rekognition.go) funtion to add the face with the index
-1. update "like or unlike" of image with id in [UpsertOneFeedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/db/mongodb.go)
+build a static Linux x86_64 binary (musl, no glibc dependency) with Docker, output to `api/target/linux-amd64/api`:
+```bash
+$ ./api/build-linux-amd64.sh
+```
+
+logs: `api` at info, other crates at warn by default. Override with `RUST_LOG`, e.g. `RUST_LOG=api=debug`.
+
+### upload handler([api/src/main.rs](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/main.rs))
+1. call aws rekognition SearchFacesByImage api (collection `rankingcollection_v7`) in [search_faces_by_image](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/aws.rs) function to search faces' similarity above 20%; the actress id is the ExternalImageId before the first `_`
+1. select top 2 similarity and find actress data by id in [find_one_actress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/db.rs)
+1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/main.rs) response json format
+
+### feedback handler([api/src/main.rs](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/main.rs))
+1. validate input: "ox" must be "like" or "unlike", and "file" must be a path returned by upload (`YYYY-MM-DD/<8 hex>_<name>`)
+1. update "like or unlike" of image with id in [upsert_one_feedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/db.rs)
+
+any error (including invalid input) returns HTTP 200 with the empty payload `{"Count":0,"File":"","Data":null}`, same as the Go version.
 
 ## Front-end with native JavaScript (no 3rd party library)
 ### upload([web/app.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js))
@@ -152,7 +174,7 @@ there are two type events in bot/handler.py post function
 ### feedback([web/app.js](https://github.com/Jim-Lin/like-japanavgirls/blob/master/web/app.js))
 - url: http://like-av.xyz/api/feedback
 - method: POST in XMLHttpRequest
-- json-data: {id: \<id\>, ox: \<ox\>, file: \<filename\>}
+- json-data: {id: \<id\>, ox: \<"like" | "unlike"\>, file: \<filename\>}
 
 ## Chrome-Extension
 ### context menu
