@@ -6,7 +6,8 @@ use aws_sdk_rekognition::operation::RequestId;
 use aws_sdk_rekognition::primitives::Blob;
 use aws_sdk_rekognition::types::Image;
 
-pub const COLLECTION_ID: &str = "rankingcollection";
+/// Re-indexed collection (Go master "Upgrade v7"); ExternalImageId is `<actress id>_<suffix>`.
+pub const COLLECTION_ID: &str = "rankingcollection_v7";
 pub const REGION: &str = "us-east-1";
 
 /// Request-side threshold (same value the Go code sends to Rekognition).
@@ -55,10 +56,11 @@ pub async fn search_faces_by_image(
         .face_matches()
         .iter()
         .map(|m| {
-            let id = m
+            let external_id = m
                 .face()
                 .and_then(|f| f.external_image_id())
                 .ok_or_else(|| anyhow!("face match without ExternalImageId"))?;
+            let id = actress_id(external_id);
             let similarity = m
                 .similarity()
                 .ok_or_else(|| anyhow!("face match without Similarity"))?;
@@ -70,6 +72,14 @@ pub async fn search_faces_by_image(
         .collect::<Result<Vec<_>>>()?;
 
     Ok(filter_matches(matches))
+}
+
+/// `<actress id>_<suffix>` → `<actress id>` (Go: `strings.SplitN(id, "_", 2)[0]`).
+/// An id without `_` is returned unchanged.
+fn actress_id(external_image_id: &str) -> &str {
+    external_image_id
+        .split_once('_')
+        .map_or(external_image_id, |(id, _)| id)
 }
 
 /// Same selection rules as the Go loop:
@@ -95,6 +105,9 @@ pub fn filter_matches(matches: Vec<Face>) -> Option<Vec<Face>> {
     Some(faces)
 }
 
+/// Not called anymore: Go master ("Upgrade v7") disabled indexing feedback images.
+/// Kept for parity with the Go code.
+#[allow(dead_code)]
 pub async fn insert_index_face_by_image(
     client: &Client,
     id: &str,
@@ -142,5 +155,26 @@ mod tests {
     fn dedupes_and_filters_low_similarity() {
         let got = filter_matches(vec![f("a", 90.0), f("a", 80.0), f("b", 10.0), f("c", 20.0)]);
         assert_eq!(got, Some(vec![f("a", 90.0), f("c", 20.0)]));
+    }
+
+    #[test]
+    fn actress_id_strips_suffix() {
+        assert_eq!(actress_id("1016186_abc"), "1016186");
+        assert_eq!(actress_id("1016186_a_b"), "1016186");
+        assert_eq!(actress_id("1016186"), "1016186");
+    }
+
+    #[test]
+    fn dedupes_by_actress_id_not_full_external_id() {
+        // Go master compared the full ExternalImageId against stripped ids, so the same
+        // actress could appear twice. We dedupe on the stripped id.
+        let ids = ["1016186_x", "1016186_y", "1041730_z"];
+        let got = filter_matches(
+            ids.iter()
+                .zip([94.0, 93.0, 92.0])
+                .map(|(e, s)| f(actress_id(e), s))
+                .collect(),
+        );
+        assert_eq!(got, Some(vec![f("1016186", 94.0), f("1041730", 92.0)]));
     }
 }

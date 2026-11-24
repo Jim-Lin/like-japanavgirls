@@ -134,13 +134,12 @@ $ ./api/build-linux-amd64.sh
 logs: `api` at info, other crates at warn by default. Override with `RUST_LOG`, e.g. `RUST_LOG=api=debug`.
 
 ### upload handler([api/src/main.rs](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/main.rs))
-1. call aws rekognition SearchFacesByImage api in [search_faces_by_image](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/aws.rs) function to search faces' similarity above 20%
+1. call aws rekognition SearchFacesByImage api (collection `rankingcollection_v7`) in [search_faces_by_image](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/aws.rs) function to search faces' similarity above 20%; the actress id is the ExternalImageId before the first `_`
 1. select top 2 similarity and find actress data by id in [find_one_actress](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/db.rs)
 1. create [Payload](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/main.rs) response json format
 
 ### feedback handler([api/src/main.rs](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/main.rs))
 1. validate input: "ox" must be "like" or "unlike", and "file" must be a path returned by upload (`YYYY-MM-DD/<8 hex>_<name>`)
-1. if the value of key "ox" is "like", call aws rekognition IndexFaces api in [insert_index_face_by_image](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/aws.rs) function to add the face with the index
 1. update "like or unlike" of image with id in [upsert_one_feedback](https://github.com/Jim-Lin/like-japanavgirls/blob/master/api/src/db.rs)
 
 any error (including invalid input) returns HTTP 200 with the empty payload `{"Count":0,"File":"","Data":null}`, same as the Go version.

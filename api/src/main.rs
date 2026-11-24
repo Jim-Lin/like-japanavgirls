@@ -239,10 +239,8 @@ async fn feedback(
     let ox = db::Vote::parse(field("ox"))?;
     let file = validate_image_path(field("file"))?;
 
-    if ox == db::Vote::Like {
-        let bytes = tokio::fs::read(format!("{IMAGES_ROOT}{file}")).await?;
-        aws::insert_index_face_by_image(&state.rekognition, id, bytes).await?;
-    }
+    // Go master ("Upgrade v7") stopped indexing liked images into the collection,
+    // so "like" and "unlike" are both just recorded in MongoDB.
 
     db::upsert_one_feedback(&state.db, id, ox, file).await?;
     db::upsert_one_week_rank(&state.db, id).await?;

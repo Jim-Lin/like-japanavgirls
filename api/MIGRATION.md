@@ -85,7 +85,8 @@
 - **Rekognition 比對規則：**
   - 送出時 threshold 是 `0.2`，本機再過濾 `>= 20`
   - 最相似的那張低於 20 就當作沒找到
-  - 依 `ExternalImageId` 去重，最多回 2 筆
+  - collection 是 `rankingcollection_v7`，`ExternalImageId` 格式為 `<女優 id>_<後綴>`，取第一個 `_` 前面當女優 id（同 Go master「Upgrade v7」）
+  - 依女優 id 去重，最多回 2 筆
   - 回傳結果缺少 `ExternalImageId` 或 `Similarity` 時當作錯誤處理（Go 版在這裡會因 nil pointer panic）
 - **上傳流程：**
   - 圖片先存到 `/var/www/like-av.xyz/images/<YYYY-MM-DD>/<uuid前8碼>_<檔名>`，才去查 Mongo
@@ -94,7 +95,7 @@
   - 查不到女優資料時回空 payload
 - **feedback 流程：**
   - 缺少的欄位視為 `""`（但 `ox` 和 `file` 會再經過下方的檢查）
-  - 只有 `ox == "like"` 時才把臉加進 Rekognition 索引（IndexFaces）
+  - `like` / `unlike` 都只寫 MongoDB，**不再**呼叫 IndexFaces（同 Go master「Upgrade v7」把它註解掉）
   - 成功時回 200、body 是空的
 - **週次 key：** 用本地時間的 ISO 年 + ISO 週，不補零，例如 `"20263"`。
 - **MongoDB 連線：**
@@ -104,6 +105,8 @@
 - **監聽位址：** `0.0.0.0:9090`。
 
 ## 刻意改掉的地方
+
+> **v7 去重：** Go master 的「Upgrade v7」拿完整 `ExternalImageId`（`1016186_xxx`）跟切好的 id（`1016186`）比對，兩者永遠不等，等於沒去重，同一位女優可能出現兩次。Rust 版用切好的女優 id 去重。
 
 | 項目 | Go | Rust |
 |---|---|---|
@@ -322,7 +325,7 @@ curl -s -F "upload=@/path/to/face.jpg" http://localhost:9090/upload
 
 `/feedback` 會寫入正式資料，測之前要注意：
 - **`unlike`：** `count` +1、在 `unlike` 陣列加一筆，並在本週 `rank` 加一票。
-- **`like`：** 除了上面這些，還會把圖加進 Rekognition 的正式 collection `rankingcollection`。
+- **`like`：** 一樣只寫 MongoDB（`like` 陣列），不會動 Rekognition collection。
 
 ### 退回
 
