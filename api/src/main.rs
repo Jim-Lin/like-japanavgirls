@@ -171,9 +171,16 @@ async fn upload(
 }
 
 async fn search_face(state: &AppState, bytes: Vec<u8>, file_name: &str) -> Result<Vec<u8>> {
-    let Some(result) = aws::search_faces_by_image(&state.rekognition, bytes.clone()).await? else {
-        tracing::info!(file_name, "upload: no match");
-        return Ok(to_json(&Payload::empty()));
+    let result = match aws::search_faces_by_image(&state.rekognition, bytes.clone()).await? {
+        aws::Search::Matches(faces) => faces,
+        aws::Search::NoFace => {
+            tracing::info!(file_name, "upload: no face in image");
+            return Ok(to_json(&Payload::empty()));
+        }
+        aws::Search::NoMatch => {
+            tracing::info!(file_name, "upload: no match");
+            return Ok(to_json(&Payload::empty()));
+        }
     };
 
     let today = Local::now().format("%Y-%m-%d").to_string();

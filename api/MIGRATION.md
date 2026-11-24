@@ -165,10 +165,11 @@ cargo test            # 執行測試
 
 ```
 INFO api: upload file="2026-11-24/xxxxxxxx_a.jpg" faces="<id>:<name>:94.28, <id>:<name>:92.54"
+INFO api: upload: no face in image file_name="a.jpg"   # Rekognition 偵測不到臉，屬正常情況
 INFO api: upload: no match file_name="a.jpg"
 WARN api: upload: actress not found id="<id>"
 INFO api: feedback id="<id>" ox="unlike" file="2026-11-24/xxxxxxxx_a.jpg"
-ERROR api: <錯誤原因>          # 任何回空 payload 的錯誤
+ERROR api: SearchFacesByImage failed: <AWS 錯誤代碼>: <訊息>   # 其他錯誤，同樣回空 payload
 ```
 
 需要更多細節時用 `RUST_LOG` 調整：
