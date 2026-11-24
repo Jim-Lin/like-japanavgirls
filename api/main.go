@@ -1,17 +1,18 @@
 package main
 
 import (
-	"./aws"
-	"./db"
 	"encoding/json"
 	"fmt"
-	"github.com/google/uuid"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"./aws"
+	"./db"
+	"github.com/google/uuid"
 )
 
 const (
@@ -81,9 +82,9 @@ func FeedbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(val)
 	if val["ox"] == "like" {
-		b, err := ioutil.ReadFile(imagesRoot + val["file"])
-		checkError(err)
-		checkError(aws.InsertIndexFaceByImage(val["id"], b))
+		// b, err := ioutil.ReadFile(imagesRoot + val["file"])
+		// checkError(err)
+		// checkError(aws.InsertIndexFaceByImage(val["id"], b))
 	}
 
 	db.UpsertOneFeedback(val["id"], val["ox"], val["file"])
@@ -134,7 +135,7 @@ func searchFace(b []byte, fileName string) []byte {
 		imageDir := imagesRoot + today
 		os.Mkdir(imageDir, os.ModePerm)
 		uuidFileName := uuid.New().String()[:8] + "_" + fileName
-		err := ioutil.WriteFile(imageDir + "/" + uuidFileName, b, 0644)
+		err := ioutil.WriteFile(imageDir+"/"+uuidFileName, b, 0644)
 		if err != nil {
 			panic(err)
 		}

@@ -2,13 +2,15 @@ package aws
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/rekognition"
 )
 
 const (
-	CollectionId = "rankingcollection"
+	CollectionId = "rankingcollection_v7"
 	Region       = "us-east-1"
 )
 
@@ -44,7 +46,7 @@ func SearchFacesByImage(imgBytes []byte) ([]*Face, error) {
 	}
 
 	// Pretty-print the response data.
-	fmt.Println(resp)
+	// fmt.Println(resp)
 
 	if len(resp.FaceMatches) == 0 {
 		fmt.Println("no match for face")
@@ -56,14 +58,18 @@ func SearchFacesByImage(imgBytes []byte) ([]*Face, error) {
 		return nil, nil
 	}
 
-	faces := []*Face{&Face{*resp.FaceMatches[0].Face.ExternalImageId, *resp.FaceMatches[0].Similarity}}
-	ids := []string{*resp.FaceMatches[0].Face.ExternalImageId}
+	extImgIdAry := strings.SplitN(*resp.FaceMatches[0].Face.ExternalImageId, "_", 2)
+	id := extImgIdAry[0]
+	faces := []*Face{&Face{id, *resp.FaceMatches[0].Similarity}}
+	ids := []string{id}
 	for i := 1; i < len(resp.FaceMatches); i++ {
 		face := resp.FaceMatches[i]
 		if !hasElem(ids, *face.Face.ExternalImageId) {
 			if *face.Similarity >= 20 {
-				ids = append(ids, *face.Face.ExternalImageId)
-				faces = append(faces, &Face{*face.Face.ExternalImageId, *face.Similarity})
+				extImgIdAry := strings.SplitN(*face.Face.ExternalImageId, "_", 2)
+				id := extImgIdAry[0]
+				ids = append(ids, id)
+				faces = append(faces, &Face{id, *face.Similarity})
 			}
 		}
 	}
