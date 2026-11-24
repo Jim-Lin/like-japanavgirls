@@ -1,0 +1,3 @@
+/target
+# MongoDB credentials, never commit
+mongodb.properties
